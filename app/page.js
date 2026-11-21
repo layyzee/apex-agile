@@ -14,6 +14,9 @@ import TeamView from '@/components/TeamView';
 import SettingsView from '@/components/SettingsView';
 import AdminView from '@/components/AdminView';
 import ReleasesView from '@/components/ReleasesView';
+import CodeDeploymentsView from '@/components/CodeDeploymentsView';
+import ProjectsDirectoryView from '@/components/ProjectsDirectoryView';
+import ServiceDeskView from '@/components/ServiceDeskView';
 import JqlBar from '@/components/JqlBar';
 import StandupMode from '@/components/StandupMode';
 import IssueDrawer from '@/components/IssueDrawer';
@@ -44,6 +47,7 @@ export default function ApexAgileApp() {
   const [jqlQuery, setJqlQuery] = useState('');
 
   // Modals & Drawers
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [selectedIssue, setSelectedIssue] = useState(null);
   const [isNewIssueOpen, setIsNewIssueOpen] = useState(false);
   const [newIssueSprintId, setNewIssueSprintId] = useState(null);
@@ -589,6 +593,8 @@ export default function ApexAgileApp() {
         setActiveView={setActiveView}
         currentUser={currentUser}
         onOpenLogin={() => setIsLoginOpen(true)}
+        isOpenMobile={isMobileSidebarOpen}
+        onCloseMobile={() => setIsMobileSidebarOpen(false)}
       />
 
       {/* 2. Main Content Canvas */}
@@ -613,6 +619,7 @@ export default function ApexAgileApp() {
           onToggleTheme={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
           currentUser={currentUser}
           onOpenLogin={() => setIsLoginOpen(true)}
+          onToggleSidebar={() => setIsMobileSidebarOpen((prev) => !prev)}
         />
 
         {/* Real-time Interactive JQL Bar (on Board and Backlog views) */}
@@ -716,6 +723,35 @@ export default function ApexAgileApp() {
                   currentProject={currentProject}
                   onCreateVersion={handleCreateVersion}
                   onReleaseVersion={handleReleaseVersion}
+                />
+              )}
+
+              {activeView === 'code' && (
+                <CodeDeploymentsView
+                  currentProject={currentProject}
+                  onSelectIssue={(iss) => {
+                    const match = issues.find((i) => i.key === iss.key) || iss;
+                    setSelectedIssue(match);
+                  }}
+                />
+              )}
+
+              {activeView === 'projects' && (
+                <ProjectsDirectoryView
+                  projects={projects}
+                  currentProject={currentProject}
+                  onSelectProject={(p) => {
+                    setCurrentProject(p);
+                    setActiveView('board');
+                  }}
+                  onNewProject={() => setIsNewProjectOpen(true)}
+                  setActiveView={setActiveView}
+                />
+              )}
+
+              {activeView === 'servicedesk' && (
+                <ServiceDeskView
+                  setActiveView={setActiveView}
                 />
               )}
 

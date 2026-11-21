@@ -1,10 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { Users, Plus, Shield, Award, Mail, Calendar, CheckCircle2, UserCheck } from 'lucide-react';
+
+const AVATAR_MAP = {
+  'Elena Rostova': 'https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe',
+  'Marcus Vance': 'https://lh3.googleusercontent.com/aida/ALJJyrDgKx4jLzMiXGShOOaAzLOjwe-zDqHHXWBB1EKN99ni4lK8OMMkRiG-_xTTRI7voe3_3HfhmuaPa5-6F_6xJ4jLmz7pBtBqo4WWmFsxDVbWJC_K4-hU1FtU8r_-lAvFTzWcpMVWSnbVsdLHaUUaLN35F1HkIRAKQNdISHkxepLOraNDp84np6OnjPQaRH6GBuDuhRAIfTTnSiJ6_WcsbFEJJAkaKaLCGpruOK8dxOBzLEGjhYYpXw',
+  'Priya Nair': 'https://lh3.googleusercontent.com/aida/ALJJyrCklGpvdGYSopZxSSrRrPtkBdl957Q7Ogz3uX4fzie9G6mTQH6uP4Ci9ogj6r8yyxr5FSklMt7HTI9LHmOQx-1AJAW00HC-R94bmNKCEc1e-aUownDKA7Pw9u-0SzqwGKOMXci_2P53ra7QQllboBJxCniFDjxsHLcxZZzShy3IZKKuPnALJYUM8lxbC3lHfz-oLxtUKoE_SWLs1a7Uj3mETCnd6AwoJglU90DUhLV8p3Jl2FT6',
+  'Kenji Sato': 'https://lh3.googleusercontent.com/aida/ALJJyrBLdMi5794naAeeCGG9DPABynyRt6Kim8iD-BJ15u6KvCSy_z-bZ0rWPW2JTpGksViGt4Yhc8-g9QJ2O4mGtC7-aSzx_oMVSgOebe-dPhF6N6c_UQfVmFAqtxO6uiBV29EU8xE7bMFUcK8xvF2msv3T8RMNnRxl_QVBhXA_LavlWbFf1jFPvTN4LuPBqMy4W0pO5UpgwlOHIyzGiTZTEFovVZW8yWTboQYzKXGMJ4Gt6YcDFOE',
+};
 
 export default function TeamView({
-  users,
+  users = [],
   onAddUser,
 }) {
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -17,179 +23,154 @@ export default function TeamView({
     e.preventDefault();
     if (!name.trim() || !email.trim()) return;
 
-    await onAddUser({
-      name: name.trim(),
-      email: email.trim(),
-      role: role.trim(),
-      capacity_points: Number(capacity),
-    });
+    if (onAddUser) {
+      await onAddUser({
+        name: name.trim(),
+        email: email.trim(),
+        role: role.trim(),
+        capacity_points: Number(capacity),
+      });
+    }
 
     setName('');
     setEmail('');
     setIsAddOpen(false);
   };
 
-  const totalSquadCapacity = users.reduce((sum, u) => sum + (Number(u.capacity_points) || 0), 0);
+  const totalCapacity = users.reduce((sum, u) => sum + (Number(u.capacity_points) || 0), 0);
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 max-w-6xl mx-auto w-full space-y-6">
-      {/* Top Banner & Capacity Summary */}
-      <div className="flex flex-wrap items-center justify-between gap-4 p-5 rounded-2xl bg-[#121215] border border-white/10">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <span className="p-1 rounded-md bg-blue-600/20 text-blue-400 border border-blue-500/30">
-              <Users className="w-4 h-4" />
-            </span>
-            <h2 className="text-base font-bold text-white tracking-tight">Squad Roster & Capacity Planning</h2>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
-              {users.length} Active Members
-            </span>
-          </div>
-          <p className="text-xs text-zinc-400">
-            Define squad roles, assignees, and sprint point capacity benchmarks based on available focus hours.
+    <div className="flex-1 min-w-0 p-gutter-xl flex flex-col gap-gutter-xl select-none">
+      {/* Header & Capacity */}
+      <div className="flex flex-wrap items-center justify-between gap-gutter-md">
+        <div>
+          <h1 className="font-headline text-headline-lg text-light-on-surface font-semibold tracking-tight">
+            Squad Roster &amp; Capacity
+          </h1>
+          <p className="font-body text-body-sm text-light-on-surface-variant">
+            Cross-functional team members, velocity capacity, and role assignments
           </p>
         </div>
-
-        <div className="flex items-center gap-4">
-          <div className="p-2.5 rounded-xl bg-zinc-900 border border-white/5 text-right font-mono">
-            <span className="text-[10px] text-zinc-400 block uppercase">Total Squad Velocity Capacity</span>
-            <span className="text-base font-bold text-blue-400">{totalSquadCapacity} pts / sprint</span>
+        <div className="flex items-center gap-3">
+          <div className="px-3 py-1.5 rounded-sm bg-light-surface-container-low border border-light-outline-variant font-mono text-xs">
+            <span className="text-light-on-surface-variant uppercase mr-2">Total Capacity:</span>
+            <span className="font-bold text-light-primary tabular-nums">{totalCapacity} pts / sprint</span>
           </div>
-
           <button
             onClick={() => setIsAddOpen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs transition-all active:scale-95 shadow-sm"
+            type="button"
+            className="inline-flex items-center justify-center px-gutter-md py-1.5 rounded-sm bg-light-primary text-light-on-primary hover:bg-light-primary-container font-label text-label-lg transition-colors cursor-pointer"
           >
-            <Plus className="w-4 h-4" />
-            <span>Add Team Member</span>
+            Add member
           </button>
         </div>
       </div>
 
-      {/* Team Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {users.map((member) => (
-          <div
-            key={member.id}
-            className="p-4 rounded-xl bg-[#121215] border border-white/10 hover:border-white/20 transition-all space-y-3"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center font-bold text-sm text-blue-300">
-                  {member.avatar_initials}
-                </div>
-                <div>
-                  <h4 className="font-semibold text-xs text-zinc-100">{member.name}</h4>
-                  <p className="text-[11px] text-zinc-400">{member.role}</p>
+      {/* Roster Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter-lg">
+        {users.map((u) => {
+          const avatarUrl = AVATAR_MAP[u.name] || 'https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe';
+          return (
+            <div
+              key={u.id}
+              className="p-gutter-lg rounded bg-light-surface-container-lowest border border-light-outline-variant flex flex-col gap-gutter-md"
+            >
+              <div className="flex items-center gap-gutter-sm">
+                <img
+                  src={avatarUrl}
+                  alt={u.name}
+                  className="w-10 h-10 rounded-full object-cover border border-light-outline-variant shrink-0"
+                />
+                <div className="min-w-0">
+                  <h3 className="font-title text-title-md text-light-on-surface font-semibold truncate">
+                    {u.name}
+                  </h3>
+                  <p className="font-body text-body-sm text-light-on-surface-variant truncate">
+                    {u.email}
+                  </p>
                 </div>
               </div>
 
-              <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-zinc-900 border border-white/5 text-zinc-300">
-                {member.capacity_points} pts
-              </span>
-            </div>
-
-            <div className="pt-2 border-t border-white/5 flex items-center justify-between text-[11px] text-zinc-400">
-              <div className="flex items-center gap-1.5">
-                <Mail className="w-3 h-3 text-zinc-400" />
-                <span className="font-mono text-[10px] text-zinc-400 truncate max-w-[170px]">
-                  {member.email}
+              <div className="pt-gutter-sm border-t border-light-outline-variant flex items-center justify-between text-xs">
+                <span className="font-label text-light-on-surface-variant">{u.role || 'Engineer'}</span>
+                <span className="font-mono font-bold text-light-primary tabular-nums">
+                  {u.capacity_points || 8} pts
                 </span>
               </div>
-              <span className="text-[10px] text-emerald-400 flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3" />
-                Active
-              </span>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      {/* Add User Modal */}
+      {/* Add Member Modal */}
       {isAddOpen && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-[#121215] border border-white/10 rounded-2xl overflow-hidden shadow-2xl animate-in fade-in duration-150">
-            <div className="p-4 border-b border-white/10 bg-zinc-950 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Users className="w-4 h-4 text-blue-400" />
-                <h3 className="text-sm font-semibold text-zinc-100">Add Squad Member</h3>
-              </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-md rounded-lg bg-light-surface-container-lowest border border-light-outline-variant shadow-xl p-6 flex flex-col gap-4">
+            <div className="flex items-center justify-between">
+              <h2 className="font-headline text-title-lg text-light-on-surface font-semibold">Add squad member</h2>
               <button
                 onClick={() => setIsAddOpen(false)}
-                className="text-xs text-zinc-400 hover:text-zinc-200"
+                className="w-7 h-7 flex items-center justify-center text-light-on-surface-variant hover:text-light-on-surface"
               >
-                Cancel
+                <span className="material-symbols-outlined text-[18px]">close</span>
               </button>
             </div>
-
-            <form onSubmit={handleSubmit} className="p-5 space-y-4">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               <div>
-                <label className="text-xs font-medium text-zinc-300 block mb-1">Full Name *</label>
+                <label className="block text-xs font-medium text-light-on-surface-variant uppercase mb-1">Full name</label>
                 <input
                   type="text"
                   required
+                  placeholder="e.g. Alex Chen"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Vikram Malhotra"
-                  className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2 text-xs text-zinc-100 focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-1.5 rounded-sm bg-light-surface-container-low border border-light-outline-variant text-sm text-light-on-surface focus:outline-none focus:border-light-primary"
                 />
               </div>
-
               <div>
-                <label className="text-xs font-medium text-zinc-300 block mb-1">Email Address *</label>
+                <label className="block text-xs font-medium text-light-on-surface-variant uppercase mb-1">Work email</label>
                 <input
                   type="email"
                   required
+                  placeholder="alex.chen@acme.dev"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="e.g. vikram.m@apex.agile"
-                  className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2 text-xs text-zinc-100 focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-1.5 rounded-sm bg-light-surface-container-low border border-light-outline-variant text-sm text-light-on-surface focus:outline-none focus:border-light-primary"
                 />
               </div>
-
               <div>
-                <label className="text-xs font-medium text-zinc-300 block mb-1">Agile Role</label>
-                <select
+                <label className="block text-xs font-medium text-light-on-surface-variant uppercase mb-1">Role</label>
+                <input
+                  type="text"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  className="w-full bg-zinc-900 border border-white/10 text-zinc-200 text-xs rounded-lg p-2 focus:outline-none focus:border-blue-500"
-                >
-                  <option value="Senior Software Engineer">Senior Software Engineer</option>
-                  <option value="Staff Software Engineer">Staff Software Engineer</option>
-                  <option value="Scrum Master">Scrum Master</option>
-                  <option value="Product Owner">Product Owner</option>
-                  <option value="QA & Test Automation Lead">QA & Test Automation Lead</option>
-                  <option value="DevOps & Cloud Architect">DevOps & Cloud Architect</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="text-xs font-medium text-zinc-300 block mb-1">
-                  Sprint Capacity (Points / 10-day sprint)
-                </label>
-                <input
-                  type="number"
-                  min={1}
-                  max={20}
-                  value={capacity}
-                  onChange={(e) => setCapacity(e.target.value)}
-                  className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2 text-xs text-zinc-100 focus:outline-none focus:border-blue-500 font-mono"
+                  className="w-full px-3 py-1.5 rounded-sm bg-light-surface-container-low border border-light-outline-variant text-sm text-light-on-surface focus:outline-none focus:border-light-primary"
                 />
               </div>
-
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-white/5">
+              <div>
+                <label className="block text-xs font-medium text-light-on-surface-variant uppercase mb-1">Capacity points</label>
+                <input
+                  type="number"
+                  min="1"
+                  max="20"
+                  value={capacity}
+                  onChange={(e) => setCapacity(e.target.value)}
+                  className="w-full px-3 py-1.5 rounded-sm bg-light-surface-container-low border border-light-outline-variant text-sm text-light-on-surface focus:outline-none focus:border-light-primary"
+                />
+              </div>
+              <div className="flex items-center justify-end gap-2 pt-2">
                 <button
                   type="button"
                   onClick={() => setIsAddOpen(false)}
-                  className="px-3 py-1.5 rounded-lg text-xs text-zinc-400 hover:text-zinc-200"
+                  className="px-3 py-1.5 rounded-sm text-sm text-light-on-surface-variant hover:bg-light-surface-container"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs transition-all shadow-sm"
+                  className="px-4 py-1.5 rounded-sm bg-light-primary text-white text-sm font-medium hover:bg-light-primary-container"
                 >
-                  Add Member
+                  Add member
                 </button>
               </div>
             </form>

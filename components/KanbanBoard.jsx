@@ -52,6 +52,7 @@ export default function KanbanBoard({
   const [onlyMyIssues, setOnlyMyIssues] = useState(false);
   const [draggedIssueId, setDraggedIssueId] = useState(null);
   const [dragTargetColId, setDragTargetColId] = useState(null);
+  const [mobileColId, setMobileColId] = useState(null);
 
   // Filter Issues
   const filteredIssues = useMemo(() => {
@@ -121,8 +122,31 @@ export default function KanbanBoard({
     setDraggedIssueId(null);
   };
 
+  const getColIssues = (col) => {
+    return filteredIssues.filter((i) => {
+      if (i.status_id === col.id) return true;
+      const stateObj = states.find((s) => s.id === i.status_id);
+      const stateName = (stateObj?.name || '').toLowerCase();
+      const colName = col.name.toLowerCase();
+
+      if (colName.includes('to do') || col.id === 'todo') {
+        return stateName.includes('to do') || stateName.includes('backlog') || stateObj?.category === 'todo';
+      }
+      if (colName.includes('in progress') || col.id === 'progress') {
+        return stateName.includes('progress') || stateName.includes('dev');
+      }
+      if (colName.includes('review') || col.id === 'review') {
+        return stateName.includes('review') || stateName.includes('qa');
+      }
+      if (colName.includes('done') || col.id === 'done') {
+        return stateName.includes('done') || stateName.includes('closed') || stateObj?.category === 'done';
+      }
+      return false;
+    });
+  };
+
   return (
-    <main className="flex-1 min-w-0 p-gutter-xl flex flex-col gap-gutter-lg overflow-y-auto">
+    <main className="flex-1 min-w-0 p-gutter-xl pb-24 md:pb-gutter-xl flex flex-col gap-gutter-lg overflow-y-auto">
       {/* 1. Breadcrumb & Sprint Header */}
       <div className="flex flex-col gap-gutter-xs">
         <nav aria-label="Breadcrumb" className="flex items-center gap-gutter-xs font-body text-body-sm text-light-on-surface-variant">
@@ -246,31 +270,34 @@ export default function KanbanBoard({
         </div>
       </div>
 
+      {/* Mobile Status Switcher Tabs (Stitch mobile_sprint_board) */}
+      <div className="md:hidden flex items-center gap-gutter-xs overflow-x-auto pb-gutter-xs" role="tablist">
+        {boardColumns.map((col, idx) => {
+          const count = getColIssues(col).length;
+          const isSelected = (mobileColId === col.id) || (!mobileColId && idx === 1);
+          return (
+            <button
+              key={col.id}
+              type="button"
+              role="tab"
+              onClick={() => setMobileColId(col.id)}
+              className={`px-gutter-md py-1.5 rounded-sm font-label text-label-md whitespace-nowrap transition-colors cursor-pointer ${
+                isSelected
+                  ? 'bg-status-progress-bg text-light-primary font-semibold'
+                  : 'bg-light-surface-container text-light-on-surface-variant hover:text-light-on-surface'
+              }`}
+            >
+              {col.name} ({count})
+            </button>
+          );
+        })}
+      </div>
+
       {/* 3. 4-Column Kanban Board */}
       <section aria-label="Sprint Kanban Board" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-gutter-lg items-start">
-        {boardColumns.map((col) => {
-          // Match issues based on col.id or state category
-          const colIssues = filteredIssues.filter((i) => {
-            if (i.status_id === col.id) return true;
-            const stateObj = states.find((s) => s.id === i.status_id);
-            const stateName = (stateObj?.name || '').toLowerCase();
-            const colName = col.name.toLowerCase();
-
-            if (colName.includes('to do') || col.id === 'todo') {
-              return stateName.includes('to do') || stateName.includes('backlog') || stateObj?.category === 'todo';
-            }
-            if (colName.includes('in progress') || col.id === 'progress') {
-              return stateName.includes('progress') || stateName.includes('dev');
-            }
-            if (colName.includes('review') || col.id === 'review') {
-              return stateName.includes('review') || stateName.includes('qa');
-            }
-            if (colName.includes('done') || col.id === 'done') {
-              return stateName.includes('done') || stateName.includes('closed') || stateObj?.category === 'done';
-            }
-            return false;
-          });
-
+        {boardColumns.map((col, idx) => {
+          const colIssues = getColIssues(col);
+          const isSelectedMobile = (mobileColId === col.id) || (!mobileColId && idx === 1);
           const isTarget = dragTargetColId === col.id;
 
           return (
@@ -279,9 +306,9 @@ export default function KanbanBoard({
               onDragOver={(e) => handleDragOver(e, col.id)}
               onDragLeave={() => handleDragLeave(col.id)}
               onDrop={(e) => handleDrop(e, col.id)}
-              className={`rounded bg-light-surface-container-low p-gutter-md flex flex-col gap-gutter-md min-h-[440px] transition-colors ${
+              className={`rounded bg-light-surface-container-low p-gutter-md flex-col gap-gutter-md min-h-[440px] transition-colors ${
                 isTarget ? 'ring-2 ring-light-primary bg-status-progress-bg' : ''
-              }`}
+              } ${isSelectedMobile ? 'flex' : 'hidden md:flex'}`}
             >
               {/* Column Header */}
               <header className="flex items-center justify-between px-gutter-xs">
