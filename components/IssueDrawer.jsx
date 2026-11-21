@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Avatar from './Avatar';
 
 const AVATARS = {
   elena: 'https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe',
@@ -229,12 +230,8 @@ export default function IssueDrawer({
           <section aria-label="Issue details" className="p-gutter-lg rounded bg-light-surface-container-lowest border border-light-outline-variant grid grid-cols-2 gap-gutter-lg">
             <div>
               <p className="font-label text-label-sm text-light-on-surface-variant uppercase font-semibold">Assignee</p>
-              <div className="flex items-center gap-gutter-xs mt-1.5">
-                <img
-                  src={assigneeAvatar}
-                  alt={formData.assignee || 'Elena'}
-                  className="w-6 h-6 rounded-full object-cover border border-light-outline-variant"
-                />
+              <div className="flex items-center gap-2 mt-1.5">
+                <Avatar name={formData.assignee || 'Elena Rostova'} size="sm" />
                 <span className="font-body text-body-sm text-light-on-surface font-medium">
                   {formData.assignee || 'Elena Rostova'}
                 </span>
@@ -348,11 +345,7 @@ export default function IssueDrawer({
             <div className="flex flex-col gap-gutter-md">
               {comments.map((c) => (
                 <div key={c.id} className="flex items-start gap-gutter-sm">
-                  <img
-                    src={c.avatar}
-                    alt={c.author}
-                    className="w-7 h-7 rounded-full object-cover shrink-0 border border-light-outline-variant"
-                  />
+                  <Avatar name={c.author} size="sm" />
                   <div className="flex-1 p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant">
                     <div className="flex items-center justify-between gap-gutter-xs mb-1">
                       <span className="font-title text-title-sm text-light-on-surface font-semibold">

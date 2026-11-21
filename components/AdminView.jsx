@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Avatar from './Avatar';
 
 const AVATARS = {
   elena: 'https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe',
@@ -183,12 +184,8 @@ export default function AdminView({
             {members.map((m) => (
               <tr key={m.id} className="hover:bg-light-surface-container-low/40 transition-colors">
                 <td className="px-gutter-lg py-gutter-md">
-                  <div className="flex items-center gap-gutter-sm">
-                    <img
-                      src={m.avatar}
-                      alt={m.name}
-                      className="w-7 h-7 rounded-full object-cover border border-light-outline-variant"
-                    />
+                  <div className="flex items-center gap-2">
+                    <Avatar name={m.name} size="sm" />
                     <span className="font-title text-title-sm text-light-on-surface font-semibold">{m.name}</span>
                   </div>
                 </td>

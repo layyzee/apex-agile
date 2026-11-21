@@ -40,6 +40,17 @@ export default function ApexAgileApp() {
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState('light');
 
+  // Sync theme with document.documentElement for Tailwind dark mode
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+  }, [theme]);
+
   // Active view: 'summary' | 'board' | 'timeline' | 'issues' | 'backlog' | 'releases' | 'analytics' | 'automation' | 'team' | 'settings' | 'admin'
   const [activeView, setActiveView] = useState('board');
   const [activeFilter, setActiveFilter] = useState('all');

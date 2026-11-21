@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Avatar from './Avatar';
 
 const AVATAR_PHOTOS = {
   elena: 'https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe',
@@ -201,21 +202,21 @@ export default function BacklogView({
           {/* Assignee Avatar Stack */}
           <div className="flex items-center -space-x-1.5" role="group" aria-label="Filter by assignee">
             {[
-              { id: 'Elena', photo: AVATAR_PHOTOS.elena, name: 'Elena Rostova' },
-              { id: 'Marcus', photo: AVATAR_PHOTOS.marcus, name: 'Marcus Vance' },
-              { id: 'Priya', photo: AVATAR_PHOTOS.priya, name: 'Priya Nair' },
-              { id: 'Kenji', photo: AVATAR_PHOTOS.kenji, name: 'Kenji Sato' },
+              { id: 'Elena', name: 'Elena Rostova' },
+              { id: 'Marcus', name: 'Marcus Vance' },
+              { id: 'Priya', name: 'Priya Nair' },
+              { id: 'Kenji', name: 'Kenji Sato' },
             ].map((m) => (
               <button
                 key={m.id}
                 type="button"
                 onClick={() => setSelectedAssignee(selectedAssignee === m.id ? null : m.id)}
-                className={`w-8 h-8 rounded-full overflow-hidden border-2 transition-transform hover:z-10 hover:scale-105 cursor-pointer ${
-                  selectedAssignee === m.id ? 'ring-2 ring-light-primary border-light-primary scale-105' : 'border-light-surface'
+                className={`rounded-full transition-transform hover:z-10 hover:scale-105 cursor-pointer ${
+                  selectedAssignee === m.id ? 'ring-2 ring-blue-500 scale-105' : ''
                 }`}
                 title={`Filter by ${m.name}`}
               >
-                <img src={m.photo} alt={m.name} className="w-full h-full object-cover" />
+                <Avatar name={m.name} size="sm" />
               </button>
             ))}
           </div>
@@ -327,11 +328,7 @@ export default function BacklogView({
                     <span className="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums font-semibold">
                       {issue.story_points || 0}
                     </span>
-                    <img
-                      src={assigneePhoto}
-                      alt={issue.assignee || 'Assignee'}
-                      className="w-6 h-6 rounded-full object-cover border border-light-outline-variant"
-                    />
+                    <Avatar name={issue.assignee || 'Elena Rostova'} size="xs" />
                   </div>
                 </div>
               );
@@ -412,11 +409,7 @@ export default function BacklogView({
                       <span className="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums font-semibold">
                         {issue.story_points || 0}
                       </span>
-                      <img
-                        src={assigneePhoto}
-                        alt={issue.assignee || 'Assignee'}
-                        className="w-6 h-6 rounded-full object-cover border border-light-outline-variant"
-                      />
+                      <Avatar name={issue.assignee || 'Elena Rostova'} size="xs" />
                     </div>
                   </div>
                 );

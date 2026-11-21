@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Avatar from './Avatar';
 
 const AVATAR_MAP = {
   'Elena Rostova': 'https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe',
@@ -75,12 +76,8 @@ export default function TeamView({
               key={u.id}
               className="p-gutter-lg rounded bg-light-surface-container-lowest border border-light-outline-variant flex flex-col gap-gutter-md"
             >
-              <div className="flex items-center gap-gutter-sm">
-                <img
-                  src={avatarUrl}
-                  alt={u.name}
-                  className="w-10 h-10 rounded-full object-cover border border-light-outline-variant shrink-0"
-                />
+              <div className="flex items-center gap-3">
+                <Avatar name={u.name} size="lg" />
                 <div className="min-w-0">
                   <h3 className="font-title text-title-md text-light-on-surface font-semibold truncate">
                     {u.name}

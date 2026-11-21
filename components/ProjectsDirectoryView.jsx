@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Avatar from './Avatar';
 
 const AVATARS = {
   elena: 'https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe',
@@ -215,12 +216,8 @@ export default function ProjectsDirectoryView({
                   {p.typeLabel}
                 </td>
                 <td className="px-gutter-lg py-gutter-md">
-                  <div className="flex items-center gap-gutter-xs">
-                    <img
-                      src={p.leadAvatar}
-                      alt={p.lead}
-                      className="w-6 h-6 rounded-full object-cover border border-light-outline-variant"
-                    />
+                  <div className="flex items-center gap-2">
+                    <Avatar name={p.lead} size="xs" />
                     <span className="font-body text-body-sm text-light-on-surface">{p.lead}</span>
                   </div>
                 </td>

@@ -1,5 +1,24 @@
 'use client';
 
+import {
+  Boxes,
+  LayoutDashboard,
+  CalendarRange,
+  ListTodo,
+  Kanban,
+  Layers,
+  GitBranch,
+  Rocket,
+  TrendingUp,
+  LifeBuoy,
+  Folder,
+  ShieldCheck,
+  Settings,
+  Plus,
+  X,
+  FolderGit2
+} from 'lucide-react';
+
 export default function Sidebar({
   projects = [],
   currentProject,
@@ -17,231 +36,166 @@ export default function Sidebar({
     if (onCloseMobile) onCloseMobile();
   };
 
+  const planningItems = [
+    { id: 'summary', label: 'Summary', icon: LayoutDashboard },
+    { id: 'timeline', label: 'Timeline', icon: CalendarRange },
+    { id: 'backlog', label: 'Backlog', icon: ListTodo },
+    { id: 'board', label: 'Active sprints', icon: Kanban },
+    { id: 'issues', label: 'Issues', icon: Layers },
+  ];
+
+  const developmentItems = [
+    { id: 'code', label: 'Code & deployments', icon: GitBranch },
+    { id: 'releases', label: 'Releases', icon: Rocket },
+    { id: 'analytics', label: 'Reports & Velocity', icon: TrendingUp },
+  ];
+
+  const enterpriseItems = [
+    { id: 'servicedesk', label: 'IT Service Desk', icon: LifeBuoy },
+    { id: 'projects_dir', label: 'Projects directory', icon: Folder },
+    { id: 'admin', label: 'Admin & RBAC', icon: ShieldCheck },
+  ];
+
   const sidebarContent = (
-    <>
-      {/* Project Identity */}
-      <div className="flex items-center justify-between gap-gutter-md px-gutter-sm py-gutter-xs">
-        <div className="flex items-center gap-gutter-md min-w-0">
-          <div className="w-8 h-8 rounded-sm bg-issue-epic/15 text-issue-epic flex items-center justify-center shrink-0">
-            <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }} aria-hidden="true">
-              hub
-            </span>
+    <div className="flex flex-col h-full justify-between">
+      <div className="flex flex-col gap-6">
+        {/* Project Identity */}
+        <div className="flex items-center justify-between gap-3 px-2 py-1">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-8 h-8 rounded bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
+              <FolderGit2 className="w-5 h-5" />
+            </div>
+            <div className="min-w-0">
+              <p className="font-semibold text-sm text-slate-900 dark:text-white truncate">
+                {currentProject?.name || 'Platform Core'}
+              </p>
+              <p className="text-xs text-slate-500 truncate">
+                {currentProject?.methodology === 'kanban' ? 'Kanban project' : 'Software project'} · {currentProject?.key || 'PLAT'}
+              </p>
+            </div>
           </div>
-          <div className="min-w-0">
-            <p className="font-title text-title-md text-light-on-surface truncate font-semibold">
-              {currentProject?.name || 'Platform Core'}
-            </p>
-            <p className="font-body text-body-sm text-light-on-surface-variant truncate">
-              {currentProject?.methodology === 'kanban' ? 'Kanban project' : 'Software project'} · {currentProject?.key || 'PLAT'}
-            </p>
-          </div>
+
+          {/* Mobile close button */}
+          {isOpenMobile && (
+            <button
+              onClick={onCloseMobile}
+              className="lg:hidden w-7 h-7 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
         </div>
 
-        {/* Mobile close button */}
-        {isOpenMobile && (
-          <button
-            onClick={onCloseMobile}
-            className="lg:hidden w-7 h-7 flex items-center justify-center text-light-on-surface-variant hover:text-light-on-surface"
-          >
-            <span className="material-symbols-outlined text-[18px]">close</span>
-          </button>
-        )}
+        {/* Planning Navigation */}
+        <nav aria-label="Project planning" className="flex flex-col gap-1">
+          <p className="px-2.5 py-1 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+            Planning
+          </p>
+          {planningItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeView === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleNavClick(item.id)}
+                className={`w-full flex items-center gap-3 px-2.5 py-2 rounded text-sm transition-colors text-left cursor-pointer ${
+                  isActive
+                    ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-semibold'
+                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                <Icon className="w-4 h-4 shrink-0" />
+                <span className="truncate">{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* Development Navigation */}
+        <nav aria-label="Development workflows" className="flex flex-col gap-1">
+          <p className="px-2.5 py-1 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+            Development
+          </p>
+          {developmentItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeView === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleNavClick(item.id)}
+                className={`w-full flex items-center gap-3 px-2.5 py-2 rounded text-sm transition-colors text-left cursor-pointer ${
+                  isActive
+                    ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-semibold'
+                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                <Icon className="w-4 h-4 shrink-0" />
+                <span className="truncate">{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* Enterprise / Service Management Navigation */}
+        <nav aria-label="Enterprise management" className="flex flex-col gap-1">
+          <p className="px-2.5 py-1 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+            Enterprise
+          </p>
+          {enterpriseItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeView === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleNavClick(item.id)}
+                className={`w-full flex items-center gap-3 px-2.5 py-2 rounded text-sm transition-colors text-left cursor-pointer ${
+                  isActive
+                    ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-semibold'
+                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                <Icon className="w-4 h-4 shrink-0" />
+                <span className="truncate">{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
       </div>
 
-      {/* Planning Navigation */}
-      <nav aria-label="Project planning" className="flex flex-col gap-gutter-xs">
-        <p className="px-gutter-sm py-gutter-xs font-label text-label-sm text-light-on-surface-variant uppercase tracking-wider font-semibold">
-          Planning
-        </p>
-
-        <button
-          onClick={() => handleNavClick('summary')}
-          className={`w-full flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg transition-colors text-left cursor-pointer ${
-            activeView === 'summary'
-              ? 'bg-status-progress-bg text-light-primary font-semibold'
-              : 'text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface'
-          }`}
-        >
-          <span className="material-symbols-outlined text-[18px]" aria-hidden="true">dashboard</span>
-          <span>Summary</span>
-        </button>
-
-        <button
-          onClick={() => handleNavClick('timeline')}
-          className={`w-full flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg transition-colors text-left cursor-pointer ${
-            activeView === 'timeline'
-              ? 'bg-status-progress-bg text-light-primary font-semibold'
-              : 'text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface'
-          }`}
-        >
-          <span className="material-symbols-outlined text-[18px]" aria-hidden="true">view_timeline</span>
-          <span>Timeline</span>
-        </button>
-
-        <button
-          onClick={() => handleNavClick('backlog')}
-          className={`w-full flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg transition-colors text-left cursor-pointer ${
-            activeView === 'backlog'
-              ? 'bg-status-progress-bg text-light-primary font-semibold'
-              : 'text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface'
-          }`}
-        >
-          <span className="material-symbols-outlined text-[18px]" aria-hidden="true">format_list_bulleted</span>
-          <span>Backlog</span>
-        </button>
-
-        <button
-          onClick={() => handleNavClick('board')}
-          className={`w-full flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg transition-colors text-left cursor-pointer ${
-            activeView === 'board'
-              ? 'bg-status-progress-bg text-light-primary font-semibold'
-              : 'text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface'
-          }`}
-        >
-          <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: activeView === 'board' ? "'FILL' 1" : undefined }} aria-hidden="true">
-            view_kanban
-          </span>
-          <span>Active sprints</span>
-        </button>
-
-        <button
-          onClick={() => handleNavClick('issues')}
-          className={`w-full flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg transition-colors text-left cursor-pointer ${
-            activeView === 'issues'
-              ? 'bg-status-progress-bg text-light-primary font-semibold'
-              : 'text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface'
-          }`}
-        >
-          <span className="material-symbols-outlined text-[18px]" aria-hidden="true">layers</span>
-          <span>Issues</span>
-        </button>
-      </nav>
-
-      {/* Development Navigation */}
-      <nav aria-label="Development" className="flex flex-col gap-gutter-xs">
-        <p className="px-gutter-sm py-gutter-xs font-label text-label-sm text-light-on-surface-variant uppercase tracking-wider font-semibold">
-          Development
-        </p>
-
-        <button
-          onClick={() => handleNavClick('code')}
-          className={`w-full flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg transition-colors text-left cursor-pointer ${
-            activeView === 'code'
-              ? 'bg-status-progress-bg text-light-primary font-semibold'
-              : 'text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface'
-          }`}
-        >
-          <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: activeView === 'code' ? "'FILL' 1" : undefined }} aria-hidden="true">
-            code
-          </span>
-          <span>Code &amp; deployments</span>
-        </button>
-
-        <button
-          onClick={() => handleNavClick('releases')}
-          className={`w-full flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg transition-colors text-left cursor-pointer ${
-            activeView === 'releases'
-              ? 'bg-status-progress-bg text-light-primary font-semibold'
-              : 'text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface'
-          }`}
-        >
-          <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: activeView === 'releases' ? "'FILL' 1" : undefined }} aria-hidden="true">
-            rocket_launch
-          </span>
-          <span>Releases</span>
-        </button>
-
-        <button
-          onClick={() => handleNavClick('analytics')}
-          className={`w-full flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg transition-colors text-left cursor-pointer ${
-            activeView === 'analytics'
-              ? 'bg-status-progress-bg text-light-primary font-semibold'
-              : 'text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface'
-          }`}
-        >
-          <span className="material-symbols-outlined text-[18px]" aria-hidden="true">monitoring</span>
-          <span>Reports &amp; Velocity</span>
-        </button>
-      </nav>
-
-      {/* Enterprise & Service Desk Navigation */}
-      <nav aria-label="Enterprise" className="flex flex-col gap-gutter-xs">
-        <p className="px-gutter-sm py-gutter-xs font-label text-label-sm text-light-on-surface-variant uppercase tracking-wider font-semibold">
-          Enterprise
-        </p>
-
-        <button
-          onClick={() => handleNavClick('servicedesk')}
-          className={`w-full flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg transition-colors text-left cursor-pointer ${
-            activeView === 'servicedesk'
-              ? 'bg-status-progress-bg text-light-primary font-semibold'
-              : 'text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface'
-          }`}
-        >
-          <span className="material-symbols-outlined text-[18px]" aria-hidden="true">support_agent</span>
-          <span>IT Service Desk</span>
-        </button>
-
-        <button
-          onClick={() => handleNavClick('projects')}
-          className={`w-full flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg transition-colors text-left cursor-pointer ${
-            activeView === 'projects'
-              ? 'bg-status-progress-bg text-light-primary font-semibold'
-              : 'text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface'
-          }`}
-        >
-          <span className="material-symbols-outlined text-[18px]" aria-hidden="true">folder_open</span>
-          <span>Projects directory</span>
-        </button>
-
-        <button
-          onClick={() => handleNavClick('admin')}
-          className={`w-full flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg transition-colors text-left cursor-pointer ${
-            activeView === 'admin'
-              ? 'bg-status-progress-bg text-light-primary font-semibold'
-              : 'text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface'
-          }`}
-        >
-          <span className="material-symbols-outlined text-[18px]" aria-hidden="true">admin_panel_settings</span>
-          <span>Admin &amp; RBAC</span>
-        </button>
-      </nav>
-
-      {/* Project settings */}
-      <div className="mt-auto pt-gutter-md border-t border-light-outline-variant">
+      {/* Footer Settings & Project Shortcut */}
+      <div className="pt-4 mt-4 border-t border-slate-200 dark:border-slate-800">
         <button
           onClick={() => handleNavClick('settings')}
-          className="w-full flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors text-left cursor-pointer"
+          className={`w-full flex items-center gap-3 px-2.5 py-2 rounded text-sm transition-colors text-left cursor-pointer ${
+            activeView === 'settings'
+              ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-semibold'
+              : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+          }`}
         >
-          <span className="material-symbols-outlined text-[18px]" aria-hidden="true">tune</span>
-          <span>Project settings</span>
+          <Settings className="w-4 h-4 shrink-0" />
+          <span className="truncate">Project settings</span>
         </button>
       </div>
-    </>
+    </div>
   );
 
   return (
     <>
-      {/* Desktop Persistent Sidebar */}
-      <aside
-        id="project-sidebar"
-        className="hidden lg:flex flex-col w-60 shrink-0 min-h-screen bg-light-surface-container-low border-r border-light-outline-variant p-gutter-md gap-gutter-lg select-none"
-      >
+      {/* Desktop Sidebar (Persistent) */}
+      <aside aria-label="Sidebar navigation" className="hidden lg:flex w-64 h-full bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-4 flex-col select-none shrink-0 overflow-y-auto">
         {sidebarContent}
       </aside>
 
-      {/* Mobile Drawer Overlay */}
+      {/* Mobile Drawer (Collapsible) */}
       {isOpenMobile && (
-        <div className="fixed inset-0 z-50 lg:hidden flex">
+        <div className="lg:hidden fixed inset-0 z-50 flex">
+          {/* Backdrop */}
           <div
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity"
             onClick={onCloseMobile}
-            className="fixed inset-0 bg-black/50 transition-opacity"
-            aria-hidden="true"
           />
-          <aside
-            id="project-sidebar-mobile"
-            className="relative w-72 max-w-[80vw] h-full bg-light-surface-container-low border-r border-light-outline-variant p-gutter-md flex flex-col gap-gutter-lg z-10 shadow-2xl overflow-y-auto animate-in slide-in-from-left duration-200"
-          >
+          {/* Drawer Pane */}
+          <aside className="relative w-72 max-w-[85vw] h-full bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-4 flex flex-col z-10 shadow-2xl overflow-y-auto">
             {sidebarContent}
           </aside>
         </div>

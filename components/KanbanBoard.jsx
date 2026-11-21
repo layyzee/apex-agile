@@ -1,39 +1,35 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-
-// Canonical team avatar photo map from Stitch design
-const AVATAR_PHOTOS = {
-  elena: 'https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe',
-  marcus: 'https://lh3.googleusercontent.com/aida/ALJJyrDgKx4jLzMiXGShOOaAzLOjwe-zDqHHXWBB1EKN99ni4lK8OMMkRiG-_xTTRI7voe3_3HfhmuaPa5-6F_6xJ4jLmz7pBtBqo4WWmFsxDVbWJC_K4-hU1FtU8r_-lAvFTzWcpMVWSnbVsdLHaUUaLN35F1HkIRAKQNdISHkxepLOraNDp84np6OnjPQaRH6GBuDuhRAIfTTnSiJ6_WcsbFEJJAkaKaLCGpruOK8dxOBzLEGjhYYpXw',
-  priya: 'https://lh3.googleusercontent.com/aida/ALJJyrCklGpvdGYSopZxSSrRrPtkBdl957Q7Ogz3uX4fzie9G6mTQH6uP4Ci9ogj6r8yyxr5FSklMt7HTI9LHmOQx-1AJAW00HC-R94bmNKCEc1e-aUownDKA7Pw9u-0SzqwGKOMXci_2P53ra7QQllboBJxCniFDjxsHLcxZZzShy3IZKKuPnALJYUM8lxbC3lHfz-oLxtUKoE_SWLs1a7Uj3mETCnd6AwoJglU90DUhLV8p3Jl2FT6',
-  kenji: 'https://lh3.googleusercontent.com/aida/ALJJyrBLdMi5794naAeeCGG9DPABynyRt6Kim8iD-BJ15u6KvCSy_z-bZ0rWPW2JTpGksViGt4Yhc8-g9QJ2O4mGtC7-aSzx_oMVSgOebe-dPhF6N6c_UQfVmFAqtxO6uiBV29EU8xE7bMFUcK8xvF2msv3T8RMNnRxl_QVBhXA_LavlWbFf1jFPvTN4LuPBqMy4W0pO5UpgwlOHIyzGiTZTEFovVZW8yWTboQYzKXGMJ4Gt6YcDFOE',
-};
-
-function getAssigneePhoto(assignee = '') {
-  const name = assignee.toLowerCase();
-  if (name.includes('elena')) return AVATAR_PHOTOS.elena;
-  if (name.includes('marcus')) return AVATAR_PHOTOS.marcus;
-  if (name.includes('priya')) return AVATAR_PHOTOS.priya;
-  if (name.includes('kenji')) return AVATAR_PHOTOS.kenji;
-  return AVATAR_PHOTOS.elena;
-}
+import { 
+  Search, 
+  Plus, 
+  CheckSquare, 
+  Bug, 
+  Bookmark, 
+  ChevronsUp, 
+  Equal, 
+  ChevronDown, 
+  Clock, 
+  MoreHorizontal 
+} from 'lucide-react';
+import Avatar from './Avatar';
 
 function getEpicBadgeStyle(epicName = '') {
   const name = (epicName || '').toLowerCase();
   if (name.includes('auth')) {
-    return 'bg-status-review-bg text-status-review';
+    return 'bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800';
   }
   if (name.includes('telemetry')) {
-    return 'bg-status-progress-bg text-status-progress';
+    return 'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800';
   }
   if (name.includes('infra')) {
-    return 'bg-light-error-container text-light-on-error-container';
+    return 'bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800';
   }
   if (name.includes('design')) {
-    return 'bg-status-done-bg text-light-on-surface';
+    return 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800';
   }
-  return 'bg-light-surface-container text-light-on-surface-variant';
+  return 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700';
 }
 
 export default function KanbanBoard({
@@ -145,58 +141,63 @@ export default function KanbanBoard({
     });
   };
 
+  const teamFilterMembers = [
+    { id: 'Elena', name: 'Elena Rostova' },
+    { id: 'Marcus', name: 'Marcus Vance' },
+    { id: 'Priya', name: 'Priya Nair' },
+    { id: 'Kenji', name: 'Kenji Sato' },
+  ];
+
   return (
-    <main className="flex-1 min-w-0 p-gutter-md sm:p-gutter-xl pb-24 md:pb-gutter-xl flex flex-col gap-gutter-md sm:gap-gutter-lg overflow-y-auto overflow-x-hidden">
+    <main className="flex-1 min-w-0 p-4 sm:p-6 pb-24 md:pb-6 flex flex-col gap-4 sm:gap-6 overflow-y-auto overflow-x-hidden">
       {/* 1. Breadcrumb & Sprint Header (Desktop only) */}
-      <div className="hidden md:flex flex-col gap-gutter-xs">
-        <nav aria-label="Breadcrumb" className="flex items-center gap-gutter-xs font-body text-body-sm text-light-on-surface-variant">
-          <span className="hover:text-light-on-surface cursor-pointer">Projects</span>
+      <div className="hidden md:flex flex-col gap-1.5">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-slate-500">
+          <span className="hover:text-slate-800 dark:hover:text-slate-200 cursor-pointer">Projects</span>
           <span aria-hidden="true">/</span>
-          <span className="hover:text-light-on-surface cursor-pointer">Platform Core</span>
+          <span className="hover:text-slate-800 dark:hover:text-slate-200 cursor-pointer">Platform Core</span>
           <span aria-hidden="true">/</span>
-          <span className="text-light-on-surface-variant font-medium">Active sprints</span>
+          <span className="text-slate-800 dark:text-slate-200 font-medium">Active sprints</span>
         </nav>
 
-        <div className="flex flex-wrap items-center justify-between gap-gutter-md pt-1">
-          <div className="flex flex-wrap items-center gap-gutter-md">
-            <h1 className="font-headline text-headline-lg text-light-on-surface text-balance font-bold">
+        <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
+          <div className="flex flex-wrap items-center gap-3">
+            <h1 className="font-headline text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
               {activeSprint?.name || 'PLAT Sprint 42: Auth & Telemetry'}
             </h1>
-            <span className="inline-flex items-center gap-gutter-xs px-gutter-sm py-1 rounded-sm bg-light-surface-container text-light-on-surface-variant tabular-nums">
-              <span className="material-symbols-outlined text-[15px]" aria-hidden="true">schedule</span>
-              <span className="font-label text-label-md">6 days remaining</span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-medium">
+              <Clock className="w-3.5 h-3.5" />
+              <span>6 days remaining</span>
             </span>
           </div>
 
-          <div className="flex items-center gap-gutter-sm">
+          <div className="flex items-center gap-2">
             <button
               onClick={onCompleteSprint}
               type="button"
-              className="inline-flex items-center justify-center h-8 px-gutter-lg rounded-sm bg-light-surface-container text-light-on-surface border border-light-outline-variant hover:bg-light-surface-container-high active:bg-light-surface-container-highest transition-colors font-label text-label-lg cursor-pointer"
+              className="inline-flex items-center justify-center h-8 px-4 rounded bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-xs font-semibold cursor-pointer shadow-xs"
             >
               Complete sprint
             </button>
 
             <button
-              onClick={onOpenStandup}
               type="button"
-              aria-label="Daily standup & options"
-              title="Launch Live Daily Standup"
-              className="inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors cursor-pointer"
+              aria-label="Sprint options"
+              className="inline-flex items-center justify-center w-8 h-8 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[20px]" aria-hidden="true">more_horiz</span>
+              <MoreHorizontal className="w-4 h-4" />
             </button>
           </div>
         </div>
       </div>
 
       {/* 2. Filter & Quick Actions Bar (Desktop only) */}
-      <div className="hidden md:flex flex-wrap items-center justify-between gap-gutter-md">
-        <div className="flex flex-wrap items-center gap-gutter-md">
+      <div className="hidden md:flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center gap-3">
           {/* Board Search */}
-          <div className="relative flex items-center w-56 rounded-sm bg-light-surface-container-lowest border border-light-outline-variant focus-within:border-light-primary focus-within:ring-1 focus-within:ring-light-primary transition-colors">
-            <div className="pl-gutter-sm pr-gutter-xs text-light-on-surface-variant flex items-center">
-              <span className="material-symbols-outlined text-[18px]" aria-hidden="true">search</span>
+          <div className="relative flex items-center w-56 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-colors">
+            <div className="pl-2.5 pr-1.5 text-slate-400 flex items-center">
+              <Search className="w-4 h-4" />
             </div>
             <input
               type="search"
@@ -204,43 +205,38 @@ export default function KanbanBoard({
               placeholder="Search this board"
               value={searchBoard}
               onChange={(e) => setSearchBoard(e.target.value)}
-              className="w-full py-1.5 pr-gutter-sm bg-transparent border-0 font-body text-body-sm text-light-on-surface placeholder:text-light-on-surface-variant focus:ring-0 outline-none"
+              className="w-full py-1.5 pr-2.5 bg-transparent border-0 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-0 outline-none"
             />
           </div>
 
           {/* Assignee Avatar Filter Stack */}
           <div className="flex items-center -space-x-1.5" role="group" aria-label="Filter by assignee">
-            {[
-              { id: 'Elena', name: 'Elena Rostova', photo: AVATAR_PHOTOS.elena },
-              { id: 'Marcus', name: 'Marcus Vance', photo: AVATAR_PHOTOS.marcus },
-              { id: 'Priya', name: 'Priya Nair', photo: AVATAR_PHOTOS.priya },
-              { id: 'Kenji', name: 'Kenji Sato', photo: AVATAR_PHOTOS.kenji },
-            ].map((member) => (
+            {teamFilterMembers.map((member) => (
               <button
                 key={member.id}
                 type="button"
                 onClick={() => setSelectedAssignee(selectedAssignee === member.id ? null : member.id)}
                 title={`Filter by ${member.name}`}
-                className={`w-8 h-8 rounded-full overflow-hidden border-2 transition-transform hover:z-10 hover:scale-105 cursor-pointer ${
+                className={`rounded-full transition-transform hover:z-10 hover:scale-105 cursor-pointer ${
                   selectedAssignee === member.id
-                    ? 'ring-2 ring-light-primary border-light-primary scale-105'
-                    : 'border-light-surface'
+                    ? 'ring-2 ring-blue-500 scale-105'
+                    : ''
                 }`}
               >
-                <img src={member.photo} alt={member.name} className="w-full h-full object-cover" />
+                <Avatar name={member.name} size="sm" />
               </button>
             ))}
           </div>
 
           {/* Quick Filter Chips */}
-          <div className="flex items-center gap-gutter-xs">
+          <div className="flex items-center gap-1.5">
             <button
               type="button"
               onClick={() => setOnlyMyIssues((prev) => !prev)}
-              className={`px-gutter-md py-1.5 rounded-sm transition-colors font-label text-label-md cursor-pointer ${
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors cursor-pointer ${
                 onlyMyIssues
-                  ? 'bg-status-progress-bg text-light-primary font-semibold'
-                  : 'bg-transparent text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface'
+                  ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-semibold'
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
               }`}
             >
               Only my issues
@@ -254,7 +250,7 @@ export default function KanbanBoard({
                   setSelectedAssignee(null);
                   setOnlyMyIssues(false);
                 }}
-                className="px-gutter-md py-1.5 rounded-sm bg-transparent text-light-primary hover:bg-status-progress-bg transition-colors font-label text-label-md cursor-pointer"
+                className="px-3 py-1.5 rounded text-xs font-semibold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-colors cursor-pointer"
               >
                 Clear filters
               </button>
@@ -262,42 +258,46 @@ export default function KanbanBoard({
           </div>
         </div>
 
-        {/* Sprint Progress Summary */}
-        <div className="flex items-center gap-gutter-sm text-light-on-surface-variant">
-          <span className="font-body text-body-sm tabular-nums">
-            {filteredIssues.length} issues · {totalPoints} story points
-          </span>
+        {/* Sprint Summary Metrics */}
+        <div className="flex items-center gap-3 text-xs text-slate-500 font-mono">
+          <span>{filteredIssues.length} issues</span>
+          <span>·</span>
+          <span>{totalPoints} story points</span>
         </div>
       </div>
 
-      {/* Mobile Status Switcher Tabs (Stitch mobile_sprint_board) */}
-      <div className="md:hidden flex items-center gap-gutter-xs overflow-x-auto py-1" role="tablist">
-        {boardColumns.map((col, idx) => {
-          const count = getColIssues(col).length;
-          const isSelected = (mobileColId === col.id) || (!mobileColId && idx === 1);
-          return (
-            <button
-              key={col.id}
-              type="button"
-              role="tab"
-              onClick={() => setMobileColId(col.id)}
-              className={`px-gutter-md py-1.5 rounded-sm font-label text-label-md whitespace-nowrap transition-colors cursor-pointer shrink-0 ${
-                isSelected
-                  ? 'bg-status-progress-bg text-light-primary font-semibold'
-                  : 'bg-light-surface-container text-light-on-surface-variant hover:text-light-on-surface'
-              }`}
-            >
-              {col.name} ({count})
-            </button>
-          );
-        })}
-      </div>
+      {/* Mobile Column Switcher Tabs */}
+      {(() => {
+        const activeMobileColId = mobileColId || boardColumns[1]?.id || boardColumns[0]?.id;
+        return (
+          <div className="md:hidden flex items-center gap-1.5 overflow-x-auto pb-2 border-b border-slate-200 dark:border-slate-800 select-none">
+            {boardColumns.map((col) => {
+              const count = getColIssues(col).length;
+              const isActive = activeMobileColId === col.id;
+              return (
+                <button
+                  key={col.id}
+                  onClick={() => setMobileColId(col.id)}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-full whitespace-nowrap transition-colors cursor-pointer shrink-0 ${
+                    isActive
+                      ? 'bg-blue-600 text-white shadow-xs'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
+                  }`}
+                >
+                  {col.name} ({count})
+                </button>
+              );
+            })}
+          </div>
+        );
+      })()}
 
       {/* 3. 4-Column Kanban Board */}
-      <section aria-label="Sprint Kanban Board" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-gutter-lg items-start">
-        {boardColumns.map((col, idx) => {
+      <section aria-label="Sprint Kanban Board" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 items-start">
+        {boardColumns.map((col) => {
           const colIssues = getColIssues(col);
-          const isSelectedMobile = (mobileColId === col.id) || (!mobileColId && idx === 1);
+          const activeMobileColId = mobileColId || boardColumns[1]?.id || boardColumns[0]?.id;
+          const isSelectedMobile = activeMobileColId === col.id;
           const isTarget = dragTargetColId === col.id;
 
           return (
@@ -306,41 +306,40 @@ export default function KanbanBoard({
               onDragOver={(e) => handleDragOver(e, col.id)}
               onDragLeave={() => handleDragLeave(col.id)}
               onDrop={(e) => handleDrop(e, col.id)}
-              className={`rounded md:bg-light-surface-container-low p-0 md:p-gutter-md flex-col gap-gutter-sm md:gap-gutter-md min-h-0 md:min-h-[440px] transition-colors ${
-                isTarget ? 'ring-2 ring-light-primary bg-status-progress-bg' : ''
+              className={`rounded-lg md:bg-slate-100/70 md:dark:bg-slate-800/40 p-0 md:p-3 flex-col gap-2.5 min-h-0 md:min-h-[460px] transition-colors ${
+                isTarget ? 'ring-2 ring-blue-500 bg-blue-50 dark:bg-blue-950/20' : ''
               } ${isSelectedMobile ? 'flex' : 'hidden md:flex'}`}
             >
               {/* Column Header (Desktop only) */}
-              <header className="hidden md:flex items-center justify-between px-gutter-xs">
-                <div className="flex items-center gap-gutter-sm">
-                  <h2 className="font-label text-label-md text-light-on-surface-variant uppercase tracking-wider font-bold">
-                    {col.name.toUpperCase()}
+              <header className="hidden md:flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-700/60">
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                    {col.name}
                   </h2>
-                  <span className="col-count inline-flex items-center justify-center px-gutter-sm py-0.5 rounded-full bg-light-surface-container-high text-light-on-surface-variant tabular-nums">
-                    <span className="font-mono text-mono-sm font-semibold">{colIssues.length}</span>
+                  <span className="inline-flex items-center justify-center px-2 py-0.5 text-xs font-semibold rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+                    {colIssues.length}
                   </span>
                 </div>
                 <button
                   type="button"
                   aria-label={`Add issue to ${col.name}`}
-                  className="quick-add-col w-6 h-6 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface flex items-center justify-center cursor-pointer"
+                  className="w-6 h-6 rounded flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-700 transition-colors cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-[18px]" aria-hidden="true">add</span>
+                  <Plus className="w-4 h-4" />
                 </button>
               </header>
 
               {/* Cards Container */}
-              <div className="column-cards flex flex-col gap-gutter-sm">
+              <div className="flex flex-col gap-2.5 w-full">
                 {colIssues.length === 0 ? (
-                  <div className="h-28 border border-dashed border-light-outline-variant rounded-sm flex items-center justify-center text-body-sm text-light-on-surface-variant">
+                  <div className="h-28 border border-dashed border-slate-300 dark:border-slate-700 rounded flex items-center justify-center text-xs text-slate-400">
                     No issues
                   </div>
                 ) : (
                   colIssues.map((issue) => {
                     const isSelected = selectedIssueId === issue.id;
-                    const epicName = issue.epic_name || (issue.epic_id ? issue.epic_id.replace('epic-', '').toUpperCase() : 'Auth v3');
+                    const epicName = issue.epic_name || (issue.epic_id ? issue.epic_id.replace('epic-', '').toUpperCase() : 'AUTH V3');
                     const epicBadgeClass = getEpicBadgeStyle(epicName);
-                    const assigneePhoto = getAssigneePhoto(issue.assignee);
                     const issueType = (issue.issue_type || 'story').toLowerCase();
                     const priority = (issue.priority || 'medium').toLowerCase();
 
@@ -350,66 +349,53 @@ export default function KanbanBoard({
                         draggable
                         onDragStart={(e) => handleDragStart(e, issue.id)}
                         onClick={() => onSelectIssue && onSelectIssue(issue)}
-                        className={`issue-card w-full p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant hover:border-light-primary hover:bg-light-surface-container-low/40 transition-colors cursor-pointer flex flex-col gap-gutter-sm shadow-xs ${
-                          isSelected ? 'ring-2 ring-light-primary border-light-primary' : ''
+                        className={`w-full p-3.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-xs transition-all cursor-pointer flex flex-col gap-2.5 shadow-2xs ${
+                          isSelected ? 'ring-2 ring-blue-500 border-blue-500' : ''
                         }`}
                       >
                         {/* Epic Lozenge */}
-                        <div className="flex items-center justify-between gap-gutter-xs">
-                          <span className={`inline-flex items-center px-gutter-sm py-0.5 rounded-sm uppercase font-label text-label-sm font-semibold ${epicBadgeClass}`}>
+                        <div className="flex items-center justify-between">
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider border ${epicBadgeClass}`}>
                             {epicName}
                           </span>
                         </div>
 
                         {/* Card Title */}
-                        <h3 className="issue-title font-title text-title-sm text-light-on-surface text-pretty font-semibold leading-snug">
+                        <h3 className="font-title text-sm text-slate-900 dark:text-white font-semibold leading-snug line-clamp-2">
                           {issue.title}
                         </h3>
 
-                        {/* Card Footer: Type, Key, Priority, Points, Assignee Photo */}
-                        <div className="flex items-center justify-between gap-gutter-sm pt-gutter-xs">
-                          <div className="flex items-center gap-gutter-xs">
+                        {/* Card Footer: Type, Key, Priority, Points, Assignee */}
+                        <div className="flex items-center justify-between pt-1 border-t border-slate-100 dark:border-slate-800/80">
+                          <div className="flex items-center gap-1.5">
                             {issueType === 'task' ? (
-                              <span className="material-symbols-outlined text-[16px] text-issue-task" style={{ fontVariationSettings: "'FILL' 1" }} aria-label="Task">
-                                check_box
-                              </span>
+                              <CheckSquare className="w-4 h-4 text-blue-500 shrink-0" />
                             ) : issueType === 'bug' ? (
-                              <span className="material-symbols-outlined text-[16px] text-issue-bug" style={{ fontVariationSettings: "'FILL' 1" }} aria-label="Bug">
-                                bug_report
-                              </span>
+                              <Bug className="w-4 h-4 text-red-500 shrink-0" />
                             ) : (
-                              <span className="material-symbols-outlined text-[16px] text-issue-story" style={{ fontVariationSettings: "'FILL' 1" }} aria-label="Story">
-                                bookmark
-                              </span>
+                              <Bookmark className="w-4 h-4 text-emerald-500 shrink-0" />
                             )}
-                            <span className="font-mono text-mono-sm text-light-on-surface-variant tabular-nums font-medium">
+                            <span className="font-mono text-xs text-slate-500 font-medium">
                               {issue.key}
                             </span>
                           </div>
 
-                          <div className="flex items-center gap-gutter-sm">
+                          <div className="flex items-center gap-2">
                             {priority === 'high' || priority === 'critical' ? (
-                              <span className="material-symbols-outlined text-[16px] text-issue-bug" title="High priority" aria-hidden="true">
-                                keyboard_double_arrow_up
-                              </span>
+                              <ChevronsUp className="w-4 h-4 text-red-500 shrink-0" title="High priority" />
                             ) : priority === 'low' || priority === 'lowest' ? (
-                              <span className="material-symbols-outlined text-[16px] text-status-done" title="Low priority" aria-hidden="true">
-                                keyboard_arrow_down
-                              </span>
+                              <ChevronDown className="w-4 h-4 text-emerald-500 shrink-0" title="Low priority" />
                             ) : (
-                              <span className="material-symbols-outlined text-[16px] text-status-warning" title="Medium priority" aria-hidden="true">
-                                drag_handle
-                              </span>
+                              <Equal className="w-4 h-4 text-amber-500 shrink-0" title="Medium priority" />
                             )}
 
-                            <span className="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums font-semibold">
+                            <span className="font-mono text-[11px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-semibold">
                               {issue.story_points || 0}
                             </span>
 
-                            <img
-                              src={assigneePhoto}
-                              alt={issue.assignee || 'Assignee'}
-                              className="w-6 h-6 rounded-full object-cover border border-light-outline-variant shrink-0"
+                            <Avatar 
+                              name={issue.assignee || 'Elena Rostova'} 
+                              size="xs" 
                             />
                           </div>
                         </div>

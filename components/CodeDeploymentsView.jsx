@@ -1,5 +1,7 @@
 'use client';
 
+import Avatar from './Avatar';
+
 const AVATARS = {
   elena: 'https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe',
   priya: 'https://lh3.googleusercontent.com/aida/ALJJyrCklGpvdGYSopZxSSrRrPtkBdl957Q7Ogz3uX4fzie9G6mTQH6uP4Ci9ogj6r8yyxr5FSklMt7HTI9LHmOQx-1AJAW00HC-R94bmNKCEc1e-aUownDKA7Pw9u-0SzqwGKOMXci_2P53ra7QQllboBJxCniFDjxsHLcxZZzShy3IZKKuPnALJYUM8lxbC3lHfz-oLxtUKoE_SWLs1a7Uj3mETCnd6AwoJglU90DUhLV8p3Jl2FT6',
@@ -137,12 +139,8 @@ export default function CodeDeploymentsView({
                   </button>
                 </td>
                 <td className="px-gutter-lg py-gutter-md">
-                  <div className="flex items-center gap-gutter-xs">
-                    <img
-                      src={pr.authorAvatar}
-                      alt={pr.author}
-                      className="w-6 h-6 rounded-full object-cover border border-light-outline-variant"
-                    />
+                  <div className="flex items-center gap-2">
+                    <Avatar name={pr.author} size="xs" />
                     <span className="font-body text-body-sm text-light-on-surface">{pr.author}</span>
                   </div>
                 </td>

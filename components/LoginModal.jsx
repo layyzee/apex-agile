@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Avatar from './Avatar';
 
 const AVATARS = {
   'Elena Rostova': 'https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe',
@@ -202,7 +203,7 @@ export default function LoginModal({
                       : 'border-light-outline-variant hover:bg-light-surface-container-low'
                   }`}
                 >
-                  <img src={avatar} alt={u.name} className="w-5 h-5 rounded-full object-cover shrink-0" />
+                  <Avatar name={u.name} size="xs" />
                   <span className="text-xs truncate text-light-on-surface">{u.name}</span>
                 </button>
               );
