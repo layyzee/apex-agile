@@ -1,19 +1,5 @@
 'use client';
 
-import { 
-  Search, 
-  Plus, 
-  Bell, 
-  Settings, 
-  Sun, 
-  Moon, 
-  Users, 
-  Command, 
-  ChevronDown,
-  Sparkles
-} from 'lucide-react';
-import ApexLogo from '@/components/ApexLogo';
-
 export default function Header({
   activeTab,
   setActiveTab,
@@ -24,159 +10,187 @@ export default function Header({
   onNewIssue,
   onOpenCommandPalette,
   onOpenStandup,
-  activeSprint,
-  sprintStats,
   theme = 'light',
   onToggleTheme,
   currentUser,
   onOpenLogin,
 }) {
   return (
-    <header className="sticky top-0 z-30 h-14 px-4 sm:px-6 bg-[var(--bg-card)] border-b border-[var(--border-subtle)] flex items-center justify-between gap-4 select-none transition-colors duration-150">
-      {/* Left: Brand Mark, Global Nav & Create CTA */}
-      <div className="flex items-center gap-4 lg:gap-6 min-w-0">
+    <header className="sticky top-0 z-30 h-14 px-gutter-lg bg-light-surface-container-lowest border-b border-light-outline-variant flex items-center justify-between gap-gutter-lg select-none">
+      {/* Left Brand Mark, Global Navigation & Create CTA */}
+      <div className="flex items-center gap-gutter-lg">
+        {/* Mobile menu toggle */}
+        <button
+          type="button"
+          aria-label="Open project navigation"
+          className="lg:hidden inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface"
+        >
+          <span className="material-symbols-outlined text-[20px]" aria-hidden="true">menu</span>
+        </button>
+
         {/* Brand Mark */}
-        <div className="flex items-center gap-2.5 shrink-0">
-          <div className="w-7 h-7 rounded-md bg-[#0C66E4] flex items-center justify-center text-white shadow-sm shadow-[#0C66E4]/20">
-            <ApexLogo size={16} />
+        <div className="flex items-center gap-gutter-sm cursor-pointer" onClick={() => setActiveTab('board')}>
+          <div className="w-7 h-7 rounded-sm bg-light-primary-container flex items-center justify-center text-light-on-primary">
+            <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }} aria-hidden="true">
+              deployed_code
+            </span>
           </div>
-          <span className="font-headline text-[17px] font-bold tracking-tight text-[var(--text-main)]">
+          <span className="font-headline text-title-lg text-light-on-surface tracking-tight font-bold">
             Jira
-          </span>
-          <span className="hidden sm:inline-block text-[10px] font-mono px-1.5 py-0.5 rounded bg-[var(--bg-surface-container)] text-[var(--text-subtle)] border border-[var(--border-subtle)]">
-            Apex v2
           </span>
         </div>
 
-        {/* Global Nav Links */}
-        <nav aria-label="Global navigation" className="hidden md:flex items-center gap-1 text-xs">
+        {/* Global Navigation Links from Stitch */}
+        <nav aria-label="Global navigation" className="hidden md:flex items-center gap-gutter-xs">
           <button
             onClick={() => setActiveTab('summary')}
-            className={`px-3 py-1.5 rounded font-label transition-colors ${
+            className={`px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg transition-colors ${
               activeTab === 'summary'
-                ? 'text-[#0C66E4] bg-[var(--status-progress-bg)] font-semibold'
-                : 'text-[var(--text-muted)] hover:bg-[var(--bg-surface-low)] hover:text-[var(--text-main)]'
+                ? 'text-light-primary bg-status-progress-bg font-semibold'
+                : 'text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface'
             }`}
           >
-            Summary
+            Your work
           </button>
 
           <button
             onClick={() => setActiveTab('board')}
-            className={`px-3 py-1.5 rounded font-label transition-colors ${
+            className={`px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg transition-colors ${
               activeTab === 'board' || activeTab === 'backlog'
-                ? 'text-[#0C66E4] bg-[var(--status-progress-bg)] font-semibold'
-                : 'text-[var(--text-muted)] hover:bg-[var(--bg-surface-low)] hover:text-[var(--text-main)]'
+                ? 'text-light-primary bg-status-progress-bg font-semibold'
+                : 'text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface'
             }`}
           >
             Projects
           </button>
 
           <button
-            onClick={() => setActiveTab('timeline')}
-            className={`px-3 py-1.5 rounded font-label transition-colors ${
-              activeTab === 'timeline'
-                ? 'text-[#0C66E4] bg-[var(--status-progress-bg)] font-semibold'
-                : 'text-[var(--text-muted)] hover:bg-[var(--bg-surface-low)] hover:text-[var(--text-main)]'
-            }`}
-          >
-            Timeline
-          </button>
-
-          <button
             onClick={() => setActiveTab('issues')}
-            className={`px-3 py-1.5 rounded font-label transition-colors ${
+            className={`px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg transition-colors ${
               activeTab === 'issues'
-                ? 'text-[#0C66E4] bg-[var(--status-progress-bg)] font-semibold'
-                : 'text-[var(--text-muted)] hover:bg-[var(--bg-surface-low)] hover:text-[var(--text-main)]'
+                ? 'text-light-primary bg-status-progress-bg font-semibold'
+                : 'text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface'
             }`}
           >
             Filters
           </button>
 
           <button
+            onClick={() => setActiveTab('timeline')}
+            className={`px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg transition-colors ${
+              activeTab === 'timeline'
+                ? 'text-light-primary bg-status-progress-bg font-semibold'
+                : 'text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface'
+            }`}
+          >
+            Dashboards
+          </button>
+
+          <button
             onClick={() => setActiveTab('team')}
-            className={`px-3 py-1.5 rounded font-label transition-colors ${
+            className={`px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg transition-colors ${
               activeTab === 'team'
-                ? 'text-[#0C66E4] bg-[var(--status-progress-bg)] font-semibold'
-                : 'text-[var(--text-muted)] hover:bg-[var(--bg-surface-low)] hover:text-[var(--text-main)]'
+                ? 'text-light-primary bg-status-progress-bg font-semibold'
+                : 'text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface'
             }`}
           >
             Teams
           </button>
         </nav>
 
-        {/* Primary Atlassian Cobalt Create CTA */}
+        {/* Primary Create Button */}
         <button
           onClick={onNewIssue}
-          className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded bg-[#004FB6] hover:bg-[#0C66E4] active:bg-[#003882] text-white font-label font-medium text-xs shadow-sm transition-all active:scale-[0.98]"
+          type="button"
+          className="inline-flex items-center justify-center px-gutter-md py-1.5 rounded-sm bg-light-primary text-light-on-primary hover:bg-light-primary-container active:opacity-90 font-label text-label-lg transition-colors cursor-pointer"
         >
-          <Plus className="w-3.5 h-3.5" />
-          <span>Create</span>
+          Create
         </button>
       </div>
 
-      {/* Right: Search, Standup Mode, Theme Toggle, Profile */}
-      <div className="flex items-center gap-2 sm:gap-3">
-        {/* Global Search Bar (with ⌘K trigger) */}
-        <button
-          onClick={onOpenCommandPalette}
-          className="flex items-center gap-2 px-2.5 py-1.5 rounded bg-[var(--bg-surface-low)] hover:bg-[var(--bg-surface-container)] border border-[var(--border-subtle)] text-[var(--text-subtle)] hover:text-[var(--text-main)] text-xs transition-colors w-40 sm:w-56 justify-between"
-          title="Search issues, projects (⌘K)"
+      {/* Right Global Search, Standup, Theme Toggle, Settings & User Avatar */}
+      <div className="flex items-center gap-gutter-md">
+        {/* Global Searchbar */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onOpenCommandPalette && onOpenCommandPalette();
+          }}
+          role="search"
+          className="hidden sm:flex relative items-center w-64 rounded-sm bg-light-surface-container-low border border-light-outline-variant focus-within:bg-light-surface-container-lowest focus-within:border-light-primary"
         >
-          <div className="flex items-center gap-1.5 truncate">
-            <Search className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate text-[11px]">Search Jira</span>
-          </div>
-          <kbd className="hidden sm:inline-flex text-[10px] font-mono px-1 py-0.5 rounded bg-[var(--bg-card)] border border-[var(--border-subtle)] text-[var(--text-subtle)]">
-            ⌘K
-          </kbd>
-        </button>
+          <button type="submit" aria-label="Submit search" className="pl-gutter-sm pr-gutter-xs text-light-on-surface-variant flex items-center">
+            <span className="material-symbols-outlined text-[18px]" aria-hidden="true">search</span>
+          </button>
+          <input
+            type="search"
+            aria-label="Search Jira"
+            placeholder="Search issues, projects"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery && setSearchQuery(e.target.value)}
+            onFocus={() => onOpenCommandPalette && onOpenCommandPalette()}
+            className="w-full py-1.5 pr-gutter-md bg-transparent border-0 font-body text-body-sm text-light-on-surface placeholder:text-light-on-surface-variant focus:ring-0 outline-none"
+          />
+        </form>
 
-        {/* Live Daily Standup Button */}
+        {/* Live Standup Mode Launcher */}
         {onOpenStandup && (
           <button
             onClick={onOpenStandup}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-[var(--status-progress-bg)] text-[#0C66E4] hover:bg-[#0C66E4] hover:text-white border border-[#0C66E4]/30 text-xs font-label font-medium transition-all group"
-            title="Launch Live Daily Standup (Shift+S)"
+            type="button"
+            aria-label="Daily Standup"
+            title="Launch Daily Standup Ceremony"
+            className="inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface"
           >
-            <Users className="w-3.5 h-3.5 shrink-0" />
-            <span className="hidden lg:inline">Standup</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="material-symbols-outlined text-[20px]" aria-hidden="true">groups</span>
           </button>
         )}
 
-        {/* Theme Toggle (Light / Dark) */}
+        {/* Light / Dark Mode Toggle */}
         <button
           onClick={onToggleTheme}
-          className="p-1.5 rounded hover:bg-[var(--bg-surface-low)] text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors"
-          title={theme === 'dark' ? 'Switch to Atlassian Light' : 'Switch to Atlassian Dark'}
+          type="button"
+          aria-label="Toggle Theme"
+          title={theme === 'dark' ? 'Switch to Light mode' : 'Switch to Dark mode'}
+          className="inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface"
         >
-          {theme === 'dark' ? (
-            <Sun className="w-4 h-4 text-amber-400" />
-          ) : (
-            <Moon className="w-4 h-4 text-slate-600" />
-          )}
+          <span className="material-symbols-outlined text-[20px]" aria-hidden="true">
+            {theme === 'dark' ? 'light_mode' : 'dark_mode'}
+          </span>
         </button>
 
-        {/* Settings Action */}
+        {/* Notifications Icon with Bug Badge Dot */}
+        <button
+          type="button"
+          aria-label="Notifications, unread activity"
+          className="relative inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface"
+        >
+          <span className="material-symbols-outlined text-[20px]" aria-hidden="true">notifications</span>
+          <span className="absolute top-1.5 right-1.5 inline-block w-2 h-2 rounded-full bg-issue-bug ring-2 ring-light-surface-container-lowest" />
+        </button>
+
+        {/* Workspace Settings */}
         <button
           onClick={() => setActiveTab('settings')}
-          className="p-1.5 rounded hover:bg-[var(--bg-surface-low)] text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors hidden sm:block"
-          title="Project settings"
+          type="button"
+          aria-label="Workspace settings"
+          className="hidden sm:inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface"
         >
-          <Settings className="w-4 h-4" />
+          <span className="material-symbols-outlined text-[20px]" aria-hidden="true">settings</span>
         </button>
 
-        {/* User Avatar with Persona Trigger */}
+        {/* User Avatar Photo */}
         <button
           onClick={onOpenLogin}
-          className="flex items-center gap-1.5 p-0.5 rounded-full hover:ring-2 hover:ring-[#0C66E4] transition-all"
-          title="Switch persona or account"
+          type="button"
+          aria-label="Account menu"
+          className="w-8 h-8 rounded-full overflow-hidden border border-light-outline-variant hover:ring-2 hover:ring-light-primary"
         >
-          <div className="w-7 h-7 rounded-full bg-[#0C66E4] text-white flex items-center justify-center font-mono font-bold text-[11px] ring-1 ring-[var(--border-subtle)]">
-            {currentUser?.avatar_initials || (currentUser?.name ? currentUser.name.slice(0, 2).toUpperCase() : 'BP')}
-          </div>
+          <img
+            src="https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe"
+            alt="Elena Rostova"
+            className="w-full h-full object-cover"
+          />
         </button>
       </div>
     </header>

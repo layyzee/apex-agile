@@ -1,0 +1,967 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Active Sprint Board — Platform Core · Jira</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'status-done': '#1F845A',
+        'status-done-bg': '#DCFFF1',
+        'status-progress': '#0C66E4',
+        'status-progress-bg': '#E9F2FF',
+        'status-review': '#6E5DC6',
+        'status-review-bg': '#F3F0FF',
+        'status-warning': '#A54800',
+        'status-warning-bg': '#FFF7D6',
+        'issue-story': '#22A06B',
+        'issue-bug': '#E34935',
+        'issue-task': '#1D7AFC',
+        'issue-epic': '#8270DB',
+        'light-primary': '#004FB6',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#0C66E4',
+        'light-on-primary-container': '#ECEFFF',
+        'light-secondary': '#475D90',
+        'light-on-secondary': '#FFFFFF',
+        'light-secondary-container': '#ADC3FD',
+        'light-on-secondary-container': '#394F82',
+        'light-tertiary': '#953500',
+        'light-on-tertiary': '#FFFFFF',
+        'light-tertiary-container': '#BD4600',
+        'light-on-tertiary-container': '#FFECE5',
+        'light-error': '#BA1A1A',
+        'light-on-error': '#FFFFFF',
+        'light-error-container': '#FFDAD6',
+        'light-on-error-container': '#93000A',
+        'light-background': '#FAF8FF',
+        'light-on-background': '#191B23',
+        'light-surface': '#FAF8FF',
+        'light-surface-dim': '#D8D9E4',
+        'light-surface-bright': '#FAF8FF',
+        'light-surface-container-lowest': '#FFFFFF',
+        'light-surface-container-low': '#F2F3FE',
+        'light-surface-container': '#ECEDF8',
+        'light-surface-container-high': '#E7E7F2',
+        'light-surface-container-highest': '#E1E2ED',
+        'light-on-surface': '#191B23',
+        'light-surface-variant': '#DEE2F3',
+        'light-on-surface-variant': '#424654',
+        'light-outline': '#727786',
+        'light-outline-variant': '#C2C6D7',
+        'light-inverse-surface': '#2E3038',
+        'light-inverse-on-surface': '#EFF0FB',
+        'light-inverse-primary': '#B0C6FF',
+        'light-shadow': '#000000',
+        'light-scrim': '#000000',
+        'dark-primary': '#B0C6FF',
+        'dark-on-primary': '#002D6E',
+        'dark-primary-container': '#0C66E4',
+        'dark-on-primary-container': '#ECEFFF',
+        'dark-secondary': '#B0C6FF',
+        'dark-on-secondary': '#162F5F',
+        'dark-secondary-container': '#2F4577',
+        'dark-on-secondary-container': '#9EB4ED',
+        'dark-tertiary': '#FFB598',
+        'dark-on-tertiary': '#591D00',
+        'dark-tertiary-container': '#BD4600',
+        'dark-on-tertiary-container': '#FFECE5',
+        'dark-error': '#FFB4AB',
+        'dark-on-error': '#690005',
+        'dark-error-container': '#93000A',
+        'dark-on-error-container': '#FFDAD6',
+        'dark-background': '#11131B',
+        'dark-on-background': '#E1E2ED',
+        'dark-surface': '#11131B',
+        'dark-surface-dim': '#11131B',
+        'dark-surface-bright': '#363941',
+        'dark-surface-container-lowest': '#0B0E15',
+        'dark-surface-container-low': '#191B23',
+        'dark-surface-container': '#1D1F27',
+        'dark-surface-container-high': '#272A32',
+        'dark-surface-container-highest': '#32353D',
+        'dark-on-surface': '#E1E2ED',
+        'dark-surface-variant': '#424654',
+        'dark-on-surface-variant': '#C2C6D7',
+        'dark-outline': '#8C90A0',
+        'dark-outline-variant': '#424654',
+        'dark-inverse-surface': '#E1E2ED',
+        'dark-inverse-on-surface': '#2E3038',
+        'dark-inverse-primary': '#0058CA',
+        'dark-shadow': '#000000',
+        'dark-scrim': '#000000',
+      },
+      borderRadius: {
+        'sm': '4px',
+        'DEFAULT': '8px',
+        'md': '10px',
+        'lg': '12px',
+        'xl': '16px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '24px',
+        'section': '32px',
+        'page-margin': '24px',
+      },
+      fontFamily: {
+        'display': ['"Space Grotesk"', 'sans-serif'],
+        'headline': ['"Space Grotesk"', 'sans-serif'],
+        'title': ['"Geist"', 'sans-serif'],
+        'body': ['"Geist"', 'sans-serif'],
+        'label': ['"Geist"', 'sans-serif'],
+        'mono': ['"Space Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['36px', { lineHeight: '44px', letterSpacing: '-0.5px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '600' }],
+        'headline-md': ['22px', { lineHeight: '28px', letterSpacing: '-0.15px', fontWeight: '600' }],
+        'headline-sm': ['18px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-lg': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-lg': ['15px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['12px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '500' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '600' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.3px', fontWeight: '600' }],
+        'mono-md': ['12px', { lineHeight: '16px', letterSpacing: '0px', fontWeight: '500' }],
+        'mono-sm': ['11px', { lineHeight: '14px', letterSpacing: '0px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '100ms',
+        'surface-enter': '220ms',
+        'surface-exit': '150ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Space+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>
+    .material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1 !important;
+      box-sizing: content-box;
+      overflow: hidden;
+      white-space: nowrap;
+      direction: ltr;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="bg-light-surface text-light-on-surface font-body antialiased">
+
+  <div class="min-h-[1024px] flex flex-col bg-light-surface" data-stitch-vh="min-h-[1024px]===min-h-screen">
+
+    <!-- Global Top Navigation Bar (56px) -->
+    <header class="sticky top-0 z-30 h-14 px-gutter-lg bg-light-surface-container-lowest border-b border-light-outline-variant flex items-center justify-between gap-gutter-lg">
+      <div class="flex items-center gap-gutter-lg">
+        <!-- Mobile sidebar toggle -->
+        <button id="mobile-menu-btn" data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Open project navigation" class="lg:hidden inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change ease-state-change">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">menu</span>
+        </button>
+
+        <!-- Brand Mark -->
+        <a href="#" class="flex items-center gap-gutter-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary rounded-sm">
+          <div class="w-7 h-7 rounded-sm bg-light-primary-container flex items-center justify-center text-light-on-primary">
+            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">deployed_code</span>
+          </div>
+          <span data-design-text-token="title-lg" class="font-headline text-title-lg text-light-on-surface tracking-tight">Jira</span>
+        </a>
+
+        <!-- Global Nav Links -->
+        <nav aria-label="Global navigation" class="hidden md:flex items-center gap-gutter-xs">
+          <a href="../sprint-board/ActiveSprintBoard.html" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface transition-colors duration-state-change">Your work</a>
+          <a href="../sprint-board/ActiveSprintBoard.html" aria-current="page" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-primary bg-status-progress-bg">Projects</a>
+          <a href="../issues/IssuesTriage.html" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface transition-colors duration-state-change">Filters</a>
+          <a href="../summary/ProjectSummary.html" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface transition-colors duration-state-change">Dashboards</a>
+          <a href="#" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface transition-colors duration-state-change">Teams</a>
+        </nav>
+
+        <!-- Primary Create CTA -->
+        <button id="open-create-modal-btn" data-component-id="button-primary" data-component-type="button" data-component-variant="primary" type="button" class="inline-flex items-center justify-center px-gutter-md py-1.5 rounded-sm bg-light-primary text-light-on-primary hover:bg-light-primary-container active:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary focus-visible:ring-offset-2 transition-colors duration-state-change ease-state-change">
+          <span data-design-text-token="label-lg" class="font-label text-label-lg">Create</span>
+        </button>
+      </div>
+
+      <!-- Right Global Controls -->
+      <div class="flex items-center gap-gutter-md">
+        <!-- Global Search -->
+        <form data-component-id="searchbar-with-suggestions" data-component-type="searchbar" data-component-variant="with-suggestions" role="search" class="hidden sm:flex relative items-center w-64 rounded-sm bg-light-surface-container-low border border-light-outline-variant focus-within:bg-light-surface-container-lowest focus-within:border-light-primary transition-colors duration-state-change ease-state-change">
+          <button type="submit" aria-label="Submit search" class="pl-gutter-sm pr-gutter-xs text-light-on-surface-variant flex items-center">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">search</span>
+          </button>
+          <input id="global-search-input" type="search" aria-label="Search Jira" placeholder="Search issues, projects" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="search-suggestions-global" class="w-full py-1.5 pr-gutter-md bg-transparent border-0 font-body text-body-sm text-light-on-surface placeholder:text-light-on-surface-variant focus:ring-0">
+          <ul id="search-suggestions-global" role="listbox" aria-label="Search suggestions" class="hidden absolute top-full left-0 right-0 mt-1 p-gutter-xs rounded bg-light-surface-container-lowest border border-light-outline-variant shadow-md z-50">
+            <li role="option" data-design-text-token="body-sm" class="px-gutter-sm py-gutter-xs rounded-sm font-body text-body-sm text-light-on-surface hover:bg-light-surface-container-low cursor-pointer">PLAT-412 · Enforce PKCE token rotation</li>
+          </ul>
+        </form>
+
+        <!-- Notifications -->
+        <button data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Notifications, unread activity" class="relative inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change ease-state-change">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">notifications</span>
+          <span data-component-id="badge-dot" data-component-type="badge" data-component-variant="dot" aria-hidden="true" class="absolute top-1.5 right-1.5 inline-block w-2 h-2 rounded-full bg-issue-bug ring-2 ring-light-surface-container-lowest"></span>
+        </button>
+
+        <!-- Settings -->
+        <button data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Workspace settings" class="hidden sm:inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change ease-state-change">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">settings</span>
+        </button>
+
+        <!-- User Avatar -->
+        <button type="button" aria-label="Account menu for Elena Rostova" class="w-8 h-8 rounded-full overflow-hidden border border-light-outline-variant focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary">
+          <img src="https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe" alt="Elena Rostova" class="w-full h-full object-cover">
+        </button>
+      </div>
+    </header>
+
+    <!-- Workspace Shell Body -->
+    <div class="flex flex-1 min-h-0">
+
+      <!-- Left Project Sidebar -->
+      <aside id="project-sidebar" class="hidden lg:flex flex-col w-60 shrink-0 min-h-[1024px] bg-light-surface-container-low border-r border-light-outline-variant p-gutter-md gap-gutter-lg" data-stitch-vh="min-h-[1024px]===min-h-screen">
+        <!-- Project Identity -->
+        <div class="flex items-center gap-gutter-md px-gutter-sm py-gutter-xs">
+          <div class="w-8 h-8 rounded-sm bg-issue-epic/15 text-issue-epic flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">hub</span>
+          </div>
+          <div class="min-w-0">
+            <p data-design-text-token="title-md" class="font-title text-title-md text-light-on-surface truncate">Platform Core</p>
+            <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant truncate">Software project · PLAT</p>
+          </div>
+        </div>
+
+        <!-- Planning Navigation -->
+        <nav aria-label="Project planning" class="flex flex-col gap-gutter-xs">
+          <p data-design-text-token="label-sm" class="px-gutter-sm py-gutter-xs font-label text-label-sm text-light-on-surface-variant uppercase tracking-wider">Planning</p>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">dashboard</span>
+            <span data-design-text-token="label-lg">Summary</span>
+          </a>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">view_timeline</span>
+            <span data-design-text-token="label-lg">Timeline</span>
+          </a>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">format_list_bulleted</span>
+            <span data-design-text-token="label-lg">Backlog</span>
+          </a>
+          <a href="#" aria-current="page" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg bg-status-progress-bg text-light-primary">
+            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">view_kanban</span>
+            <span data-design-text-token="label-lg">Active sprints</span>
+          </a>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">layers</span>
+            <span data-design-text-token="label-lg">Issues</span>
+          </a>
+        </nav>
+
+        <!-- Development Navigation -->
+        <nav aria-label="Development" class="flex flex-col gap-gutter-xs">
+          <p data-design-text-token="label-sm" class="px-gutter-sm py-gutter-xs font-label text-label-sm text-light-on-surface-variant uppercase tracking-wider">Development</p>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">code</span>
+            <span data-design-text-token="label-lg">Code</span>
+          </a>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">rocket_launch</span>
+            <span data-design-text-token="label-lg">Releases</span>
+          </a>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">monitoring</span>
+            <span data-design-text-token="label-lg">Reports</span>
+          </a>
+        </nav>
+
+        <div class="mt-auto pt-gutter-md border-t border-light-outline-variant">
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">tune</span>
+            <span data-design-text-token="label-lg">Project settings</span>
+          </a>
+        </div>
+      </aside>
+
+      <!-- Main Board Canvas -->
+      <main class="flex-1 min-w-0 p-gutter-xl flex flex-col gap-gutter-lg">
+
+        <!-- Breadcrumb & Sprint Header -->
+        <div class="flex flex-col gap-gutter-xs">
+          <nav aria-label="Breadcrumb" class="flex items-center gap-gutter-xs font-body text-body-sm text-light-on-surface-variant">
+            <a href="../sprint-board/ActiveSprintBoard.html" class="hover:text-light-on-surface">Projects</a>
+            <span aria-hidden="true">/</span>
+            <a href="#" class="hover:text-light-on-surface">Platform Core</a>
+            <span aria-hidden="true">/</span>
+            <span class="text-light-on-surface-variant">Active sprints</span>
+          </nav>
+
+          <div class="flex flex-wrap items-center justify-between gap-gutter-md">
+            <div class="flex flex-wrap items-center gap-gutter-md">
+              <h1 data-design-text-token="headline-lg" class="font-headline text-headline-lg text-light-on-surface text-balance">PLAT Sprint 42: Auth &amp; Telemetry</h1>
+              <span class="inline-flex items-center gap-gutter-xs px-gutter-sm py-1 rounded-sm bg-light-surface-container text-light-on-surface-variant tabular-nums">
+                <span class="material-symbols-outlined text-[15px]" aria-hidden="true">schedule</span>
+                <span data-design-text-token="label-md" class="font-label text-label-md">6 days remaining</span>
+              </span>
+            </div>
+
+            <div class="flex items-center gap-gutter-sm">
+              <button data-component-id="button-secondary" data-component-type="button" data-component-variant="secondary" type="button" class="inline-flex items-center justify-center h-8 px-gutter-lg rounded-sm bg-light-surface-container text-light-on-surface border border-light-outline-variant hover:bg-light-surface-container-high active:bg-light-surface-container-highest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary transition-colors duration-state-change ease-state-change">
+                <span data-design-text-token="label-lg" class="font-label text-label-lg">Complete sprint</span>
+              </button>
+
+              <button data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Board options" class="inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change ease-state-change">
+                <span class="material-symbols-outlined text-[20px]" aria-hidden="true">more_horiz</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter & Quick Actions Bar -->
+        <div class="flex flex-wrap items-center justify-between gap-gutter-md">
+          <div class="flex flex-wrap items-center gap-gutter-md">
+            <!-- Board Search -->
+            <form id="board-search-form" data-component-id="searchbar-standard" data-component-type="searchbar" data-component-variant="standard" role="search" class="relative flex items-center w-56 rounded-sm bg-light-surface-container-lowest border border-light-outline-variant focus-within:border-light-primary focus-within:ring-1 focus-within:ring-light-primary transition-colors duration-state-change ease-state-change">
+              <button type="submit" aria-label="Submit search" class="pl-gutter-sm pr-gutter-xs text-light-on-surface-variant flex items-center">
+                <span class="material-symbols-outlined text-[18px]" aria-hidden="true">search</span>
+              </button>
+              <input id="board-search-input" type="search" aria-label="Search this board" placeholder="Search this board" class="w-full py-1.5 pr-gutter-sm bg-transparent border-0 font-body text-body-sm text-light-on-surface placeholder:text-light-on-surface-variant focus:ring-0">
+            </form>
+
+            <!-- Assignee Avatar Filter Stack -->
+            <div class="flex items-center -space-x-1.5" role="group" aria-label="Filter by assignee">
+              <button type="button" data-assignee-filter="Elena" title="Filter by Elena Rostova" class="assignee-filter-btn w-8 h-8 rounded-full overflow-hidden border-2 border-light-surface hover:z-10 hover:scale-105 transition-transform duration-state-change focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary">
+                <img src="https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe" alt="Elena Rostova" class="w-full h-full object-cover">
+              </button>
+              <button type="button" data-assignee-filter="Marcus" title="Filter by Marcus Vance" class="assignee-filter-btn w-8 h-8 rounded-full overflow-hidden border-2 border-light-surface hover:z-10 hover:scale-105 transition-transform duration-state-change focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary">
+                <img src="https://lh3.googleusercontent.com/aida/ALJJyrDgKx4jLzMiXGShOOaAzLOjwe-zDqHHXWBB1EKN99ni4lK8OMMkRiG-_xTTRI7voe3_3HfhmuaPa5-6F_6xJ4jLmz7pBtBqo4WWmFsxDVbWJC_K4-hU1FtU8r_-lAvFTzWcpMVWSnbVsdLHaUUaLN35F1HkIRAKQNdISHkxepLOraNDp84np6OnjPQaRH6GBuDuhRAIfTTnSiJ6_WcsbFEJJAkaKaLCGpruOK8dxOBzLEGjhYYpXw" alt="Marcus Vance" class="w-full h-full object-cover">
+              </button>
+              <button type="button" data-assignee-filter="Priya" title="Filter by Priya Nair" class="assignee-filter-btn w-8 h-8 rounded-full overflow-hidden border-2 border-light-surface hover:z-10 hover:scale-105 transition-transform duration-state-change focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary">
+                <img src="https://lh3.googleusercontent.com/aida/ALJJyrCklGpvdGYSopZxSSrRrPtkBdl957Q7Ogz3uX4fzie9G6mTQH6uP4Ci9ogj6r8yyxr5FSklMt7HTI9LHmOQx-1AJAW00HC-R94bmNKCEc1e-aUownDKA7Pw9u-0SzqwGKOMXci_2P53ra7QQllboBJxCniFDjxsHLcxZZzShy3IZKKuPnALJYUM8lxbC3lHfz-oLxtUKoE_SWLs1a7Uj3mETCnd6AwoJglU90DUhLV8p3Jl2FT6" alt="Priya Nair" class="w-full h-full object-cover">
+              </button>
+              <button type="button" data-assignee-filter="Kenji" title="Filter by Kenji Sato" class="assignee-filter-btn w-8 h-8 rounded-full overflow-hidden border-2 border-light-surface hover:z-10 hover:scale-105 transition-transform duration-state-change focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary">
+                <img src="https://lh3.googleusercontent.com/aida/ALJJyrBLdMi5794naAeeCGG9DPABynyRt6Kim8iD-BJ15u6KvCSy_z-bZ0rWPW2JTpGksViGt4Yhc8-g9QJ2O4mGtC7-aSzx_oMVSgOebe-dPhF6N6c_UQfVmFAqtxO6uiBV29EU8xE7bMFUcK8xvF2msv3T8RMNnRxl_QVBhXA_LavlWbFf1jFPvTN4LuPBqMy4W0pO5UpgwlOHIyzGiTZTEFovVZW8yWTboQYzKXGMJ4Gt6YcDFOE" alt="Kenji Sato" class="w-full h-full object-cover">
+              </button>
+            </div>
+
+            <!-- Quick Filter Chips -->
+            <div class="flex items-center gap-gutter-xs">
+              <button id="filter-my-issues" data-component-id="button-tertiary" data-component-type="button" data-component-variant="tertiary" type="button" class="px-gutter-md py-1.5 rounded-sm bg-transparent text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface transition-colors duration-state-change">
+                <span data-design-text-token="label-md" class="font-label text-label-md">Only my issues</span>
+              </button>
+              <button id="filter-clear" data-component-id="button-tertiary" data-component-type="button" data-component-variant="tertiary" type="button" class="hidden px-gutter-md py-1.5 rounded-sm bg-transparent text-light-primary hover:bg-status-progress-bg transition-colors duration-state-change">
+                <span data-design-text-token="label-md" class="font-label text-label-md">Clear filters</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Sprint Progress Summary -->
+          <div class="flex items-center gap-gutter-sm text-light-on-surface-variant">
+            <span data-design-text-token="body-sm" class="font-body text-body-sm tabular-nums">10 issues · 34 story points</span>
+          </div>
+        </div>
+
+        <!-- 4-Column Kanban Board -->
+        <section aria-label="Sprint Kanban Board" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-gutter-lg items-start">
+
+          <!-- COLUMN 1: TO DO -->
+          <div data-column="todo" class="rounded bg-light-surface-container-low p-gutter-md flex flex-col gap-gutter-md min-h-[420px]">
+            <header class="flex items-center justify-between px-gutter-xs">
+              <div class="flex items-center gap-gutter-sm">
+                <h2 data-design-text-token="label-md" class="font-label text-label-md text-light-on-surface-variant uppercase tracking-wider">TO DO</h2>
+                <span data-component-id="badge-numeric" data-component-type="badge" data-component-variant="numeric" role="status" class="col-count inline-flex items-center justify-center px-gutter-sm py-0.5 rounded-full bg-light-surface-container-high text-light-on-surface-variant tabular-nums">
+                  <span data-design-text-token="mono-sm" class="font-mono text-mono-sm">3</span>
+                </span>
+              </div>
+              <button type="button" aria-label="Add issue to To Do" class="quick-add-col w-6 h-6 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface flex items-center justify-center">
+                <span class="material-symbols-outlined text-[18px]" aria-hidden="true">add</span>
+              </button>
+            </header>
+
+            <div class="column-cards flex flex-col gap-gutter-sm">
+              <!-- Card PLAT-418 -->
+              <div role="button" tabindex="0" data-issue-key="PLAT-418" data-issue-status="todo" data-issue-assignee="Marcus" data-issue-type="Task" data-issue-priority="Medium" data-issue-points="3" data-issue-epic="Auth v3" data-issue-desc="Audit all OAuth2 callback error states and unify copy with the Atlassian Modern voice guidelines." data-component-id="card-interactive-2" data-component-type="card" data-component-variant="interactive" class="issue-card w-full p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant hover:border-light-primary hover:bg-light-surface-container-low/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary transition-colors duration-state-change ease-state-change cursor-pointer flex flex-col gap-gutter-sm">
+                <div class="flex items-center justify-between gap-gutter-xs">
+                  <span class="inline-flex items-center px-gutter-sm py-0.5 rounded-sm bg-status-review-bg text-status-review uppercase">
+                    <span data-design-text-token="label-sm" class="font-label text-label-sm">Auth v3</span>
+                  </span>
+                </div>
+                <h3 data-design-text-token="title-sm" class="issue-title font-title text-title-sm text-light-on-surface text-pretty">Standardize SSO error states and recovery links</h3>
+                <div class="flex items-center justify-between gap-gutter-sm pt-gutter-xs">
+                  <div class="flex items-center gap-gutter-xs">
+                    <span class="material-symbols-outlined text-[16px] text-issue-task" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">check_box</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-on-surface-variant tabular-nums">PLAT-418</span>
+                  </div>
+                  <div class="flex items-center gap-gutter-sm">
+                    <span class="material-symbols-outlined text-[16px] text-status-warning" title="Medium priority" aria-hidden="true">drag_handle</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums">3</span>
+                    <img src="https://lh3.googleusercontent.com/aida/ALJJyrDgKx4jLzMiXGShOOaAzLOjwe-zDqHHXWBB1EKN99ni4lK8OMMkRiG-_xTTRI7voe3_3HfhmuaPa5-6F_6xJ4jLmz7pBtBqo4WWmFsxDVbWJC_K4-hU1FtU8r_-lAvFTzWcpMVWSnbVsdLHaUUaLN35F1HkIRAKQNdISHkxepLOraNDp84np6OnjPQaRH6GBuDuhRAIfTTnSiJ6_WcsbFEJJAkaKaLCGpruOK8dxOBzLEGjhYYpXw" alt="Marcus Vance" class="w-6 h-6 rounded-full object-cover border border-light-outline-variant">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card PLAT-421 -->
+              <div role="button" tabindex="0" data-issue-key="PLAT-421" data-issue-status="todo" data-issue-assignee="Priya" data-issue-type="Story" data-issue-priority="High" data-issue-points="5" data-issue-epic="Telemetry" data-issue-desc="Streamline OpenTelemetry trace sampling for high-volume webhook workers without dropping 5xx spans." data-component-id="card-interactive-2" data-component-type="card" data-component-variant="interactive" class="issue-card w-full p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant hover:border-light-primary hover:bg-light-surface-container-low/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary transition-colors duration-state-change ease-state-change cursor-pointer flex flex-col gap-gutter-sm">
+                <div class="flex items-center justify-between gap-gutter-xs">
+                  <span class="inline-flex items-center px-gutter-sm py-0.5 rounded-sm bg-status-progress-bg text-status-progress uppercase">
+                    <span data-design-text-token="label-sm" class="font-label text-label-sm">Telemetry</span>
+                  </span>
+                </div>
+                <h3 data-design-text-token="title-sm" class="issue-title font-title text-title-sm text-light-on-surface text-pretty">Add tail-based sampling for webhook worker spans</h3>
+                <div class="flex items-center justify-between gap-gutter-sm pt-gutter-xs">
+                  <div class="flex items-center gap-gutter-xs">
+                    <span class="material-symbols-outlined text-[16px] text-issue-story" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">bookmark</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-on-surface-variant tabular-nums">PLAT-421</span>
+                  </div>
+                  <div class="flex items-center gap-gutter-sm">
+                    <span class="material-symbols-outlined text-[16px] text-issue-bug" title="High priority" aria-hidden="true">keyboard_double_arrow_up</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums">5</span>
+                    <img src="https://lh3.googleusercontent.com/aida/ALJJyrCklGpvdGYSopZxSSrRrPtkBdl957Q7Ogz3uX4fzie9G6mTQH6uP4Ci9ogj6r8yyxr5FSklMt7HTI9LHmOQx-1AJAW00HC-R94bmNKCEc1e-aUownDKA7Pw9u-0SzqwGKOMXci_2P53ra7QQllboBJxCniFDjxsHLcxZZzShy3IZKKuPnALJYUM8lxbC3lHfz-oLxtUKoE_SWLs1a7Uj3mETCnd6AwoJglU90DUhLV8p3Jl2FT6" alt="Priya Nair" class="w-6 h-6 rounded-full object-cover border border-light-outline-variant">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card PLAT-424 -->
+              <div role="button" tabindex="0" data-issue-key="PLAT-424" data-issue-status="todo" data-issue-assignee="Kenji" data-issue-type="Bug" data-issue-priority="High" data-issue-points="2" data-issue-epic="Infra" data-issue-desc="Fix intermittent Redis connection pool exhaustion during blue-green container rollouts." data-component-id="card-interactive-2" data-component-type="card" data-component-variant="interactive" class="issue-card w-full p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant hover:border-light-primary hover:bg-light-surface-container-low/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary transition-colors duration-state-change ease-state-change cursor-pointer flex flex-col gap-gutter-sm">
+                <div class="flex items-center justify-between gap-gutter-xs">
+                  <span class="inline-flex items-center px-gutter-sm py-0.5 rounded-sm bg-light-error-container text-light-on-error-container uppercase">
+                    <span data-design-text-token="label-sm" class="font-label text-label-sm">Infra</span>
+                  </span>
+                </div>
+                <h3 data-design-text-token="title-sm" class="issue-title font-title text-title-sm text-light-on-surface text-pretty">Resolve Redis pool leak on graceful pod drain</h3>
+                <div class="flex items-center justify-between gap-gutter-sm pt-gutter-xs">
+                  <div class="flex items-center gap-gutter-xs">
+                    <span class="material-symbols-outlined text-[16px] text-issue-bug" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">bug_report</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-on-surface-variant tabular-nums">PLAT-424</span>
+                  </div>
+                  <div class="flex items-center gap-gutter-sm">
+                    <span class="material-symbols-outlined text-[16px] text-issue-bug" title="High priority" aria-hidden="true">keyboard_double_arrow_up</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums">2</span>
+                    <img src="https://lh3.googleusercontent.com/aida/ALJJyrBLdMi5794naAeeCGG9DPABynyRt6Kim8iD-BJ15u6KvCSy_z-bZ0rWPW2JTpGksViGt4Yhc8-g9QJ2O4mGtC7-aSzx_oMVSgOebe-dPhF6N6c_UQfVmFAqtxO6uiBV29EU8xE7bMFUcK8xvF2msv3T8RMNnRxl_QVBhXA_LavlWbFf1jFPvTN4LuPBqMy4W0pO5UpgwlOHIyzGiTZTEFovVZW8yWTboQYzKXGMJ4Gt6YcDFOE" alt="Kenji Sato" class="w-6 h-6 rounded-full object-cover border border-light-outline-variant">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- COLUMN 2: IN PROGRESS -->
+          <div data-column="progress" class="rounded bg-light-surface-container-low p-gutter-md flex flex-col gap-gutter-md min-h-[420px]">
+            <header class="flex items-center justify-between px-gutter-xs">
+              <div class="flex items-center gap-gutter-sm">
+                <h2 data-design-text-token="label-md" class="font-label text-label-md text-light-on-surface-variant uppercase tracking-wider">IN PROGRESS</h2>
+                <span data-component-id="badge-numeric" data-component-type="badge" data-component-variant="numeric" role="status" class="col-count inline-flex items-center justify-center px-gutter-sm py-0.5 rounded-full bg-light-surface-container-high text-light-on-surface-variant tabular-nums">
+                  <span data-design-text-token="mono-sm" class="font-mono text-mono-sm">3</span>
+                </span>
+              </div>
+              <button type="button" aria-label="Add issue to In Progress" class="quick-add-col w-6 h-6 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface flex items-center justify-center">
+                <span class="material-symbols-outlined text-[18px]" aria-hidden="true">add</span>
+              </button>
+            </header>
+
+            <div class="column-cards flex flex-col gap-gutter-sm">
+              <!-- Card PLAT-412 -->
+              <div role="button" tabindex="0" data-issue-key="PLAT-412" data-issue-status="progress" data-issue-assignee="Elena" data-issue-type="Story" data-issue-priority="High" data-issue-points="5" data-issue-epic="Auth v3" data-issue-desc="Implement OAuth2 PKCE token refresh worker with exponential backoff and structured audit logging for enterprise workspaces." data-component-id="card-interactive-2" data-component-type="card" data-component-variant="interactive" class="issue-card w-full p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant hover:border-light-primary hover:bg-light-surface-container-low/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary transition-colors duration-state-change ease-state-change cursor-pointer flex flex-col gap-gutter-sm">
+                <div class="flex items-center justify-between gap-gutter-xs">
+                  <span class="inline-flex items-center px-gutter-sm py-0.5 rounded-sm bg-status-review-bg text-status-review uppercase">
+                    <span data-design-text-token="label-sm" class="font-label text-label-sm">Auth v3</span>
+                  </span>
+                </div>
+                <h3 data-design-text-token="title-sm" class="issue-title font-title text-title-sm text-light-on-surface text-pretty">Enforce PKCE token rotation on mobile SSO</h3>
+                <div class="flex items-center justify-between gap-gutter-sm pt-gutter-xs">
+                  <div class="flex items-center gap-gutter-xs">
+                    <span class="material-symbols-outlined text-[16px] text-issue-story" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">bookmark</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-on-surface-variant tabular-nums">PLAT-412</span>
+                  </div>
+                  <div class="flex items-center gap-gutter-sm">
+                    <span class="material-symbols-outlined text-[16px] text-issue-bug" title="High priority" aria-hidden="true">keyboard_double_arrow_up</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums">5</span>
+                    <img src="https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe" alt="Elena Rostova" class="w-6 h-6 rounded-full object-cover border border-light-outline-variant">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card PLAT-415 -->
+              <div role="button" tabindex="0" data-issue-key="PLAT-415" data-issue-status="progress" data-issue-assignee="Marcus" data-issue-type="Task" data-issue-priority="Medium" data-issue-points="3" data-issue-epic="Design System" data-issue-desc="Migrate project board filter bar and inline issue status lozenges to Atlassian Modern semantic color tokens." data-component-id="card-interactive-2" data-component-type="card" data-component-variant="interactive" class="issue-card w-full p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant hover:border-light-primary hover:bg-light-surface-container-low/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary transition-colors duration-state-change ease-state-change cursor-pointer flex flex-col gap-gutter-sm">
+                <div class="flex items-center justify-between gap-gutter-xs">
+                  <span class="inline-flex items-center px-gutter-sm py-0.5 rounded-sm bg-status-done-bg text-light-on-surface uppercase">
+                    <span data-design-text-token="label-sm" class="font-label text-label-sm">Design System</span>
+                  </span>
+                </div>
+                <h3 data-design-text-token="title-sm" class="issue-title font-title text-title-sm text-light-on-surface text-pretty">Tokenize Kanban column wells and status lozenges</h3>
+                <div class="flex items-center justify-between gap-gutter-sm pt-gutter-xs">
+                  <div class="flex items-center gap-gutter-xs">
+                    <span class="material-symbols-outlined text-[16px] text-issue-task" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">check_box</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-on-surface-variant tabular-nums">PLAT-415</span>
+                  </div>
+                  <div class="flex items-center gap-gutter-sm">
+                    <span class="material-symbols-outlined text-[16px] text-status-warning" title="Medium priority" aria-hidden="true">drag_handle</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums">3</span>
+                    <img src="https://lh3.googleusercontent.com/aida/ALJJyrDgKx4jLzMiXGShOOaAzLOjwe-zDqHHXWBB1EKN99ni4lK8OMMkRiG-_xTTRI7voe3_3HfhmuaPa5-6F_6xJ4jLmz7pBtBqo4WWmFsxDVbWJC_K4-hU1FtU8r_-lAvFTzWcpMVWSnbVsdLHaUUaLN35F1HkIRAKQNdISHkxepLOraNDp84np6OnjPQaRH6GBuDuhRAIfTTnSiJ6_WcsbFEJJAkaKaLCGpruOK8dxOBzLEGjhYYpXw" alt="Marcus Vance" class="w-6 h-6 rounded-full object-cover border border-light-outline-variant">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card PLAT-419 -->
+              <div role="button" tabindex="0" data-issue-key="PLAT-419" data-issue-status="progress" data-issue-assignee="Priya" data-issue-type="Bug" data-issue-priority="High" data-issue-points="3" data-issue-epic="Telemetry" data-issue-desc="Normalize tenant ID headers across GraphQL gateway and REST audit endpoints." data-component-id="card-interactive-2" data-component-type="card" data-component-variant="interactive" class="issue-card w-full p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant hover:border-light-primary hover:bg-light-surface-container-low/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary transition-colors duration-state-change ease-state-change cursor-pointer flex flex-col gap-gutter-sm">
+                <div class="flex items-center justify-between gap-gutter-xs">
+                  <span class="inline-flex items-center px-gutter-sm py-0.5 rounded-sm bg-status-progress-bg text-status-progress uppercase">
+                    <span data-design-text-token="label-sm" class="font-label text-label-sm">Telemetry</span>
+                  </span>
+                </div>
+                <h3 data-design-text-token="title-sm" class="issue-title font-title text-title-sm text-light-on-surface text-pretty">Fix missing X-Tenant-ID on GraphQL batch queries</h3>
+                <div class="flex items-center justify-between gap-gutter-sm pt-gutter-xs">
+                  <div class="flex items-center gap-gutter-xs">
+                    <span class="material-symbols-outlined text-[16px] text-issue-bug" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">bug_report</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-on-surface-variant tabular-nums">PLAT-419</span>
+                  </div>
+                  <div class="flex items-center gap-gutter-sm">
+                    <span class="material-symbols-outlined text-[16px] text-issue-bug" title="High priority" aria-hidden="true">keyboard_double_arrow_up</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums">3</span>
+                    <img src="https://lh3.googleusercontent.com/aida/ALJJyrCklGpvdGYSopZxSSrRrPtkBdl957Q7Ogz3uX4fzie9G6mTQH6uP4Ci9ogj6r8yyxr5FSklMt7HTI9LHmOQx-1AJAW00HC-R94bmNKCEc1e-aUownDKA7Pw9u-0SzqwGKOMXci_2P53ra7QQllboBJxCniFDjxsHLcxZZzShy3IZKKuPnALJYUM8lxbC3lHfz-oLxtUKoE_SWLs1a7Uj3mETCnd6AwoJglU90DUhLV8p3Jl2FT6" alt="Priya Nair" class="w-6 h-6 rounded-full object-cover border border-light-outline-variant">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- COLUMN 3: IN REVIEW -->
+          <div data-column="review" class="rounded bg-light-surface-container-low p-gutter-md flex flex-col gap-gutter-md min-h-[420px]">
+            <header class="flex items-center justify-between px-gutter-xs">
+              <div class="flex items-center gap-gutter-sm">
+                <h2 data-design-text-token="label-md" class="font-label text-label-md text-light-on-surface-variant uppercase tracking-wider">IN REVIEW</h2>
+                <span data-component-id="badge-numeric" data-component-type="badge" data-component-variant="numeric" role="status" class="col-count inline-flex items-center justify-center px-gutter-sm py-0.5 rounded-full bg-light-surface-container-high text-light-on-surface-variant tabular-nums">
+                  <span data-design-text-token="mono-sm" class="font-mono text-mono-sm">2</span>
+                </span>
+              </div>
+              <button type="button" aria-label="Add issue to In Review" class="quick-add-col w-6 h-6 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface flex items-center justify-center">
+                <span class="material-symbols-outlined text-[18px]" aria-hidden="true">add</span>
+              </button>
+            </header>
+
+            <div class="column-cards flex flex-col gap-gutter-sm">
+              <!-- Card PLAT-408 -->
+              <div role="button" tabindex="0" data-issue-key="PLAT-408" data-issue-status="review" data-issue-assignee="Kenji" data-issue-type="Story" data-issue-priority="High" data-issue-points="5" data-issue-epic="Infra" data-issue-desc="Automate Canary rollback triggers when p99 latency exceeds 450ms for 3 consecutive minutes." data-component-id="card-interactive-2" data-component-type="card" data-component-variant="interactive" class="issue-card w-full p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant hover:border-light-primary hover:bg-light-surface-container-low/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary transition-colors duration-state-change ease-state-change cursor-pointer flex flex-col gap-gutter-sm">
+                <div class="flex items-center justify-between gap-gutter-xs">
+                  <span class="inline-flex items-center px-gutter-sm py-0.5 rounded-sm bg-light-error-container text-light-on-error-container uppercase">
+                    <span data-design-text-token="label-sm" class="font-label text-label-sm">Infra</span>
+                  </span>
+                </div>
+                <h3 data-design-text-token="title-sm" class="issue-title font-title text-title-sm text-light-on-surface text-pretty">Automated canary rollback on p99 latency spike</h3>
+                <div class="flex items-center justify-between gap-gutter-sm pt-gutter-xs">
+                  <div class="flex items-center gap-gutter-xs">
+                    <span class="material-symbols-outlined text-[16px] text-issue-story" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">bookmark</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-on-surface-variant tabular-nums">PLAT-408</span>
+                  </div>
+                  <div class="flex items-center gap-gutter-sm">
+                    <span class="material-symbols-outlined text-[16px] text-issue-bug" title="High priority" aria-hidden="true">keyboard_double_arrow_up</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums">5</span>
+                    <img src="https://lh3.googleusercontent.com/aida/ALJJyrBLdMi5794naAeeCGG9DPABynyRt6Kim8iD-BJ15u6KvCSy_z-bZ0rWPW2JTpGksViGt4Yhc8-g9QJ2O4mGtC7-aSzx_oMVSgOebe-dPhF6N6c_UQfVmFAqtxO6uiBV29EU8xE7bMFUcK8xvF2msv3T8RMNnRxl_QVBhXA_LavlWbFf1jFPvTN4LuPBqMy4W0pO5UpgwlOHIyzGiTZTEFovVZW8yWTboQYzKXGMJ4Gt6YcDFOE" alt="Kenji Sato" class="w-6 h-6 rounded-full object-cover border border-light-outline-variant">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card PLAT-410 -->
+              <div role="button" tabindex="0" data-issue-key="PLAT-410" data-issue-status="review" data-issue-assignee="Elena" data-issue-type="Task" data-issue-priority="Medium" data-issue-points="3" data-issue-epic="Auth v3" data-issue-desc="Verify SAML 2.0 metadata XML signature validation against Okta and Azure AD test tenants." data-component-id="card-interactive-2" data-component-type="card" data-component-variant="interactive" class="issue-card w-full p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant hover:border-light-primary hover:bg-light-surface-container-low/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary transition-colors duration-state-change ease-state-change cursor-pointer flex flex-col gap-gutter-sm">
+                <div class="flex items-center justify-between gap-gutter-xs">
+                  <span class="inline-flex items-center px-gutter-sm py-0.5 rounded-sm bg-status-review-bg text-status-review uppercase">
+                    <span data-design-text-token="label-sm" class="font-label text-label-sm">Auth v3</span>
+                  </span>
+                </div>
+                <h3 data-design-text-token="title-sm" class="issue-title font-title text-title-sm text-light-on-surface text-pretty">Validate SAML 2.0 XML signatures for Okta tenants</h3>
+                <div class="flex items-center justify-between gap-gutter-sm pt-gutter-xs">
+                  <div class="flex items-center gap-gutter-xs">
+                    <span class="material-symbols-outlined text-[16px] text-issue-task" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">check_box</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-on-surface-variant tabular-nums">PLAT-410</span>
+                  </div>
+                  <div class="flex items-center gap-gutter-sm">
+                    <span class="material-symbols-outlined text-[16px] text-status-warning" title="Medium priority" aria-hidden="true">drag_handle</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums">3</span>
+                    <img src="https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe" alt="Elena Rostova" class="w-6 h-6 rounded-full object-cover border border-light-outline-variant">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- COLUMN 4: DONE -->
+          <div data-column="done" class="rounded bg-light-surface-container-low p-gutter-md flex flex-col gap-gutter-md min-h-[420px]">
+            <header class="flex items-center justify-between px-gutter-xs">
+              <div class="flex items-center gap-gutter-sm">
+                <h2 data-design-text-token="label-md" class="font-label text-label-md text-light-on-surface-variant uppercase tracking-wider">DONE</h2>
+                <span data-component-id="badge-numeric" data-component-type="badge" data-component-variant="numeric" role="status" class="col-count inline-flex items-center justify-center px-gutter-sm py-0.5 rounded-full bg-light-surface-container-high text-light-on-surface-variant tabular-nums">
+                  <span data-design-text-token="mono-sm" class="font-mono text-mono-sm">2</span>
+                </span>
+              </div>
+              <span class="material-symbols-outlined text-[18px] text-status-done" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">check_circle</span>
+            </header>
+
+            <div class="column-cards flex flex-col gap-gutter-sm">
+              <!-- Card PLAT-401 -->
+              <div role="button" tabindex="0" data-issue-key="PLAT-401" data-issue-status="done" data-issue-assignee="Priya" data-issue-type="Story" data-issue-priority="Medium" data-issue-points="3" data-issue-epic="Telemetry" data-issue-desc="Shipped structured JSON audit log sink to BigQuery with 30-day hot retention." data-component-id="card-interactive-2" data-component-type="card" data-component-variant="interactive" class="issue-card w-full p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant hover:border-light-primary hover:bg-light-surface-container-low/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary transition-colors duration-state-change ease-state-change cursor-pointer flex flex-col gap-gutter-sm">
+                <div class="flex items-center justify-between gap-gutter-xs">
+                  <span class="inline-flex items-center px-gutter-sm py-0.5 rounded-sm bg-status-progress-bg text-status-progress uppercase">
+                    <span data-design-text-token="label-sm" class="font-label text-label-sm">Telemetry</span>
+                  </span>
+                </div>
+                <h3 data-design-text-token="title-sm" class="issue-title font-title text-title-sm text-light-on-surface text-pretty">Structured audit log sink for workspace events</h3>
+                <div class="flex items-center justify-between gap-gutter-sm pt-gutter-xs">
+                  <div class="flex items-center gap-gutter-xs">
+                    <span class="material-symbols-outlined text-[16px] text-issue-story" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">bookmark</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-on-surface-variant line-through tabular-nums">PLAT-401</span>
+                  </div>
+                  <div class="flex items-center gap-gutter-sm">
+                    <span class="material-symbols-outlined text-[16px] text-status-done" aria-hidden="true">check</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums">3</span>
+                    <img src="https://lh3.googleusercontent.com/aida/ALJJyrCklGpvdGYSopZxSSrRrPtkBdl957Q7Ogz3uX4fzie9G6mTQH6uP4Ci9ogj6r8yyxr5FSklMt7HTI9LHmOQx-1AJAW00HC-R94bmNKCEc1e-aUownDKA7Pw9u-0SzqwGKOMXci_2P53ra7QQllboBJxCniFDjxsHLcxZZzShy3IZKKuPnALJYUM8lxbC3lHfz-oLxtUKoE_SWLs1a7Uj3mETCnd6AwoJglU90DUhLV8p3Jl2FT6" alt="Priya Nair" class="w-6 h-6 rounded-full object-cover border border-light-outline-variant">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card PLAT-403 -->
+              <div role="button" tabindex="0" data-issue-key="PLAT-403" data-issue-status="done" data-issue-assignee="Marcus" data-issue-type="Task" data-issue-priority="Low" data-issue-points="2" data-issue-epic="Design System" data-issue-desc="Published Space Grotesk, Geist, and Space Mono font pairing in shared Tailwind config." data-component-id="card-interactive-2" data-component-type="card" data-component-variant="interactive" class="issue-card w-full p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant hover:border-light-primary hover:bg-light-surface-container-low/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary transition-colors duration-state-change ease-state-change cursor-pointer flex flex-col gap-gutter-sm">
+                <div class="flex items-center justify-between gap-gutter-xs">
+                  <span class="inline-flex items-center px-gutter-sm py-0.5 rounded-sm bg-status-done-bg text-light-on-surface uppercase">
+                    <span data-design-text-token="label-sm" class="font-label text-label-sm">Design System</span>
+                  </span>
+                </div>
+                <h3 data-design-text-token="title-sm" class="issue-title font-title text-title-sm text-light-on-surface text-pretty">Ship Atlassian Modern typography &amp; color tokens</h3>
+                <div class="flex items-center justify-between gap-gutter-sm pt-gutter-xs">
+                  <div class="flex items-center gap-gutter-xs">
+                    <span class="material-symbols-outlined text-[16px] text-issue-task" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">check_box</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-on-surface-variant line-through tabular-nums">PLAT-403</span>
+                  </div>
+                  <div class="flex items-center gap-gutter-sm">
+                    <span class="material-symbols-outlined text-[16px] text-status-done" aria-hidden="true">check</span>
+                    <span data-design-text-token="mono-sm" class="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums">2</span>
+                    <img src="https://lh3.googleusercontent.com/aida/ALJJyrDgKx4jLzMiXGShOOaAzLOjwe-zDqHHXWBB1EKN99ni4lK8OMMkRiG-_xTTRI7voe3_3HfhmuaPa5-6F_6xJ4jLmz7pBtBqo4WWmFsxDVbWJC_K4-hU1FtU8r_-lAvFTzWcpMVWSnbVsdLHaUUaLN35F1HkIRAKQNdISHkxepLOraNDp84np6OnjPQaRH6GBuDuhRAIfTTnSiJ6_WcsbFEJJAkaKaLCGpruOK8dxOBzLEGjhYYpXw" alt="Marcus Vance" class="w-6 h-6 rounded-full object-cover border border-light-outline-variant">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Slide-over Issue Detail Drawer -->
+  <div id="issue-drawer-backdrop" class="hidden fixed inset-0 z-40 bg-light-scrim/30 transition-opacity duration-surface-enter ease-surface-enter"></div>
+  <aside id="issue-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-issue-title" class="hidden fixed top-0 right-0 z-50 w-full max-w-lg min-h-[1024px] bg-light-surface-container-lowest border-l border-light-outline-variant shadow-xl flex flex-col" data-stitch-vh="min-h-[1024px]===min-h-screen">
+    <header class="px-gutter-xl py-gutter-lg border-b border-light-outline-variant flex items-center justify-between gap-gutter-md">
+      <div class="flex items-center gap-gutter-sm">
+        <span id="drawer-issue-key" data-design-text-token="mono-md" class="font-mono text-mono-md text-light-on-surface-variant">PLAT-412</span>
+        <span id="drawer-issue-epic" class="px-gutter-sm py-0.5 rounded-sm bg-status-review-bg text-status-review font-label text-label-sm uppercase">Auth v3</span>
+      </div>
+      <button id="close-drawer-btn" data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Close issue detail" class="inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change ease-state-change">
+        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">close</span>
+      </button>
+    </header>
+
+    <div class="p-gutter-xl flex-1 overflow-y-auto flex flex-col gap-gutter-xl">
+      <div class="flex flex-col gap-gutter-md">
+        <h2 id="drawer-issue-title" data-design-text-token="headline-sm" class="font-headline text-headline-sm text-light-on-surface text-balance">Enforce PKCE token rotation on mobile SSO</h2>
+        <div class="flex items-center gap-gutter-md">
+          <label for="drawer-status-select" data-design-text-token="label-md" class="font-label text-label-md text-light-outline">Status</label>
+          <select id="drawer-status-select" class="rounded-sm bg-status-progress-bg text-status-progress border-0 font-label text-label-md py-1 pl-gutter-md pr-8 focus:ring-2 focus:ring-light-primary">
+            <option value="todo">TO DO</option>
+            <option value="progress">IN PROGRESS</option>
+            <option value="review">IN REVIEW</option>
+            <option value="done">DONE</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-gutter-sm">
+        <h3 data-design-text-token="title-sm" class="font-title text-title-sm text-light-on-surface">Description</h3>
+        <p id="drawer-issue-desc" data-design-text-token="body-md" class="font-body text-body-md text-light-on-surface-variant text-pretty">
+          Implement OAuth2 PKCE token refresh worker with exponential backoff and structured audit logging for enterprise workspaces.
+        </p>
+      </div>
+
+      <div class="p-gutter-lg rounded bg-light-surface-container-low border border-light-outline-variant grid grid-cols-2 gap-gutter-md">
+        <div>
+          <p data-design-text-token="label-sm" class="font-label text-label-sm text-light-outline uppercase">Assignee</p>
+          <p id="drawer-issue-assignee" data-design-text-token="body-md" class="font-body text-body-md text-light-on-surface mt-1">Elena</p>
+        </div>
+        <div>
+          <p data-design-text-token="label-sm" class="font-label text-label-sm text-light-outline uppercase">Priority</p>
+          <p id="drawer-issue-priority" data-design-text-token="body-md" class="font-body text-body-md text-light-on-surface mt-1">High</p>
+        </div>
+        <div>
+          <p data-design-text-token="label-sm" class="font-label text-label-sm text-light-outline uppercase">Story points</p>
+          <p id="drawer-issue-points" data-design-text-token="mono-md" class="font-mono text-mono-md text-light-on-surface mt-1 tabular-nums">5</p>
+        </div>
+        <div>
+          <p data-design-text-token="label-sm" class="font-label text-label-sm text-light-outline uppercase">Issue type</p>
+          <p id="drawer-issue-type" data-design-text-token="body-md" class="font-body text-body-md text-light-on-surface mt-1">Story</p>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-gutter-md">
+        <h3 data-design-text-token="title-sm" class="font-title text-title-sm text-light-on-surface">Activity</h3>
+        <div class="flex items-start gap-gutter-md">
+          <img src="https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe" alt="Elena Rostova" class="w-7 h-7 rounded-full object-cover shrink-0">
+          <div class="flex-1 flex flex-col gap-gutter-sm">
+            <textarea rows="2" placeholder="Add a comment..." class="w-full rounded-sm bg-light-surface-container-lowest border border-light-outline-variant font-body text-body-sm text-light-on-surface placeholder:text-light-outline focus:border-light-primary focus:ring-1 focus:ring-light-primary"></textarea>
+            <div class="flex justify-end">
+              <button type="button" class="px-gutter-md py-1.5 rounded-sm bg-light-primary text-light-on-primary font-label text-label-md hover:bg-light-primary-container transition-colors duration-state-change">
+                Add comment
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Create Issue Modal -->
+  <div id="create-modal-backdrop" class="hidden fixed inset-0 z-50 bg-light-scrim/40 flex items-center justify-center p-gutter-lg">
+    <div role="dialog" aria-modal="true" aria-labelledby="create-modal-title" class="w-full max-w-md rounded-lg bg-light-surface-container-lowest border border-light-outline-variant shadow-xl p-gutter-xl flex flex-col gap-gutter-lg">
+      <header class="flex items-center justify-between">
+        <h2 id="create-modal-title" data-design-text-token="headline-sm" class="font-headline text-headline-sm text-light-on-surface">Create issue</h2>
+        <button id="close-create-modal-btn" type="button" aria-label="Close create issue modal" class="w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container flex items-center justify-center">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">close</span>
+        </button>
+      </header>
+      <form id="create-issue-form" class="flex flex-col gap-gutter-md">
+        <div class="flex flex-col gap-gutter-xs">
+          <label for="new-issue-summary" data-design-text-token="label-md" class="font-label text-label-md text-light-on-surface">Summary</label>
+          <input id="new-issue-summary" type="text" required placeholder="e.g., Add rate limiting to webhook endpoint" class="rounded-sm bg-light-surface-container-lowest border border-light-outline-variant font-body text-body-md text-light-on-surface focus:border-light-primary focus:ring-1 focus:ring-light-primary">
+        </div>
+        <div class="grid grid-cols-2 gap-gutter-md">
+          <div class="flex flex-col gap-gutter-xs">
+            <label for="new-issue-type" data-design-text-token="label-md" class="font-label text-label-md text-light-on-surface">Issue type</label>
+            <select id="new-issue-type" class="rounded-sm bg-light-surface-container-lowest border border-light-outline-variant font-body text-body-sm text-light-on-surface">
+              <option value="Story">Story</option>
+              <option value="Task">Task</option>
+              <option value="Bug">Bug</option>
+            </select>
+          </div>
+          <div class="flex flex-col gap-gutter-xs">
+            <label for="new-issue-assignee" data-design-text-token="label-md" class="font-label text-label-md text-light-on-surface">Assignee</label>
+            <select id="new-issue-assignee" class="rounded-sm bg-light-surface-container-lowest border border-light-outline-variant font-body text-body-sm text-light-on-surface">
+              <option value="Elena">Elena</option>
+              <option value="Marcus">Marcus</option>
+              <option value="Priya">Priya</option>
+              <option value="Kenji">Kenji</option>
+            </select>
+          </div>
+        </div>
+        <footer class="flex items-center justify-end gap-gutter-sm pt-gutter-sm">
+          <button id="cancel-create-btn" type="button" class="px-gutter-md py-gutter-sm rounded-sm text-light-on-surface-variant hover:bg-light-surface-container font-label text-label-lg">Cancel</button>
+          <button type="submit" class="px-gutter-lg py-gutter-sm rounded-sm bg-light-primary text-light-on-primary hover:bg-light-primary-container font-label text-label-lg">Create issue</button>
+        </footer>
+      </form>
+    </div>
+  </div>
+
+  <script data-stitch-original-script="a786aa67800f66b4===../../images/avatar_elena.jpg|||f894a2008bd122b5===../../images/avatar_marcus.jpg|||15aa2e8d6a11a1df===../../images/avatar_priya.jpg|||f353de64cb30c5a1===../../images/avatar_kenji.jpg">
+    (function () {
+      const searchInput = document.getElementById('board-search-input');
+      const myIssuesBtn = document.getElementById('filter-my-issues');
+      const clearBtn = document.getElementById('filter-clear');
+      const assigneeBtns = document.querySelectorAll('.assignee-filter-btn');
+      let activeAssignee = null;
+      let nextKeyNum = 425;
+
+      function updateCounts() {
+        document.querySelectorAll('[data-column]').forEach(col => {
+          const visible = col.querySelectorAll('.issue-card:not(.hidden)').length;
+          const badge = col.querySelector('.col-count span');
+          if (badge) badge.textContent = String(visible);
+        });
+      }
+
+      function applyFilters() {
+        const query = (searchInput.value || '').trim().toLowerCase();
+        const hasFilter = Boolean(query || activeAssignee);
+        clearBtn.classList.toggle('hidden', !hasFilter);
+
+        document.querySelectorAll('.issue-card').forEach(card => {
+          const title = (card.querySelector('.issue-title')?.textContent || '').toLowerCase();
+          const key = (card.dataset.issueKey || '').toLowerCase();
+          const assignee = card.dataset.issueAssignee || '';
+          const matchesQuery = !query || title.includes(query) || key.includes(query);
+          const matchesAssignee = !activeAssignee || assignee === activeAssignee;
+          card.classList.toggle('hidden', !(matchesQuery && matchesAssignee));
+        });
+        updateCounts();
+      }
+
+      searchInput.addEventListener('input', applyFilters);
+      document.getElementById('board-search-form').addEventListener('submit', e => e.preventDefault());
+
+      assigneeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const name = btn.dataset.assigneeFilter;
+          activeAssignee = activeAssignee === name ? null : name;
+          assigneeBtns.forEach(b => {
+            b.classList.toggle('ring-2', b.dataset.assigneeFilter === activeAssignee);
+            b.classList.toggle('ring-light-primary', b.dataset.assigneeFilter === activeAssignee);
+          });
+          applyFilters();
+        });
+      });
+
+      myIssuesBtn.addEventListener('click', () => {
+        activeAssignee = activeAssignee === 'Elena' ? null : 'Elena';
+        applyFilters();
+      });
+
+      clearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        activeAssignee = null;
+        assigneeBtns.forEach(b => b.classList.remove('ring-2', 'ring-light-primary'));
+        applyFilters();
+      });
+
+      // Issue Detail Drawer
+      const drawer = document.getElementById('issue-drawer');
+      const drawerBackdrop = document.getElementById('issue-drawer-backdrop');
+      const statusSelect = document.getElementById('drawer-status-select');
+      let selectedCard = null;
+
+      function openDrawer(card) {
+        selectedCard = card;
+        document.getElementById('drawer-issue-key').textContent = card.dataset.issueKey;
+        document.getElementById('drawer-issue-epic').textContent = card.dataset.issueEpic;
+        document.getElementById('drawer-issue-title').textContent = card.querySelector('.issue-title').textContent;
+        document.getElementById('drawer-issue-desc').textContent = card.dataset.issueDesc;
+        document.getElementById('drawer-issue-assignee').textContent = card.dataset.issueAssignee;
+        document.getElementById('drawer-issue-priority').textContent = card.dataset.issuePriority;
+        document.getElementById('drawer-issue-points').textContent = card.dataset.issuePoints;
+        document.getElementById('drawer-issue-type').textContent = card.dataset.issueType;
+        statusSelect.value = card.dataset.issueStatus;
+        drawer.classList.remove('hidden');
+        drawerBackdrop.classList.remove('hidden');
+      }
+
+      function closeDrawer() {
+        drawer.classList.add('hidden');
+        drawerBackdrop.classList.add('hidden');
+        selectedCard = null;
+      }
+
+      document.addEventListener('click', e => {
+        const card = e.target.closest('.issue-card');
+        if (card) openDrawer(card);
+      });
+
+      document.getElementById('close-drawer-btn').addEventListener('click', closeDrawer);
+      drawerBackdrop.addEventListener('click', closeDrawer);
+
+      statusSelect.addEventListener('change', () => {
+        if (!selectedCard) return;
+        const targetCol = document.querySelector(`[data-column="${statusSelect.value}"] .column-cards`);
+        if (targetCol) {
+          selectedCard.dataset.issueStatus = statusSelect.value;
+          targetCol.appendChild(selectedCard);
+          updateCounts();
+        }
+      });
+
+      // Create Issue Modal
+      const createModal = document.getElementById('create-modal-backdrop');
+      document.getElementById('open-create-modal-btn').addEventListener('click', () => createModal.classList.remove('hidden'));
+      document.getElementById('close-create-modal-btn').addEventListener('click', () => createModal.classList.add('hidden'));
+      document.getElementById('cancel-create-btn').addEventListener('click', () => createModal.classList.add('hidden'));
+
+      document.getElementById('create-issue-form').addEventListener('submit', e => {
+        e.preventDefault();
+        const summary = document.getElementById('new-issue-summary').value.trim();
+        if (!summary) return;
+        const type = document.getElementById('new-issue-type').value;
+        const assignee = document.getElementById('new-issue-assignee').value;
+        const key = 'PLAT-' + (++nextKeyNum);
+        const avatarMap = {
+          Elena: 'https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe',
+          Marcus: 'https://lh3.googleusercontent.com/aida/ALJJyrDgKx4jLzMiXGShOOaAzLOjwe-zDqHHXWBB1EKN99ni4lK8OMMkRiG-_xTTRI7voe3_3HfhmuaPa5-6F_6xJ4jLmz7pBtBqo4WWmFsxDVbWJC_K4-hU1FtU8r_-lAvFTzWcpMVWSnbVsdLHaUUaLN35F1HkIRAKQNdISHkxepLOraNDp84np6OnjPQaRH6GBuDuhRAIfTTnSiJ6_WcsbFEJJAkaKaLCGpruOK8dxOBzLEGjhYYpXw',
+          Priya: 'https://lh3.googleusercontent.com/aida/ALJJyrCklGpvdGYSopZxSSrRrPtkBdl957Q7Ogz3uX4fzie9G6mTQH6uP4Ci9ogj6r8yyxr5FSklMt7HTI9LHmOQx-1AJAW00HC-R94bmNKCEc1e-aUownDKA7Pw9u-0SzqwGKOMXci_2P53ra7QQllboBJxCniFDjxsHLcxZZzShy3IZKKuPnALJYUM8lxbC3lHfz-oLxtUKoE_SWLs1a7Uj3mETCnd6AwoJglU90DUhLV8p3Jl2FT6',
+          Kenji: 'https://lh3.googleusercontent.com/aida/ALJJyrBLdMi5794naAeeCGG9DPABynyRt6Kim8iD-BJ15u6KvCSy_z-bZ0rWPW2JTpGksViGt4Yhc8-g9QJ2O4mGtC7-aSzx_oMVSgOebe-dPhF6N6c_UQfVmFAqtxO6uiBV29EU8xE7bMFUcK8xvF2msv3T8RMNnRxl_QVBhXA_LavlWbFf1jFPvTN4LuPBqMy4W0pO5UpgwlOHIyzGiTZTEFovVZW8yWTboQYzKXGMJ4Gt6YcDFOE'
+        };
+        const iconMap = {
+          Story: { icon: 'bookmark', cls: 'text-issue-story' },
+          Bug: { icon: 'bug_report', cls: 'text-issue-bug' },
+          Task: { icon: 'check_box', cls: 'text-issue-task' }
+        };
+        const ic = iconMap[type] || iconMap.Task;
+
+        const card = document.createElement('div');
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.dataset.issueKey = key;
+        card.dataset.issueStatus = 'todo';
+        card.dataset.issueAssignee = assignee;
+        card.dataset.issueType = type;
+        card.dataset.issuePriority = 'Medium';
+        card.dataset.issuePoints = '3';
+        card.dataset.issueEpic = 'Platform';
+        card.dataset.issueDesc = 'Created in PLAT Sprint 42.';
+        card.className = 'issue-card w-full p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant hover:border-light-primary hover:bg-light-surface-container-low/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary transition-colors duration-state-change ease-state-change cursor-pointer flex flex-col gap-gutter-sm';
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-gutter-xs">
+            <span class="inline-flex items-center px-gutter-sm py-0.5 rounded-sm bg-status-progress-bg text-status-progress uppercase">
+              <span data-design-text-token="label-sm" class="font-label text-label-sm">Platform</span>
+            </span>
+          </div>
+          <h3 data-design-text-token="title-sm" class="issue-title font-title text-title-sm text-light-on-surface text-pretty"></h3>
+          <div class="flex items-center justify-between gap-gutter-sm pt-gutter-xs">
+            <div class="flex items-center gap-gutter-xs">
+              <span class="material-symbols-outlined text-[16px] ${ic.cls}" style="font-variation-settings: 'FILL' 1;" aria-hidden="true">${ic.icon}</span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-light-outline tabular-nums">${key}</span>
+            </div>
+            <div class="flex items-center gap-gutter-sm">
+              <span class="material-symbols-outlined text-[16px] text-status-warning" aria-hidden="true">drag_handle</span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums">3</span>
+              <img src="${avatarMap[assignee]}" alt="${assignee}" class="w-6 h-6 rounded-full object-cover border border-light-outline-variant" />
+            </div>
+          </div>
+        `;
+        card.querySelector('.issue-title').textContent = summary;
+        document.querySelector('[data-column="todo"] .column-cards').prepend(card);
+        document.getElementById('new-issue-summary').value = '';
+        createModal.classList.add('hidden');
+        updateCounts();
+      });
+
+      // Mobile sidebar toggle
+      const mobileBtn = document.getElementById('mobile-menu-btn');
+      const sidebar = document.getElementById('project-sidebar');
+      if (mobileBtn && sidebar) {
+        mobileBtn.addEventListener('click', () => {
+          sidebar.classList.toggle('hidden');
+          sidebar.classList.toggle('fixed');
+          sidebar.classList.toggle('inset-y-0');
+          sidebar.classList.toggle('left-0');
+          sidebar.classList.toggle('z-40');
+        });
+      }
+    })();
+  </script>
+
+
+</body></html>

@@ -1,33 +1,35 @@
 'use client';
 
 import { useState } from 'react';
-import { 
-  Plus, 
-  ChevronDown, 
-  ChevronRight, 
-  Play, 
-  CheckCircle, 
-  FolderKanban, 
-  ShieldAlert, 
-  Clock, 
-  Sparkles,
-  X
-} from 'lucide-react';
 
-const EPIC_DOTS = {
-  purple: 'bg-purple-400',
-  teal: 'bg-teal-400',
-  amber: 'bg-amber-400',
-  blue: 'bg-blue-400',
-  rose: 'bg-rose-400',
-  emerald: 'bg-emerald-400',
+const AVATAR_PHOTOS = {
+  elena: 'https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe',
+  marcus: 'https://lh3.googleusercontent.com/aida/ALJJyrDgKx4jLzMiXGShOOaAzLOjwe-zDqHHXWBB1EKN99ni4lK8OMMkRiG-_xTTRI7voe3_3HfhmuaPa5-6F_6xJ4jLmz7pBtBqo4WWmFsxDVbWJC_K4-hU1FtU8r_-lAvFTzWcpMVWSnbVsdLHaUUaLN35F1HkIRAKQNdISHkxepLOraNDp84np6OnjPQaRH6GBuDuhRAIfTTnSiJ6_WcsbFEJJAkaKaLCGpruOK8dxOBzLEGjhYYpXw',
+  priya: 'https://lh3.googleusercontent.com/aida/ALJJyrCklGpvdGYSopZxSSrRrPtkBdl957Q7Ogz3uX4fzie9G6mTQH6uP4Ci9ogj6r8yyxr5FSklMt7HTI9LHmOQx-1AJAW00HC-R94bmNKCEc1e-aUownDKA7Pw9u-0SzqwGKOMXci_2P53ra7QQllboBJxCniFDjxsHLcxZZzShy3IZKKuPnALJYUM8lxbC3lHfz-oLxtUKoE_SWLs1a7Uj3mETCnd6AwoJglU90DUhLV8p3Jl2FT6',
+  kenji: 'https://lh3.googleusercontent.com/aida/ALJJyrBLdMi5794naAeeCGG9DPABynyRt6Kim8iD-BJ15u6KvCSy_z-bZ0rWPW2JTpGksViGt4Yhc8-g9QJ2O4mGtC7-aSzx_oMVSgOebe-dPhF6N6c_UQfVmFAqtxO6uiBV29EU8xE7bMFUcK8xvF2msv3T8RMNnRxl_QVBhXA_LavlWbFf1jFPvTN4LuPBqMy4W0pO5UpgwlOHIyzGiTZTEFovVZW8yWTboQYzKXGMJ4Gt6YcDFOE',
 };
 
-const FIBONACCI = [1, 2, 3, 5, 8, 13];
+function getAssigneePhoto(assignee = '') {
+  const name = assignee.toLowerCase();
+  if (name.includes('elena')) return AVATAR_PHOTOS.elena;
+  if (name.includes('marcus')) return AVATAR_PHOTOS.marcus;
+  if (name.includes('priya')) return AVATAR_PHOTOS.priya;
+  if (name.includes('kenji')) return AVATAR_PHOTOS.kenji;
+  return AVATAR_PHOTOS.elena;
+}
+
+function getEpicBadgeStyle(epicName = '') {
+  const name = (epicName || '').toLowerCase();
+  if (name.includes('auth')) return 'bg-status-review-bg text-status-review';
+  if (name.includes('telemetry')) return 'bg-status-progress-bg text-status-progress';
+  if (name.includes('infra')) return 'bg-light-error-container text-light-on-error-container';
+  if (name.includes('design')) return 'bg-status-done-bg text-light-on-surface';
+  return 'bg-light-surface-container text-light-on-surface-variant';
+}
 
 export default function BacklogView({
-  sprints,
-  issues,
+  sprints = [],
+  issues = [],
   epics = [],
   onSelectIssue,
   onUpdateSprintAssignment,
@@ -38,611 +40,391 @@ export default function BacklogView({
   onCompleteSprint,
   onCreateEpic,
 }) {
-  const [isEpicsPanelOpen, setIsEpicsPanelOpen] = useState(true);
+  const [searchBacklog, setSearchBacklog] = useState('');
+  const [selectedAssignee, setSelectedAssignee] = useState(null);
   const [selectedEpicFilter, setSelectedEpicFilter] = useState(null);
-  const [collapsedSprints, setCollapsedSprints] = useState({});
-
-  // Modals
+  const [collapsedSections, setCollapsedSections] = useState({});
   const [isCreateSprintOpen, setIsCreateSprintOpen] = useState(false);
   const [newSprintName, setNewSprintName] = useState('');
   const [newSprintGoal, setNewSprintGoal] = useState('');
-  const [newSprintDuration, setNewSprintDuration] = useState(2);
 
-  const [startSprintModal, setStartSprintModal] = useState(null);
-  const [completeSprintModal, setCompleteSprintModal] = useState(null);
-  const [rolloverTarget, setRolloverTarget] = useState('next_sprint');
-
-  const [isCreateEpicOpen, setIsCreateEpicOpen] = useState(false);
-  const [epicName, setEpicName] = useState('');
-  const [epicColor, setEpicColor] = useState('purple');
-  const [epicSummary, setEpicSummary] = useState('');
-
-  const toggleCollapse = (id) => {
-    setCollapsedSprints((prev) => ({ ...prev, [id]: !prev[id] }));
+  const toggleSection = (id) => {
+    setCollapsedSections((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
   const handleCreateSprintSubmit = async (e) => {
     e.preventDefault();
+    if (!newSprintName.trim()) return;
     await onCreateSprint({
-      name: newSprintName,
-      goal: newSprintGoal,
-      duration_weeks: Number(newSprintDuration),
+      name: newSprintName.trim(),
+      goal: newSprintGoal.trim(),
+      duration_weeks: 2,
     });
     setNewSprintName('');
     setNewSprintGoal('');
     setIsCreateSprintOpen(false);
   };
 
-  const handleCreateEpicSubmit = async (e) => {
-    e.preventDefault();
-    if (!epicName.trim()) return;
-    await onCreateEpic({
-      name: epicName.trim(),
-      color: epicColor,
-      summary: epicSummary.trim(),
-    });
-    setEpicName('');
-    setEpicSummary('');
-    setIsCreateEpicOpen(false);
-  };
+  // Filter issues
+  const filteredIssues = issues.filter((i) => {
+    if (searchBacklog.trim()) {
+      const q = searchBacklog.toLowerCase();
+      const matches =
+        i.key.toLowerCase().includes(q) ||
+        i.title.toLowerCase().includes(q) ||
+        (i.assignee && i.assignee.toLowerCase().includes(q));
+      if (!matches) return false;
+    }
+    if (selectedAssignee) {
+      if (!i.assignee || !i.assignee.toLowerCase().includes(selectedAssignee.toLowerCase())) {
+        return false;
+      }
+    }
+    if (selectedEpicFilter) {
+      if (i.epic_id !== selectedEpicFilter) return false;
+    }
+    return true;
+  });
 
-  const displayedIssues = selectedEpicFilter
-    ? issues.filter((i) => i.epic_id === selectedEpicFilter)
-    : issues;
-
-  const sprintSections = [
-    ...sprints.map((s) => ({
-      id: s.id,
-      name: s.name,
-      goal: s.goal,
-      status: s.status,
-      start_date: s.start_date,
-      end_date: s.end_date,
-      stats: s.stats,
-      issues: displayedIssues.filter((i) => i.sprint_id === s.id),
-    })),
-    {
-      id: 'backlog',
-      name: 'Product Backlog',
-      goal: 'Unplanned stories, discovery pool & ideas',
-      status: 'backlog',
-      issues: displayedIssues.filter((i) => !i.sprint_id),
-    },
-  ];
+  const activeSprint = sprints.find((s) => s.status === 'active') || sprints[0];
+  const activeSprintIssues = filteredIssues.filter((i) => i.sprint_id === activeSprint?.id);
+  const backlogPoolIssues = filteredIssues.filter((i) => i.sprint_id !== activeSprint?.id);
 
   return (
-    <div className="flex-1 flex overflow-hidden">
-      {/* 1. Left Epics Panel */}
-      {isEpicsPanelOpen && (
-        <aside className="w-64 border-r border-white/[0.08] bg-[#0c0c0e] flex flex-col shrink-0 select-none">
-          <div className="p-3.5 border-b border-white/[0.05] flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <FolderKanban className="w-3.5 h-3.5 text-purple-400" />
-              <h3 className="font-semibold text-xs text-zinc-200 tracking-tight">Epics</h3>
-            </div>
+    <main className="flex-1 min-w-0 p-gutter-xl flex flex-col gap-gutter-lg overflow-y-auto">
+      {/* 1. Breadcrumb & Header */}
+      <div className="flex flex-col gap-gutter-xs">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-gutter-xs font-body text-body-sm text-light-on-surface-variant">
+          <span className="hover:text-light-on-surface cursor-pointer">Projects</span>
+          <span aria-hidden="true">/</span>
+          <span className="hover:text-light-on-surface cursor-pointer">Platform Core</span>
+          <span aria-hidden="true">/</span>
+          <span className="text-light-on-surface-variant font-medium">Backlog</span>
+        </nav>
+
+        <div className="flex flex-wrap items-center justify-between gap-gutter-md pt-1">
+          <h1 className="font-headline text-headline-lg text-light-on-surface font-bold">
+            Backlog
+          </h1>
+
+          <div className="flex items-center gap-gutter-sm">
             <button
-              onClick={() => setIsCreateEpicOpen(true)}
-              className="p-1 rounded hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors"
-              title="Create Epic"
+              onClick={() => setIsCreateSprintOpen(true)}
+              type="button"
+              className="inline-flex items-center justify-center h-8 px-gutter-lg rounded-sm bg-light-surface-container text-light-on-surface border border-light-outline-variant hover:bg-light-surface-container-high transition-colors font-label text-label-lg cursor-pointer"
             >
-              <Plus className="w-3.5 h-3.5" />
+              Create sprint
+            </button>
+
+            <button
+              type="button"
+              aria-label="Backlog settings"
+              className="inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-[20px]" aria-hidden="true">more_horiz</span>
             </button>
           </div>
+        </div>
+      </div>
 
-          <div className="flex-1 overflow-y-auto p-2 space-y-1">
+      {/* Create Sprint Modal */}
+      {isCreateSprintOpen && (
+        <form
+          onSubmit={handleCreateSprintSubmit}
+          className="p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant shadow-md flex flex-col gap-gutter-md animate-in fade-in duration-150"
+        >
+          <div className="flex items-center justify-between">
+            <h3 className="font-title text-title-md text-light-on-surface font-bold">
+              Create New Sprint
+            </h3>
             <button
-              onClick={() => setSelectedEpicFilter(null)}
-              className={`w-full flex items-center justify-between p-2 rounded-lg text-xs transition-colors ${
-                selectedEpicFilter === null
-                  ? 'bg-zinc-800 text-white font-medium border border-white/[0.08]'
-                  : 'text-zinc-400 hover:bg-zinc-900/60'
-              }`}
+              type="button"
+              onClick={() => setIsCreateSprintOpen(false)}
+              className="text-body-sm text-light-on-surface-variant hover:text-light-on-surface"
             >
-              <span>All Epics</span>
-              <span className="text-[10px] font-mono text-zinc-500">{issues.length}</span>
+              Cancel
             </button>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-gutter-md">
+            <input
+              type="text"
+              placeholder="Sprint Name (e.g. PLAT Sprint 43)"
+              value={newSprintName}
+              onChange={(e) => setNewSprintName(e.target.value)}
+              className="px-gutter-md py-1.5 rounded-sm bg-light-surface-container-low border border-light-outline-variant text-body-sm text-light-on-surface outline-none"
+              autoFocus
+              required
+            />
+            <input
+              type="text"
+              placeholder="Sprint Goal (optional)"
+              value={newSprintGoal}
+              onChange={(e) => setNewSprintGoal(e.target.value)}
+              className="px-gutter-md py-1.5 rounded-sm bg-light-surface-container-low border border-light-outline-variant text-body-sm text-light-on-surface outline-none"
+            />
+          </div>
+          <div className="flex justify-end gap-gutter-sm">
+            <button
+              type="button"
+              onClick={() => setIsCreateSprintOpen(false)}
+              className="px-gutter-md py-1 rounded-sm text-label-md text-light-on-surface-variant hover:bg-light-surface-container"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-gutter-lg py-1 rounded-sm bg-light-primary text-light-on-primary font-label text-label-md hover:bg-light-primary-container"
+            >
+              Create
+            </button>
+          </div>
+        </form>
+      )}
 
-            {epics.map((epic) => {
-              const isSelected = selectedEpicFilter === epic.id;
-              const epicIssues = issues.filter((i) => i.epic_id === epic.id);
-              const dotColor = EPIC_DOTS[epic.color] || 'bg-purple-400';
-              const pct = epic.stats?.completion_percentage || 0;
+      {/* 2. Filter Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-gutter-md">
+        <div className="flex flex-wrap items-center gap-gutter-md">
+          {/* Search */}
+          <div className="relative flex items-center w-56 rounded-sm bg-light-surface-container-lowest border border-light-outline-variant focus-within:border-light-primary">
+            <div className="pl-gutter-sm pr-gutter-xs text-light-on-surface-variant flex items-center">
+              <span className="material-symbols-outlined text-[18px]" aria-hidden="true">search</span>
+            </div>
+            <input
+              type="search"
+              placeholder="Search backlog"
+              value={searchBacklog}
+              onChange={(e) => setSearchBacklog(e.target.value)}
+              className="w-full py-1.5 pr-gutter-sm bg-transparent border-0 font-body text-body-sm text-light-on-surface placeholder:text-light-on-surface-variant outline-none"
+            />
+          </div>
+
+          {/* Assignee Avatar Stack */}
+          <div className="flex items-center -space-x-1.5" role="group" aria-label="Filter by assignee">
+            {[
+              { id: 'Elena', photo: AVATAR_PHOTOS.elena, name: 'Elena Rostova' },
+              { id: 'Marcus', photo: AVATAR_PHOTOS.marcus, name: 'Marcus Vance' },
+              { id: 'Priya', photo: AVATAR_PHOTOS.priya, name: 'Priya Nair' },
+              { id: 'Kenji', photo: AVATAR_PHOTOS.kenji, name: 'Kenji Sato' },
+            ].map((m) => (
+              <button
+                key={m.id}
+                type="button"
+                onClick={() => setSelectedAssignee(selectedAssignee === m.id ? null : m.id)}
+                className={`w-8 h-8 rounded-full overflow-hidden border-2 transition-transform hover:z-10 hover:scale-105 cursor-pointer ${
+                  selectedAssignee === m.id ? 'ring-2 ring-light-primary border-light-primary scale-105' : 'border-light-surface'
+                }`}
+                title={`Filter by ${m.name}`}
+              >
+                <img src={m.photo} alt={m.name} className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+
+          {/* Epics Dropdown Filter */}
+          <div className="flex items-center gap-gutter-xs">
+            {epics.map((ep) => (
+              <button
+                key={ep.id}
+                type="button"
+                onClick={() => setSelectedEpicFilter(selectedEpicFilter === ep.id ? null : ep.id)}
+                className={`px-gutter-md py-1 rounded-sm text-label-sm font-semibold uppercase transition-colors cursor-pointer ${
+                  selectedEpicFilter === ep.id
+                    ? 'bg-light-primary text-light-on-primary'
+                    : 'bg-light-surface-container text-light-on-surface-variant hover:bg-light-surface-container-high'
+                }`}
+              >
+                {ep.name || ep.title}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <span className="font-body text-body-sm text-light-on-surface-variant tabular-nums">
+          {filteredIssues.length} issues across active sprint & backlog
+        </span>
+      </div>
+
+      {/* 3. PLAT Sprint 42 (Active Sprint Section) */}
+      <section aria-label="PLAT Sprint 42" className="rounded bg-light-surface-container-low border border-light-outline-variant overflow-hidden">
+        <header className="px-gutter-lg py-gutter-md flex flex-wrap items-center justify-between gap-gutter-md bg-light-surface-container-low">
+          <div className="flex flex-wrap items-center gap-gutter-md">
+            <button
+              type="button"
+              onClick={() => toggleSection('sprint-42')}
+              className="flex items-center gap-gutter-xs text-light-on-surface cursor-pointer font-bold"
+            >
+              <span className="material-symbols-outlined text-[18px]" aria-hidden="true">
+                {collapsedSections['sprint-42'] ? 'chevron_right' : 'expand_more'}
+              </span>
+              <span className="font-title text-title-md">
+                {activeSprint?.name || 'PLAT Sprint 42: Auth & Telemetry'}
+              </span>
+            </button>
+            <span className="px-gutter-sm py-0.5 rounded-sm bg-status-progress-bg text-status-progress font-label text-label-sm uppercase font-semibold">
+              Active
+            </span>
+            <span className="font-body text-body-sm text-light-on-surface-variant tabular-nums">
+              Nov 12 – Nov 26 · {activeSprintIssues.length} issues ({activeSprintIssues.reduce((sum, i) => sum + (Number(i.story_points) || 0), 0)} pts)
+            </span>
+          </div>
+
+          <div className="flex items-center gap-gutter-sm">
+            <span className="px-gutter-sm py-0.5 rounded-full bg-light-surface-container-high text-light-on-surface-variant font-mono text-mono-sm tabular-nums">
+              To Do {activeSprintIssues.filter((i) => (i.status_id || '').includes('todo')).length}
+            </span>
+            <span className="px-gutter-sm py-0.5 rounded-full bg-status-progress-bg text-status-progress font-mono text-mono-sm tabular-nums">
+              In Progress {activeSprintIssues.filter((i) => (i.status_id || '').includes('progress') || (i.status_id || '').includes('review')).length}
+            </span>
+            <span className="px-gutter-sm py-0.5 rounded-full bg-status-done-bg text-light-on-surface font-mono text-mono-sm tabular-nums">
+              Done {activeSprintIssues.filter((i) => (i.status_id || '').includes('done')).length}
+            </span>
+          </div>
+        </header>
+
+        {!collapsedSections['sprint-42'] && (
+          <div className="sprint-rows divide-y divide-light-outline-variant bg-light-surface-container-lowest border-t border-light-outline-variant">
+            {activeSprintIssues.map((issue) => {
+              const epicName = issue.epic_name || (issue.epic_id ? issue.epic_id.replace('epic-', '').replace('plat-', '').toUpperCase() : 'AUTH V3');
+              const epicBadge = getEpicBadgeStyle(epicName);
+              const assigneePhoto = getAssigneePhoto(issue.assignee);
+              const issueType = (issue.issue_type || 'story').toLowerCase();
 
               return (
                 <div
-                  key={epic.id}
-                  onClick={() => setSelectedEpicFilter(isSelected ? null : epic.id)}
-                  className={`p-2.5 rounded-lg border cursor-pointer transition-all ${
-                    isSelected
-                      ? 'bg-zinc-800/90 border-purple-500/80 ring-1 ring-purple-500/30'
-                      : 'bg-zinc-900/40 border-white/[0.04] hover:border-white/10 hover:bg-zinc-900/80'
-                  }`}
+                  key={issue.id}
+                  onClick={() => onSelectIssue && onSelectIssue(issue)}
+                  className="px-gutter-lg py-gutter-sm flex flex-col sm:flex-row sm:items-center justify-between gap-gutter-sm sm:gap-gutter-md hover:bg-light-surface-container-low/50 cursor-pointer transition-colors"
                 >
-                  <div className="flex items-center justify-between gap-1 mb-1">
-                    <div className="flex items-center gap-1.5 truncate">
-                      <span className={`w-1.5 h-1.5 rounded-full ${dotColor} shrink-0`} />
-                      <span className="text-xs font-medium text-zinc-200 truncate">{epic.name}</span>
-                    </div>
-                    <span className="text-[10px] font-mono text-zinc-500 shrink-0">{pct}%</span>
+                  <div className="flex items-center gap-gutter-md min-w-0 flex-1">
+                    {issueType === 'task' ? (
+                      <span className="material-symbols-outlined text-[16px] text-issue-task shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        check_box
+                      </span>
+                    ) : issueType === 'bug' ? (
+                      <span className="material-symbols-outlined text-[16px] text-issue-bug shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        bug_report
+                      </span>
+                    ) : (
+                      <span className="material-symbols-outlined text-[16px] text-issue-story shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        bookmark
+                      </span>
+                    )}
+                    <span className="font-mono text-mono-sm text-light-on-surface-variant tabular-nums shrink-0 font-medium">
+                      {issue.key}
+                    </span>
+                    <span className="font-body text-body-md text-light-on-surface truncate font-medium">
+                      {issue.title}
+                    </span>
                   </div>
 
-                  {/* Progress Line */}
-                  <div className="w-full h-1 bg-zinc-800 rounded-full overflow-hidden mt-1.5 mb-1">
-                    <div
-                      className="h-full bg-purple-500 rounded-full transition-all duration-300"
-                      style={{ width: `${pct}%` }}
+                  <div className="flex items-center gap-gutter-md shrink-0">
+                    <span className={`px-gutter-sm py-0.5 rounded-sm font-label text-label-sm uppercase font-semibold ${epicBadge}`}>
+                      {epicName}
+                    </span>
+                    <span className="px-gutter-sm py-0.5 rounded-sm bg-status-progress-bg text-status-progress font-label text-label-sm uppercase font-semibold">
+                      In Progress
+                    </span>
+                    <span className="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums font-semibold">
+                      {issue.story_points || 0}
+                    </span>
+                    <img
+                      src={assigneePhoto}
+                      alt={issue.assignee || 'Assignee'}
+                      className="w-6 h-6 rounded-full object-cover border border-light-outline-variant"
                     />
-                  </div>
-
-                  <div className="flex items-center justify-between text-[10px] text-zinc-500 font-mono">
-                    <span>{epic.key}</span>
-                    <span>{epicIssues.length} issues</span>
                   </div>
                 </div>
               );
             })}
           </div>
-        </aside>
-      )}
+        )}
+      </section>
 
-      {/* 2. Main Backlog Surface */}
-      <div className="flex-1 flex flex-col overflow-y-auto p-6 max-w-6xl mx-auto w-full space-y-5">
-        {/* Top Actions Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-1 border-b border-white/[0.05]">
-          <div className="flex items-center gap-2">
+      {/* 4. Backlog Pool Section */}
+      <section aria-label="Backlog Pool" className="rounded bg-light-surface-container-low border border-light-outline-variant overflow-hidden">
+        <header className="px-gutter-lg py-gutter-md flex items-center justify-between bg-light-surface-container-low">
+          <div className="flex items-center gap-gutter-md">
             <button
-              onClick={() => setIsEpicsPanelOpen((prev) => !prev)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors ${
-                isEpicsPanelOpen
-                  ? 'bg-zinc-800 text-white border-white/[0.08]'
-                  : 'bg-zinc-900 text-zinc-400 border-white/[0.06] hover:text-zinc-200'
-              }`}
+              type="button"
+              onClick={() => toggleSection('backlog-pool')}
+              className="flex items-center gap-gutter-xs text-light-on-surface cursor-pointer font-bold"
             >
-              <FolderKanban className="w-3.5 h-3.5 text-purple-400" />
-              <span>{isEpicsPanelOpen ? 'Hide Epics' : `Epics (${epics.length})`}</span>
-            </button>
-
-            {selectedEpicFilter && (
-              <span className="text-xs text-purple-300 bg-purple-950/40 px-2 py-1 rounded-md border border-purple-500/25 flex items-center gap-1.5">
-                <span>{epics.find((e) => e.id === selectedEpicFilter)?.name}</span>
-                <button onClick={() => setSelectedEpicFilter(null)} className="hover:text-white">
-                  <X className="w-3 h-3" />
-                </button>
+              <span className="material-symbols-outlined text-[18px]" aria-hidden="true">
+                {collapsedSections['backlog-pool'] ? 'chevron_right' : 'expand_more'}
               </span>
-            )}
+              <span className="font-title text-title-md">Backlog Pool</span>
+            </button>
+            <span className="font-body text-body-sm text-light-on-surface-variant tabular-nums">
+              {backlogPoolIssues.length} issues ({backlogPoolIssues.reduce((sum, i) => sum + (Number(i.story_points) || 0), 0)} pts)
+            </span>
           </div>
 
           <button
-            onClick={() => setIsCreateSprintOpen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs transition-all active:scale-[0.98] shadow-sm shadow-blue-600/20"
+            onClick={() => onNewIssueWithSprint && onNewIssueWithSprint(null)}
+            type="button"
+            className="inline-flex items-center gap-gutter-xs text-label-sm text-light-primary hover:underline font-semibold cursor-pointer"
           >
-            <Plus className="w-3.5 h-3.5" />
-            <span>Create Sprint</span>
+            <span className="material-symbols-outlined text-[16px]">add</span>
+            <span>Create issue</span>
           </button>
-        </div>
+        </header>
 
-        {/* Sprint Containers */}
-        {sprintSections.map((section) => {
-          const isCollapsed = collapsedSprints[section.id];
-          const totalPoints = section.issues.reduce((sum, i) => sum + (Number(i.story_points) || 0), 0);
-          const isSprintActive = section.status === 'active';
-          const isSprintFuture = section.status === 'future';
+        {!collapsedSections['backlog-pool'] && (
+          <div className="divide-y divide-light-outline-variant bg-light-surface-container-lowest border-t border-light-outline-variant">
+            {backlogPoolIssues.length === 0 ? (
+              <div className="p-gutter-xl text-center text-body-sm text-light-on-surface-variant">
+                Your backlog is empty. Drag issues here or click Create issue to plan upcoming work.
+              </div>
+            ) : (
+              backlogPoolIssues.map((issue) => {
+                const assigneePhoto = getAssigneePhoto(issue.assignee);
+                const issueType = (issue.issue_type || 'story').toLowerCase();
 
-          return (
-            <div
-              key={section.id}
-              className="rounded-xl border border-white/[0.07] bg-[#0e0e11] overflow-hidden"
-            >
-              {/* Header */}
-              <div className="p-3.5 bg-zinc-950/60 border-b border-white/[0.04] flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => toggleCollapse(section.id)}
-                    className="p-1 rounded hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 transition-colors"
+                return (
+                  <div
+                    key={issue.id}
+                    onClick={() => onSelectIssue && onSelectIssue(issue)}
+                    className="px-gutter-lg py-gutter-sm flex flex-col sm:flex-row sm:items-center justify-between gap-gutter-sm sm:gap-gutter-md hover:bg-light-surface-container-low/50 cursor-pointer transition-colors"
                   >
-                    {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                  </button>
-
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-semibold text-xs text-zinc-200">{section.name}</h3>
-                      {isSprintActive && (
-                        <span className="text-[10px] font-medium px-2 py-0.2 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                          Active
+                    <div className="flex items-center gap-gutter-md min-w-0 flex-1">
+                      {issueType === 'task' ? (
+                        <span className="material-symbols-outlined text-[16px] text-issue-task shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
+                          check_box
+                        </span>
+                      ) : issueType === 'bug' ? (
+                        <span className="material-symbols-outlined text-[16px] text-issue-bug shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
+                          bug_report
+                        </span>
+                      ) : (
+                        <span className="material-symbols-outlined text-[16px] text-issue-story shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
+                          bookmark
                         </span>
                       )}
-                      {isSprintFuture && (
-                        <span className="text-[10px] font-medium px-2 py-0.2 rounded-full bg-zinc-800 text-zinc-400 border border-white/[0.05]">
-                          Draft
-                        </span>
-                      )}
+                      <span className="font-mono text-mono-sm text-light-on-surface-variant tabular-nums shrink-0 font-medium">
+                        {issue.key}
+                      </span>
+                      <span className="font-body text-body-md text-light-on-surface truncate font-medium">
+                        {issue.title}
+                      </span>
                     </div>
-                    {section.goal && (
-                      <p className="text-[11px] text-zinc-500 mt-0.5">{section.goal}</p>
-                    )}
-                  </div>
-                </div>
 
-                {/* Right Actions */}
-                <div className="flex items-center gap-2.5">
-                  <div className="flex items-center gap-2 px-2 py-1 rounded bg-zinc-900 border border-white/[0.05] text-xs font-mono">
-                    <span className="text-zinc-500">{section.issues.length} issues</span>
-                    <span className="text-zinc-700">•</span>
-                    <span className="text-zinc-300 font-medium">{totalPoints} pts</span>
-                  </div>
-
-                  {isSprintFuture && (
-                    <button
-                      onClick={() => setStartSprintModal(section)}
-                      className="flex items-center gap-1 px-3 py-1 rounded-md bg-blue-600/15 hover:bg-blue-600/25 text-blue-300 border border-blue-500/25 text-xs font-medium transition-colors"
-                    >
-                      <Play className="w-3 h-3 fill-current" />
-                      <span>Start Sprint</span>
-                    </button>
-                  )}
-
-                  {isSprintActive && (
-                    <button
-                      onClick={() => setCompleteSprintModal(section)}
-                      className="flex items-center gap-1 px-3 py-1 rounded-md bg-emerald-600/15 hover:bg-emerald-600/25 text-emerald-300 border border-emerald-500/25 text-xs font-medium transition-colors"
-                    >
-                      <CheckCircle className="w-3.5 h-3.5" />
-                      <span>Complete Sprint</span>
-                    </button>
-                  )}
-
-                  <button
-                    onClick={() => onNewIssueWithSprint(section.id === 'backlog' ? null : section.id)}
-                    className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-zinc-900 hover:bg-zinc-800 border border-white/[0.07] text-xs text-zinc-300 transition-colors"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    <span>Add</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Issues List */}
-              {!isCollapsed && (
-                <div className="divide-y divide-white/[0.04]">
-                  {section.issues.length === 0 ? (
-                    <div className="p-6 text-center text-xs text-zinc-600">
-                      Container is empty
+                    <div className="flex items-center gap-gutter-md shrink-0">
+                      <span className="font-mono text-mono-sm px-gutter-sm py-0.5 rounded-full bg-light-surface-container text-light-on-surface-variant tabular-nums font-semibold">
+                        {issue.story_points || 0}
+                      </span>
+                      <img
+                        src={assigneePhoto}
+                        alt={issue.assignee || 'Assignee'}
+                        className="w-6 h-6 rounded-full object-cover border border-light-outline-variant"
+                      />
                     </div>
-                  ) : (
-                    section.issues.map((issue) => {
-                      const dotColor = EPIC_DOTS[issue.epic_color] || 'bg-purple-400';
-
-                      return (
-                        <div
-                          key={issue.id}
-                          onClick={() => onSelectIssue(issue)}
-                          className="group flex flex-wrap items-center justify-between p-3 hover:bg-zinc-900/50 cursor-pointer transition-colors gap-3"
-                        >
-                          {/* Left */}
-                          <div className="flex items-center gap-2.5 flex-1 min-w-[320px]">
-                            <span className="text-xs font-mono text-zinc-400 group-hover:text-blue-400 transition-colors">
-                              {issue.key}
-                            </span>
-
-                            {issue.epic_name && (
-                              <span className="flex items-center gap-1 text-[10px] font-medium text-zinc-400 bg-zinc-900/60 px-1.5 py-0.5 rounded border border-white/[0.04]">
-                                <span className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />
-                                <span className="truncate max-w-[120px]">{issue.epic_name}</span>
-                              </span>
-                            )}
-
-                            <span className="text-xs font-medium text-zinc-200 group-hover:text-white transition-colors line-clamp-1">
-                              {issue.title}
-                            </span>
-
-                            {issue.is_blocked === 1 && (
-                              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center gap-1">
-                                <ShieldAlert className="w-3 h-3" />
-                                Blocked
-                              </span>
-                            )}
-                          </div>
-
-                          {/* Right: Points Selector & Move Dropdown */}
-                          <div
-                            className="flex items-center gap-3"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <div className="flex items-center gap-0.5 bg-zinc-900 p-0.5 rounded border border-white/[0.04]">
-                              {FIBONACCI.map((pt) => (
-                                <button
-                                  key={pt}
-                                  onClick={() => onUpdateStoryPoints(issue.id, pt)}
-                                  className={`px-1.5 py-0.5 text-[10px] font-mono rounded transition-colors ${
-                                    issue.story_points === pt
-                                      ? 'bg-blue-600 text-white font-medium'
-                                      : 'text-zinc-500 hover:text-zinc-200'
-                                  }`}
-                                >
-                                  {pt}
-                                </button>
-                              ))}
-                            </div>
-
-                            <select
-                              value={issue.sprint_id || 'backlog'}
-                              onChange={(e) => {
-                                const val = e.target.value === 'backlog' ? null : e.target.value;
-                                onUpdateSprintAssignment(issue.id, val);
-                              }}
-                              className="bg-zinc-900 border border-white/[0.07] text-zinc-300 text-xs rounded-md px-2 py-1 focus:outline-none focus:border-blue-500"
-                            >
-                              {sprints.map((s) => (
-                                <option key={s.id} value={s.id}>{s.name}</option>
-                              ))}
-                              <option value="backlog">Product Backlog</option>
-                            </select>
-                          </div>
-                        </div>
-                      );
-                    })
-                  )}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Create Sprint Modal */}
-      {isCreateSprintOpen && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-[#121215] border border-white/[0.1] rounded-2xl overflow-hidden shadow-2xl animate-in fade-in duration-150">
-            <div className="p-4 border-b border-white/[0.06] bg-zinc-950 flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-zinc-100">Create Sprint</h3>
-              <button onClick={() => setIsCreateSprintOpen(false)} className="text-zinc-400 hover:text-white">
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <form onSubmit={handleCreateSprintSubmit} className="p-5 space-y-4">
-              <div>
-                <label className="text-xs font-medium text-zinc-300 block mb-1">Sprint Name *</label>
-                <input
-                  type="text"
-                  required
-                  value={newSprintName}
-                  onChange={(e) => setNewSprintName(e.target.value)}
-                  placeholder="e.g. Sprint 24.3"
-                  className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg p-2 text-xs text-zinc-100 focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-medium text-zinc-300 block mb-1">Duration</label>
-                <select
-                  value={newSprintDuration}
-                  onChange={(e) => setNewSprintDuration(e.target.value)}
-                  className="w-full bg-zinc-900 border border-white/[0.08] text-zinc-200 text-xs rounded-lg p-2 focus:outline-none focus:border-blue-500"
-                >
-                  <option value={1}>1 week</option>
-                  <option value={2}>2 weeks (Standard)</option>
-                  <option value={3}>3 weeks</option>
-                  <option value={4}>4 weeks</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="text-xs font-medium text-zinc-300 block mb-1">Sprint Goal</label>
-                <textarea
-                  rows={2}
-                  value={newSprintGoal}
-                  onChange={(e) => setNewSprintGoal(e.target.value)}
-                  placeholder="What is the squad committing to deliver?"
-                  className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg p-2 text-xs text-zinc-100 focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-white/[0.05]">
-                <button
-                  type="button"
-                  onClick={() => setIsCreateSprintOpen(false)}
-                  className="px-3 py-1.5 rounded-lg text-xs text-zinc-400 hover:text-zinc-200"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs shadow-sm"
-                >
-                  Create Sprint
-                </button>
-              </div>
-            </form>
+                  </div>
+                );
+              })
+            )}
           </div>
-        </div>
-      )}
-
-      {/* Start Sprint Modal */}
-      {startSprintModal && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-[#121215] border border-white/[0.1] rounded-2xl overflow-hidden shadow-2xl animate-in fade-in duration-150">
-            <div className="p-4 border-b border-white/[0.06] bg-zinc-950 flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-zinc-100">Start {startSprintModal.name}</h3>
-              <button onClick={() => setStartSprintModal(null)} className="text-zinc-400 hover:text-white">
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="p-5 space-y-4">
-              <div className="p-3 rounded-lg bg-blue-950/20 border border-blue-500/20 text-xs text-blue-200 space-y-1">
-                <p className="font-semibold">Sprint Commitment Summary:</p>
-                <p>• {startSprintModal.issues.length} stories planned</p>
-                <p>• {startSprintModal.issues.reduce((sum, i) => sum + (Number(i.story_points) || 0), 0)} total story points</p>
-              </div>
-
-              <div>
-                <label className="text-xs font-medium text-zinc-300 block mb-1">Sprint Goal</label>
-                <p className="text-xs text-zinc-400 italic bg-zinc-900 p-2 rounded border border-white/[0.05]">
-                  {startSprintModal.goal || 'No sprint goal specified'}
-                </p>
-              </div>
-
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-white/[0.05]">
-                <button
-                  type="button"
-                  onClick={() => setStartSprintModal(null)}
-                  className="px-3 py-1.5 rounded-lg text-xs text-zinc-400 hover:text-zinc-200"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => {
-                    onStartSprint(startSprintModal.id);
-                    setStartSprintModal(null);
-                  }}
-                  className="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs shadow-sm"
-                >
-                  Start Sprint
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Complete Sprint Modal */}
-      {completeSprintModal && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-lg bg-[#121215] border border-white/[0.1] rounded-2xl overflow-hidden shadow-2xl animate-in fade-in duration-150">
-            <div className="p-4 border-b border-white/[0.06] bg-zinc-950 flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-zinc-100">Complete {completeSprintModal.name}</h3>
-              <button onClick={() => setCompleteSprintModal(null)} className="text-zinc-400 hover:text-white">
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="p-5 space-y-4">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="p-3 rounded-lg bg-emerald-950/20 border border-emerald-500/25 text-xs">
-                  <span className="text-[10px] uppercase font-mono text-emerald-400 block mb-1">Completed</span>
-                  <span className="text-base font-bold text-white">
-                    {completeSprintModal.stats?.completed_points || 0} pts
-                  </span>
-                </div>
-
-                <div className="p-3 rounded-lg bg-amber-950/20 border border-amber-500/25 text-xs">
-                  <span className="text-[10px] uppercase font-mono text-amber-400 block mb-1">Incomplete</span>
-                  <span className="text-base font-bold text-white">
-                    {completeSprintModal.stats?.incomplete_points || 0} pts
-                  </span>
-                </div>
-              </div>
-
-              <div>
-                <label className="text-xs font-medium text-zinc-300 block mb-1.5">
-                  Move Incomplete Issues To:
-                </label>
-                <select
-                  value={rolloverTarget}
-                  onChange={(e) => setRolloverTarget(e.target.value)}
-                  className="w-full bg-zinc-900 border border-white/[0.08] text-zinc-200 text-xs rounded-lg p-2 focus:outline-none focus:border-blue-500"
-                >
-                  {sprints.filter((s) => s.id !== completeSprintModal.id).map((s) => (
-                    <option key={s.id} value={s.id}>Next Sprint ({s.name})</option>
-                  ))}
-                  <option value="backlog">Product Backlog Pool</option>
-                </select>
-              </div>
-
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-white/[0.05]">
-                <button
-                  type="button"
-                  onClick={() => setCompleteSprintModal(null)}
-                  className="px-3 py-1.5 rounded-lg text-xs text-zinc-400 hover:text-zinc-200"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => {
-                    onCompleteSprint(completeSprintModal.id, rolloverTarget);
-                    setCompleteSprintModal(null);
-                  }}
-                  className="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs shadow-sm"
-                >
-                  Confirm & Complete Sprint
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Create Epic Modal */}
-      {isCreateEpicOpen && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-md bg-[#121215] border border-white/[0.1] rounded-2xl overflow-hidden shadow-2xl animate-in fade-in duration-150">
-            <div className="p-4 border-b border-white/[0.06] bg-zinc-950 flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-zinc-100">Create Epic</h3>
-              <button onClick={() => setIsCreateEpicOpen(false)} className="text-zinc-400 hover:text-white">
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <form onSubmit={handleCreateEpicSubmit} className="p-5 space-y-4">
-              <div>
-                <label className="text-xs font-medium text-zinc-300 block mb-1">Epic Name *</label>
-                <input
-                  type="text"
-                  required
-                  value={epicName}
-                  onChange={(e) => setEpicName(e.target.value)}
-                  placeholder="e.g. Open Banking v3 Gateway"
-                  className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg p-2 text-xs text-zinc-100 focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-medium text-zinc-300 block mb-1">Color Tag</label>
-                <select
-                  value={epicColor}
-                  onChange={(e) => setEpicColor(e.target.value)}
-                  className="w-full bg-zinc-900 border border-white/[0.08] text-zinc-200 text-xs rounded-lg p-2 focus:outline-none focus:border-blue-500"
-                >
-                  <option value="purple">🟣 Purple</option>
-                  <option value="teal">🟢 Teal</option>
-                  <option value="amber">🟠 Amber</option>
-                  <option value="blue">🔵 Blue</option>
-                  <option value="rose">🔴 Rose</option>
-                  <option value="emerald">🟢 Emerald</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="text-xs font-medium text-zinc-300 block mb-1">Epic Summary</label>
-                <textarea
-                  rows={2}
-                  value={epicSummary}
-                  onChange={(e) => setEpicSummary(e.target.value)}
-                  placeholder="High-level goal..."
-                  className="w-full bg-zinc-900 border border-white/[0.08] rounded-lg p-2 text-xs text-zinc-100 focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-white/[0.05]">
-                <button
-                  type="button"
-                  onClick={() => setIsCreateEpicOpen(false)}
-                  className="px-3 py-1.5 rounded-lg text-xs text-zinc-400 hover:text-zinc-200"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-medium text-xs shadow-sm"
-                >
-                  Create Epic
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-    </div>
+        )}
+      </section>
+    </main>
   );
 }

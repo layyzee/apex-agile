@@ -1,0 +1,423 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Desk Queue &amp; SLA — IT Service Desk · Jira</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'status-done': '#1F845A',
+        'status-done-bg': '#DCFFF1',
+        'status-progress': '#0C66E4',
+        'status-progress-bg': '#E9F2FF',
+        'status-review': '#6E5DC6',
+        'status-review-bg': '#F3F0FF',
+        'status-warning': '#A54800',
+        'status-warning-bg': '#FFF7D6',
+        'issue-story': '#22A06B',
+        'issue-bug': '#E34935',
+        'issue-task': '#1D7AFC',
+        'issue-epic': '#8270DB',
+        'light-primary': '#004FB6',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#0C66E4',
+        'light-on-primary-container': '#ECEFFF',
+        'light-secondary': '#475D90',
+        'light-on-secondary': '#FFFFFF',
+        'light-secondary-container': '#ADC3FD',
+        'light-on-secondary-container': '#394F82',
+        'light-tertiary': '#953500',
+        'light-on-tertiary': '#FFFFFF',
+        'light-tertiary-container': '#BD4600',
+        'light-on-tertiary-container': '#FFECE5',
+        'light-error': '#BA1A1A',
+        'light-on-error': '#FFFFFF',
+        'light-error-container': '#FFDAD6',
+        'light-on-error-container': '#93000A',
+        'light-background': '#FAF8FF',
+        'light-on-background': '#191B23',
+        'light-surface': '#FAF8FF',
+        'light-surface-dim': '#D8D9E4',
+        'light-surface-bright': '#FAF8FF',
+        'light-surface-container-lowest': '#FFFFFF',
+        'light-surface-container-low': '#F2F3FE',
+        'light-surface-container': '#ECEDF8',
+        'light-surface-container-high': '#E7E7F2',
+        'light-surface-container-highest': '#E1E2ED',
+        'light-on-surface': '#191B23',
+        'light-surface-variant': '#DEE2F3',
+        'light-on-surface-variant': '#424654',
+        'light-outline': '#727786',
+        'light-outline-variant': '#C2C6D7',
+        'light-inverse-surface': '#2E3038',
+        'light-inverse-on-surface': '#EFF0FB',
+        'light-inverse-primary': '#B0C6FF',
+        'light-shadow': '#000000',
+        'light-scrim': '#000000',
+        'dark-primary': '#B0C6FF',
+        'dark-on-primary': '#002D6E',
+        'dark-primary-container': '#0C66E4',
+        'dark-on-primary-container': '#ECEFFF',
+        'dark-secondary': '#B0C6FF',
+        'dark-on-secondary': '#162F5F',
+        'dark-secondary-container': '#2F4577',
+        'dark-on-secondary-container': '#9EB4ED',
+        'dark-tertiary': '#FFB598',
+        'dark-on-tertiary': '#591D00',
+        'dark-tertiary-container': '#BD4600',
+        'dark-on-tertiary-container': '#FFECE5',
+        'dark-error': '#FFB4AB',
+        'dark-on-error': '#690005',
+        'dark-error-container': '#93000A',
+        'dark-on-error-container': '#FFDAD6',
+        'dark-background': '#11131B',
+        'dark-on-background': '#E1E2ED',
+        'dark-surface': '#11131B',
+        'dark-surface-dim': '#11131B',
+        'dark-surface-bright': '#363941',
+        'dark-surface-container-lowest': '#0B0E15',
+        'dark-surface-container-low': '#191B23',
+        'dark-surface-container': '#1D1F27',
+        'dark-surface-container-high': '#272A32',
+        'dark-surface-container-highest': '#32353D',
+        'dark-on-surface': '#E1E2ED',
+        'dark-surface-variant': '#424654',
+        'dark-on-surface-variant': '#C2C6D7',
+        'dark-outline': '#8C90A0',
+        'dark-outline-variant': '#424654',
+        'dark-inverse-surface': '#E1E2ED',
+        'dark-inverse-on-surface': '#2E3038',
+        'dark-inverse-primary': '#0058CA',
+        'dark-shadow': '#000000',
+        'dark-scrim': '#000000',
+      },
+      borderRadius: {
+        'sm': '4px',
+        'DEFAULT': '8px',
+        'md': '10px',
+        'lg': '12px',
+        'xl': '16px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '24px',
+        'section': '32px',
+        'page-margin': '24px',
+      },
+      fontFamily: {
+        'display': ['"Space Grotesk"', 'sans-serif'],
+        'headline': ['"Space Grotesk"', 'sans-serif'],
+        'title': ['"Geist"', 'sans-serif'],
+        'body': ['"Geist"', 'sans-serif'],
+        'label': ['"Geist"', 'sans-serif'],
+        'mono': ['"Space Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['36px', { lineHeight: '44px', letterSpacing: '-0.5px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '600' }],
+        'headline-md': ['22px', { lineHeight: '28px', letterSpacing: '-0.15px', fontWeight: '600' }],
+        'headline-sm': ['18px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-lg': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-lg': ['15px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['12px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '500' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '600' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.3px', fontWeight: '600' }],
+        'mono-md': ['12px', { lineHeight: '16px', letterSpacing: '0px', fontWeight: '500' }],
+        'mono-sm': ['11px', { lineHeight: '14px', letterSpacing: '0px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '100ms',
+        'surface-enter': '220ms',
+        'surface-exit': '150ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Space+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>
+    .material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1 !important;
+      box-sizing: content-box;
+      overflow: hidden;
+      white-space: nowrap;
+      direction: ltr;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="bg-light-surface text-light-on-surface font-body antialiased">
+
+  <div class="min-h-[1024px] flex flex-col bg-light-surface" data-stitch-vh="min-h-[1024px]===min-h-screen">
+
+    <!-- Global Top Navigation Bar (56px) -->
+    <header class="sticky top-0 z-30 h-14 px-gutter-lg bg-light-surface-container-lowest border-b border-light-outline-variant flex items-center justify-between gap-gutter-lg">
+      <div class="flex items-center gap-gutter-lg">
+        <button data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Open project navigation" class="lg:hidden inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change ease-state-change">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">menu</span>
+        </button>
+
+        <a href="../sprint-board/ActiveSprintBoard.html" class="flex items-center gap-gutter-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary rounded-sm">
+          <div class="w-7 h-7 rounded-sm bg-light-primary-container flex items-center justify-center text-light-on-primary">
+            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">deployed_code</span>
+          </div>
+          <span data-design-text-token="title-lg" class="font-headline text-title-lg text-light-on-surface tracking-tight">Jira</span>
+        </a>
+
+        <nav aria-label="Global navigation" class="hidden md:flex items-center gap-gutter-xs">
+          <a href="../summary/ProjectSummary.html" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface transition-colors duration-state-change">Your work</a>
+          <a href="../sprint-board/ActiveSprintBoard.html" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface transition-colors duration-state-change">Projects</a>
+          <a href="#" aria-current="page" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-primary bg-status-progress-bg">Service Desk</a>
+          <a href="../reports/ProjectReports.html" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface transition-colors duration-state-change">Dashboards</a>
+        </nav>
+
+        <button data-component-id="button-primary" data-component-type="button" data-component-variant="primary" type="button" class="inline-flex items-center justify-center px-gutter-md py-1.5 rounded-sm bg-light-primary text-light-on-primary hover:bg-light-primary-container active:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary focus-visible:ring-offset-2 transition-colors duration-state-change ease-state-change">
+          <span data-design-text-token="label-lg" class="font-label text-label-lg">Create</span>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-gutter-md">
+        <form data-component-id="searchbar-with-suggestions" data-component-type="searchbar" data-component-variant="with-suggestions" role="search" class="hidden sm:flex relative items-center w-64 rounded-sm bg-light-surface-container-low border border-light-outline-variant focus-within:bg-light-surface-container-lowest focus-within:border-light-primary transition-colors duration-state-change ease-state-change">
+          <button type="submit" aria-label="Submit search" class="pl-gutter-sm pr-gutter-xs text-light-on-surface-variant flex items-center">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">search</span>
+          </button>
+          <input type="search" aria-label="Search Jira" placeholder="Search tickets, reporters" class="w-full py-1.5 pr-gutter-md bg-transparent border-0 font-body text-body-sm text-light-on-surface placeholder:text-light-on-surface-variant focus:ring-0">
+        </form>
+
+        <button data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Notifications, unread activity" class="relative inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change ease-state-change">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">notifications</span>
+          <span data-component-id="badge-dot" data-component-type="badge" data-component-variant="dot" aria-hidden="true" class="absolute top-1.5 right-1.5 inline-block w-2 h-2 rounded-full bg-issue-bug ring-2 ring-light-surface-container-lowest"></span>
+        </button>
+
+        <button type="button" aria-label="Account menu for Elena Rostova" class="w-8 h-8 rounded-full overflow-hidden border border-light-outline-variant">
+          <img src="https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe" alt="Elena Rostova" class="w-full h-full object-cover">
+        </button>
+      </div>
+    </header>
+
+    <!-- Workspace Shell Body -->
+    <div class="flex flex-1 min-h-0">
+
+      <!-- Left JSM Project Sidebar -->
+      <aside class="hidden lg:flex flex-col w-60 shrink-0 min-h-[1024px] bg-light-surface-container-low border-r border-light-outline-variant p-gutter-md gap-gutter-lg" data-stitch-vh="min-h-[1024px]===min-h-screen">
+        <div class="flex items-center gap-gutter-md px-gutter-sm py-gutter-xs">
+          <div class="w-8 h-8 rounded-sm bg-status-progress-bg text-light-primary flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">support_agent</span>
+          </div>
+          <div class="min-w-0">
+            <p data-design-text-token="title-md" class="font-title text-title-md text-light-on-surface truncate">IT Service Desk</p>
+            <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant truncate">Service project · ITSD</p>
+          </div>
+        </div>
+
+        <nav aria-label="Service desk queues" class="flex flex-col gap-gutter-xs">
+          <p data-design-text-token="label-sm" class="px-gutter-sm py-gutter-xs font-label text-label-sm text-light-on-surface-variant uppercase tracking-wider">Queues</p>
+          <a href="#" aria-current="page" class="flex items-center justify-between px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg bg-status-progress-bg text-light-primary">
+            <span class="flex items-center gap-gutter-md">
+              <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">inbox</span>
+              <span data-design-text-token="label-lg">All open</span>
+            </span>
+            <span class="font-mono text-mono-sm tabular-nums">5</span>
+          </a>
+          <a href="#" class="flex items-center justify-between px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container">
+            <span class="flex items-center gap-gutter-md">
+              <span class="material-symbols-outlined text-[18px]" aria-hidden="true">person_off</span>
+              <span data-design-text-token="label-lg">Unassigned</span>
+            </span>
+            <span class="font-mono text-mono-sm tabular-nums">2</span>
+          </a>
+          <a href="#" class="flex items-center justify-between px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container">
+            <span class="flex items-center gap-gutter-md">
+              <span class="material-symbols-outlined text-[18px]" aria-hidden="true">warning</span>
+              <span data-design-text-token="label-lg">SLA at risk</span>
+            </span>
+            <span class="font-mono text-mono-sm tabular-nums">2</span>
+          </a>
+          <a href="#" class="flex items-center justify-between px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container">
+            <span class="flex items-center gap-gutter-md">
+              <span class="material-symbols-outlined text-[18px]" aria-hidden="true">local_fire_department</span>
+              <span data-design-text-token="label-lg">Incidents</span>
+            </span>
+            <span class="font-mono text-mono-sm tabular-nums">2</span>
+          </a>
+        </nav>
+
+        <nav aria-label="Switch to Software Project" class="flex flex-col gap-gutter-xs pt-gutter-md border-t border-light-outline-variant">
+          <p data-design-text-token="label-sm" class="px-gutter-sm py-gutter-xs font-label text-label-sm text-light-on-surface-variant uppercase tracking-wider">Platform Core</p>
+          <a href="../sprint-board/ActiveSprintBoard.html" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">view_kanban</span>
+            <span data-design-text-token="label-lg">Active sprints</span>
+          </a>
+          <a href="../backlog/BacklogSprintPlanning.html" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">format_list_bulleted</span>
+            <span data-design-text-token="label-lg">Backlog</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Main JSM Queue & Triage Content -->
+      <main class="flex-1 min-w-0 p-gutter-xl flex flex-col gap-gutter-lg">
+
+        <div class="flex flex-col gap-gutter-xs">
+          <nav aria-label="Breadcrumb" class="flex items-center gap-gutter-xs font-body text-body-sm text-light-on-surface-variant">
+            <a href="#" class="hover:text-light-on-surface">Service Desk</a>
+            <span aria-hidden="true">/</span>
+            <a href="#" class="hover:text-light-on-surface">IT Service Desk</a>
+            <span aria-hidden="true">/</span>
+            <span>All open queue</span>
+          </nav>
+
+          <div class="flex flex-wrap items-center justify-between gap-gutter-md">
+            <h1 data-design-text-token="headline-lg" class="font-headline text-headline-lg text-light-on-surface">All open requests</h1>
+            <span class="px-gutter-md py-1 rounded-sm bg-light-error-container text-light-on-error-container font-label text-label-md tabular-nums">2 SLAs breaching within 1h</span>
+          </div>
+        </div>
+
+        <!-- Split View: Queue Table + Triage & Reply Pane -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter-lg items-start">
+
+          <!-- Queue Table -->
+          <div class="xl:col-span-7 rounded bg-light-surface-container-lowest border border-light-outline-variant overflow-x-auto">
+            <table class="w-full text-left border-collapse min-w-[600px]">
+              <thead>
+                <tr class="border-b border-light-outline-variant bg-light-surface-container-low">
+                  <th class="px-gutter-md py-gutter-sm font-label text-label-sm text-light-on-surface-variant uppercase">Key</th>
+                  <th class="px-gutter-md py-gutter-sm font-label text-label-sm text-light-on-surface-variant uppercase">Request</th>
+                  <th class="px-gutter-md py-gutter-sm font-label text-label-sm text-light-on-surface-variant uppercase">Reporter</th>
+                  <th class="px-gutter-md py-gutter-sm font-label text-label-sm text-light-on-surface-variant uppercase">SLA</th>
+                  <th class="px-gutter-md py-gutter-sm font-label text-label-sm text-light-on-surface-variant uppercase">Status</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-light-outline-variant">
+                <tr class="jsm-row bg-status-progress-bg/30 hover:bg-light-surface-container-low cursor-pointer" data-key="ITSD-904" data-title="VPN certificate expired for EU remote engineers" data-reporter="Marcus Vance" data-sla="14m left" data-desc="Multiple engineers in Berlin and Amsterdam cannot authenticate to the WireGuard VPN gateway after the 08:00 UTC cert rotation.">
+                  <td class="px-gutter-md py-gutter-sm font-mono text-mono-sm text-light-on-surface-variant whitespace-nowrap tabular-nums">ITSD-904</td>
+                  <td class="px-gutter-md py-gutter-sm font-body text-body-md text-light-on-surface">VPN certificate expired for EU remote engineers</td>
+                  <td class="px-gutter-md py-gutter-sm font-body text-body-sm text-light-on-surface-variant whitespace-nowrap">Marcus Vance</td>
+                  <td class="px-gutter-md py-gutter-sm whitespace-nowrap"><span class="px-gutter-sm py-0.5 rounded-sm bg-light-error-container text-light-on-error-container font-mono text-mono-sm tabular-nums">14m left</span></td>
+                  <td class="px-gutter-md py-gutter-sm whitespace-nowrap"><span class="px-gutter-sm py-0.5 rounded-sm bg-status-progress-bg text-light-on-surface font-label text-label-sm uppercase">Investigating</span></td>
+                </tr>
+
+                <tr class="jsm-row hover:bg-light-surface-container-low cursor-pointer" data-key="ITSD-907" data-title="Request production read-only BigQuery access" data-reporter="Priya Nair" data-sla="42m left" data-desc="Need read-only access to prod_telemetry dataset to verify webhook span sampling ratios.">
+                  <td class="px-gutter-md py-gutter-sm font-mono text-mono-sm text-light-on-surface-variant whitespace-nowrap tabular-nums">ITSD-907</td>
+                  <td class="px-gutter-md py-gutter-sm font-body text-body-md text-light-on-surface">Request production read-only BigQuery access</td>
+                  <td class="px-gutter-md py-gutter-sm font-body text-body-sm text-light-on-surface-variant whitespace-nowrap">Priya Nair</td>
+                  <td class="px-gutter-md py-gutter-sm whitespace-nowrap"><span class="px-gutter-sm py-0.5 rounded-sm bg-status-warning-bg text-light-on-surface font-mono text-mono-sm tabular-nums">42m left</span></td>
+                  <td class="px-gutter-md py-gutter-sm whitespace-nowrap"><span class="px-gutter-sm py-0.5 rounded-sm bg-light-surface-container text-light-on-surface-variant font-label text-label-sm uppercase">Waiting approval</span></td>
+                </tr>
+
+                <tr class="jsm-row hover:bg-light-surface-container-low cursor-pointer" data-key="ITSD-911" data-title="Provision Okta sandbox tenant for SAML testing" data-reporter="Elena Rostova" data-sla="3h 40m left" data-desc="Need a dedicated Okta developer tenant wired to staging-auth.internal for PLAT-410 verification.">
+                  <td class="px-gutter-md py-gutter-sm font-mono text-mono-sm text-light-on-surface-variant whitespace-nowrap tabular-nums">ITSD-911</td>
+                  <td class="px-gutter-md py-gutter-sm font-body text-body-md text-light-on-surface">Provision Okta sandbox tenant for SAML testing</td>
+                  <td class="px-gutter-md py-gutter-sm font-body text-body-sm text-light-on-surface-variant whitespace-nowrap">Elena Rostova</td>
+                  <td class="px-gutter-md py-gutter-sm whitespace-nowrap"><span class="px-gutter-sm py-0.5 rounded-sm bg-status-done-bg text-light-on-surface font-mono text-mono-sm tabular-nums">3h 40m left</span></td>
+                  <td class="px-gutter-md py-gutter-sm whitespace-nowrap"><span class="px-gutter-sm py-0.5 rounded-sm bg-status-progress-bg text-light-on-surface font-label text-label-sm uppercase">In Progress</span></td>
+                </tr>
+
+                <tr class="jsm-row hover:bg-light-surface-container-low cursor-pointer" data-key="ITSD-914" data-title="Hardware replacement: M3 MacBook Pro battery swell" data-reporter="Kenji Sato" data-sla="1d 2h left" data-desc="Requesting loaner laptop and hardware swap at the Tokyo office.">
+                  <td class="px-gutter-md py-gutter-sm font-mono text-mono-sm text-light-on-surface-variant whitespace-nowrap tabular-nums">ITSD-914</td>
+                  <td class="px-gutter-md py-gutter-sm font-body text-body-md text-light-on-surface">Hardware replacement: M3 MacBook Pro battery swell</td>
+                  <td class="px-gutter-md py-gutter-sm font-body text-body-sm text-light-on-surface-variant whitespace-nowrap">Kenji Sato</td>
+                  <td class="px-gutter-md py-gutter-sm whitespace-nowrap"><span class="px-gutter-sm py-0.5 rounded-sm bg-status-done-bg text-light-on-surface font-mono text-mono-sm tabular-nums">1d 2h left</span></td>
+                  <td class="px-gutter-md py-gutter-sm whitespace-nowrap"><span class="px-gutter-sm py-0.5 rounded-sm bg-light-surface-container text-light-on-surface-variant font-label text-label-sm uppercase">Open</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Ticket Triage & Customer Reply Pane -->
+          <aside aria-label="Ticket triage" class="xl:col-span-5 rounded bg-light-surface-container-lowest border border-light-outline-variant p-gutter-xl flex flex-col gap-gutter-lg">
+            <header class="flex items-center justify-between gap-gutter-sm">
+              <div class="flex items-center gap-gutter-sm">
+                <span id="jsm-key" class="font-mono text-mono-md text-light-on-surface-variant">ITSD-904</span>
+                <span id="jsm-sla" class="px-gutter-sm py-0.5 rounded-sm bg-light-error-container text-light-on-error-container font-mono text-mono-sm tabular-nums">14m left</span>
+              </div>
+              <span id="jsm-reporter" class="font-body text-body-sm text-light-on-surface-variant">Marcus Vance</span>
+            </header>
+
+            <h2 id="jsm-title" data-design-text-token="headline-sm" class="font-headline text-headline-sm text-light-on-surface text-balance">VPN certificate expired for EU remote engineers</h2>
+
+            <p id="jsm-desc" data-design-text-token="body-md" class="font-body text-body-md text-light-on-surface-variant text-pretty">
+              Multiple engineers in Berlin and Amsterdam cannot authenticate to the WireGuard VPN gateway after the 08:00 UTC cert rotation.
+            </p>
+
+            <!-- Reply Mode Tabs -->
+            <div class="flex flex-col gap-gutter-sm pt-gutter-sm border-t border-light-outline-variant">
+              <div class="flex items-center gap-gutter-xs" role="tablist">
+                <button type="button" role="tab" aria-selected="true" data-reply-mode="customer" class="reply-tab px-gutter-md py-1 rounded-sm bg-status-progress-bg text-light-primary font-label text-label-md">Reply to customer</button>
+                <button type="button" role="tab" aria-selected="false" data-reply-mode="internal" class="reply-tab px-gutter-md py-1 rounded-sm bg-light-surface-container text-light-on-surface-variant font-label text-label-md">Internal note</button>
+              </div>
+              <textarea id="jsm-reply-box" rows="3" placeholder="Write a public reply to Marcus Vance..." class="w-full rounded-sm bg-light-surface-container-lowest border border-light-outline-variant font-body text-body-sm text-light-on-surface placeholder:text-light-on-surface-variant focus:border-light-primary focus:ring-1 focus:ring-light-primary"></textarea>
+              <div class="flex justify-end">
+                <button type="button" class="px-gutter-lg py-1.5 rounded-sm bg-light-primary text-light-on-primary hover:bg-light-primary-container font-label text-label-lg transition-colors duration-state-change">
+                  Send reply
+                </button>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      document.querySelectorAll('.jsm-row').forEach(row => {
+        row.addEventListener('click', () => {
+          document.querySelectorAll('.jsm-row').forEach(r => r.classList.remove('bg-status-progress-bg/30'));
+          row.classList.add('bg-status-progress-bg/30');
+          document.getElementById('jsm-key').textContent = row.dataset.key;
+          document.getElementById('jsm-sla').textContent = row.dataset.sla;
+          document.getElementById('jsm-reporter').textContent = row.dataset.reporter;
+          document.getElementById('jsm-title').textContent = row.dataset.title;
+          document.getElementById('jsm-desc').textContent = row.dataset.desc;
+        });
+      });
+
+      document.querySelectorAll('.reply-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          const mode = tab.dataset.replyMode;
+          document.querySelectorAll('.reply-tab').forEach(t => {
+            const active = t.dataset.replyMode === mode;
+            t.className = active
+              ? 'reply-tab px-gutter-md py-1 rounded-sm bg-status-progress-bg text-light-primary font-label text-label-md'
+              : 'reply-tab px-gutter-md py-1 rounded-sm bg-light-surface-container text-light-on-surface-variant font-label text-label-md';
+          });
+          document.getElementById('jsm-reply-box').placeholder = mode === 'internal'
+            ? 'Add an internal note visible only to agents...'
+            : 'Write a public reply to the customer...';
+        });
+      });
+    })();
+  </script>
+
+
+</body></html>

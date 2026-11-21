@@ -4,7 +4,7 @@ import { getDb } from '@/lib/db';
 export async function GET() {
   try {
     const db = getDb();
-    const projects = db.prepare(`SELECT * FROM projects ORDER BY created_at ASC`).all();
+    const projects = db.prepare(`SELECT * FROM projects ORDER BY CASE WHEN key = 'PLAT' THEN 0 ELSE 1 END, created_at ASC`).all();
     return NextResponse.json({ success: true, projects });
   } catch (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

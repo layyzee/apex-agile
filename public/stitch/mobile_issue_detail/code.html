@@ -1,0 +1,326 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PLAT-412 · Mobile Issue Detail — Jira</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'status-done': '#1F845A',
+        'status-done-bg': '#DCFFF1',
+        'status-progress': '#0C66E4',
+        'status-progress-bg': '#E9F2FF',
+        'status-review': '#6E5DC6',
+        'status-review-bg': '#F3F0FF',
+        'status-warning': '#A54800',
+        'status-warning-bg': '#FFF7D6',
+        'issue-story': '#22A06B',
+        'issue-bug': '#E34935',
+        'issue-task': '#1D7AFC',
+        'issue-epic': '#8270DB',
+        'light-primary': '#004FB6',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#0C66E4',
+        'light-on-primary-container': '#ECEFFF',
+        'light-secondary': '#475D90',
+        'light-on-secondary': '#FFFFFF',
+        'light-secondary-container': '#ADC3FD',
+        'light-on-secondary-container': '#394F82',
+        'light-tertiary': '#953500',
+        'light-on-tertiary': '#FFFFFF',
+        'light-tertiary-container': '#BD4600',
+        'light-on-tertiary-container': '#FFECE5',
+        'light-error': '#BA1A1A',
+        'light-on-error': '#FFFFFF',
+        'light-error-container': '#FFDAD6',
+        'light-on-error-container': '#93000A',
+        'light-background': '#FAF8FF',
+        'light-on-background': '#191B23',
+        'light-surface': '#FAF8FF',
+        'light-surface-dim': '#D8D9E4',
+        'light-surface-bright': '#FAF8FF',
+        'light-surface-container-lowest': '#FFFFFF',
+        'light-surface-container-low': '#F2F3FE',
+        'light-surface-container': '#ECEDF8',
+        'light-surface-container-high': '#E7E7F2',
+        'light-surface-container-highest': '#E1E2ED',
+        'light-on-surface': '#191B23',
+        'light-surface-variant': '#DEE2F3',
+        'light-on-surface-variant': '#424654',
+        'light-outline': '#727786',
+        'light-outline-variant': '#C2C6D7',
+        'light-inverse-surface': '#2E3038',
+        'light-inverse-on-surface': '#EFF0FB',
+        'light-inverse-primary': '#B0C6FF',
+        'light-shadow': '#000000',
+        'light-scrim': '#000000',
+        'dark-primary': '#B0C6FF',
+        'dark-on-primary': '#002D6E',
+        'dark-primary-container': '#0C66E4',
+        'dark-on-primary-container': '#ECEFFF',
+        'dark-secondary': '#B0C6FF',
+        'dark-on-secondary': '#162F5F',
+        'dark-secondary-container': '#2F4577',
+        'dark-on-secondary-container': '#9EB4ED',
+        'dark-tertiary': '#FFB598',
+        'dark-on-tertiary': '#591D00',
+        'dark-tertiary-container': '#BD4600',
+        'dark-on-tertiary-container': '#FFECE5',
+        'dark-error': '#FFB4AB',
+        'dark-on-error': '#690005',
+        'dark-error-container': '#93000A',
+        'dark-on-error-container': '#FFDAD6',
+        'dark-background': '#11131B',
+        'dark-on-background': '#E1E2ED',
+        'dark-surface': '#11131B',
+        'dark-surface-dim': '#11131B',
+        'dark-surface-bright': '#363941',
+        'dark-surface-container-lowest': '#0B0E15',
+        'dark-surface-container-low': '#191B23',
+        'dark-surface-container': '#1D1F27',
+        'dark-surface-container-high': '#272A32',
+        'dark-surface-container-highest': '#32353D',
+        'dark-on-surface': '#E1E2ED',
+        'dark-surface-variant': '#424654',
+        'dark-on-surface-variant': '#C2C6D7',
+        'dark-outline': '#8C90A0',
+        'dark-outline-variant': '#424654',
+        'dark-inverse-surface': '#E1E2ED',
+        'dark-inverse-on-surface': '#2E3038',
+        'dark-inverse-primary': '#0058CA',
+        'dark-shadow': '#000000',
+        'dark-scrim': '#000000',
+      },
+      borderRadius: {
+        'sm': '4px',
+        'DEFAULT': '8px',
+        'md': '10px',
+        'lg': '12px',
+        'xl': '16px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '24px',
+        'section': '32px',
+        'page-margin': '24px',
+      },
+      fontFamily: {
+        'display': ['"Space Grotesk"', 'sans-serif'],
+        'headline': ['"Space Grotesk"', 'sans-serif'],
+        'title': ['"Geist"', 'sans-serif'],
+        'body': ['"Geist"', 'sans-serif'],
+        'label': ['"Geist"', 'sans-serif'],
+        'mono': ['"Space Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['36px', { lineHeight: '44px', letterSpacing: '-0.5px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '600' }],
+        'headline-md': ['22px', { lineHeight: '28px', letterSpacing: '-0.15px', fontWeight: '600' }],
+        'headline-sm': ['18px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-lg': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-lg': ['15px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['12px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '500' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '600' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.3px', fontWeight: '600' }],
+        'mono-md': ['12px', { lineHeight: '16px', letterSpacing: '0px', fontWeight: '500' }],
+        'mono-sm': ['11px', { lineHeight: '14px', letterSpacing: '0px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '100ms',
+        'surface-enter': '220ms',
+        'surface-exit': '150ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Space+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>
+    .material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1 !important;
+      box-sizing: content-box;
+      overflow: hidden;
+      white-space: nowrap;
+      direction: ltr;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="bg-light-surface text-light-on-surface font-body antialiased">
+
+  <div class="min-h-[884px] flex flex-col bg-light-surface pb-20" data-stitch-vh="min-h-[884px]===min-h-screen">
+
+    <!-- Contextual Detail Header -->
+    <header class="sticky top-0 z-30 h-14 px-gutter-md bg-light-surface-container-lowest border-b border-light-outline-variant flex items-center justify-between gap-gutter-sm">
+      <div class="flex items-center gap-gutter-sm">
+        <a href="#" aria-label="Back to PLAT Sprint 42" class="inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container transition-colors duration-state-change">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">arrow_back</span>
+        </a>
+        <div class="flex items-center gap-gutter-xs">
+          <span class="material-symbols-outlined text-[18px] text-issue-story" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">bookmark</span>
+          <span data-design-text-token="mono-md" class="font-mono text-mono-md text-light-on-surface-variant tabular-nums">PLAT-412</span>
+        </div>
+      </div>
+
+      <button data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Issue actions" class="inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container transition-colors duration-state-change">
+        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">more_horiz</span>
+      </button>
+    </header>
+
+    <!-- Main Issue Content -->
+    <main class="flex-1 p-gutter-lg flex flex-col gap-gutter-xl">
+
+      <!-- Epic & Title & Status -->
+      <section class="flex flex-col gap-gutter-md">
+        <div class="flex items-center justify-between gap-gutter-sm">
+          <span class="px-gutter-sm py-0.5 rounded-sm bg-status-review-bg text-light-on-surface font-label text-label-sm uppercase">Auth v3</span>
+          <span data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant">Updated 18m ago</span>
+        </div>
+
+        <h1 data-design-text-token="headline-sm" class="font-headline text-headline-sm text-light-on-surface text-balance">Enforce PKCE token rotation on mobile SSO</h1>
+
+        <div class="flex items-center gap-gutter-md">
+          <label for="mobile-status-select" data-design-text-token="label-md" class="font-label text-label-md text-light-on-surface-variant">Status</label>
+          <select id="mobile-status-select" class="rounded-sm bg-status-progress-bg text-light-primary border-0 font-label text-label-md py-1.5 pl-gutter-md pr-8 focus:ring-2 focus:ring-light-primary">
+            <option value="todo">TO DO</option>
+            <option value="progress" selected>IN PROGRESS</option>
+            <option value="review">IN REVIEW</option>
+            <option value="done">DONE</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Description -->
+      <section class="flex flex-col gap-gutter-xs">
+        <h2 data-design-text-token="title-sm" class="font-title text-title-sm text-light-on-surface">Description</h2>
+        <p data-design-text-token="body-md" class="font-body text-body-md text-light-on-surface-variant text-pretty">
+          Implement OAuth2 PKCE token refresh worker with exponential backoff and structured audit logging for enterprise workspaces.
+        </p>
+      </section>
+
+      <!-- Metadata Grid -->
+      <section aria-label="Issue details" class="p-gutter-lg rounded bg-light-surface-container-lowest border border-light-outline-variant grid grid-cols-2 gap-gutter-lg">
+        <div>
+          <p data-design-text-token="label-sm" class="font-label text-label-sm text-light-on-surface-variant uppercase">Assignee</p>
+          <div class="flex items-center gap-gutter-xs mt-1.5">
+            <img src="https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe" alt="Elena Rostova" class="w-6 h-6 rounded-full object-cover">
+            <span data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface">Elena Rostova</span>
+          </div>
+        </div>
+        <div>
+          <p data-design-text-token="label-sm" class="font-label text-label-sm text-light-on-surface-variant uppercase">Priority</p>
+          <div class="flex items-center gap-gutter-xs mt-1.5">
+            <span class="material-symbols-outlined text-[16px] text-issue-bug" aria-hidden="true">keyboard_double_arrow_up</span>
+            <span data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface">High</span>
+          </div>
+        </div>
+        <div>
+          <p data-design-text-token="label-sm" class="font-label text-label-sm text-light-on-surface-variant uppercase">Story points</p>
+          <p data-design-text-token="mono-md" class="font-mono text-mono-md text-light-on-surface mt-1.5 tabular-nums">5</p>
+        </div>
+        <div>
+          <p data-design-text-token="label-sm" class="font-label text-label-sm text-light-on-surface-variant uppercase">Sprint</p>
+          <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface mt-1.5">PLAT Sprint 42</p>
+        </div>
+      </section>
+
+      <!-- Development / Linked PR -->
+      <section class="flex flex-col gap-gutter-sm">
+        <h2 data-design-text-token="title-sm" class="font-title text-title-sm text-light-on-surface">Development</h2>
+        <div class="p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant flex items-center justify-between gap-gutter-sm">
+          <div class="flex items-center gap-gutter-sm min-w-0">
+            <span class="material-symbols-outlined text-[18px] text-light-primary shrink-0" aria-hidden="true">call_merge</span>
+            <span data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface truncate">PR #1842 · feat/pkce-refresh-worker</span>
+          </div>
+          <span class="px-gutter-sm py-0.5 rounded-sm bg-status-done-bg text-light-on-surface font-label text-label-sm uppercase shrink-0">Checks pass</span>
+        </div>
+      </section>
+
+      <!-- Activity & Comments -->
+      <section class="flex flex-col gap-gutter-md">
+        <h2 data-design-text-token="title-sm" class="font-title text-title-sm text-light-on-surface">Activity</h2>
+        <div id="mobile-comments-list" class="flex flex-col gap-gutter-md">
+          <div class="flex items-start gap-gutter-sm">
+            <img src="https://lh3.googleusercontent.com/aida/ALJJyrCklGpvdGYSopZxSSrRrPtkBdl957Q7Ogz3uX4fzie9G6mTQH6uP4Ci9ogj6r8yyxr5FSklMt7HTI9LHmOQx-1AJAW00HC-R94bmNKCEc1e-aUownDKA7Pw9u-0SzqwGKOMXci_2P53ra7QQllboBJxCniFDjxsHLcxZZzShy3IZKKuPnALJYUM8lxbC3lHfz-oLxtUKoE_SWLs1a7Uj3mETCnd6AwoJglU90DUhLV8p3Jl2FT6" alt="Priya Nair" class="w-7 h-7 rounded-full object-cover shrink-0">
+            <div class="flex-1 p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant">
+              <div class="flex items-center justify-between gap-gutter-xs mb-1">
+                <span data-design-text-token="title-sm" class="font-title text-title-sm text-light-on-surface">Priya Nair</span>
+                <span data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant">1h ago</span>
+              </div>
+              <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant text-pretty">Added audit event schema for token rotation failures so Datadog alerts fire within 30s.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Sticky Bottom Comment Composer -->
+    <form id="mobile-comment-form" class="fixed bottom-0 inset-x-0 z-30 p-gutter-md bg-light-surface-container-lowest border-t border-light-outline-variant flex items-center gap-gutter-sm">
+      <input id="mobile-comment-input" type="text" placeholder="Add a comment..." class="flex-1 rounded-sm bg-light-surface-container-low border border-light-outline-variant font-body text-body-sm text-light-on-surface placeholder:text-light-on-surface-variant py-2 px-gutter-md focus:border-light-primary focus:ring-1 focus:ring-light-primary">
+      <button data-component-id="button-primary" data-component-type="button" data-component-variant="primary" type="submit" class="inline-flex items-center justify-center px-gutter-md py-2 rounded-sm bg-light-primary text-light-on-primary hover:bg-light-primary-container transition-colors duration-state-change">
+        <span data-design-text-token="label-md" class="font-label text-label-md">Send</span>
+      </button>
+    </form>
+
+  </div>
+
+  <script data-stitch-original-script="a786aa67800f66b4===../../images/avatar_elena.jpg">
+    (function () {
+      const form = document.getElementById('mobile-comment-form');
+      const input = document.getElementById('mobile-comment-input');
+      const list = document.getElementById('mobile-comments-list');
+
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const text = input.value.trim();
+        if (!text) return;
+        const item = document.createElement('div');
+        item.className = 'flex items-start gap-gutter-sm';
+        item.innerHTML = `
+          <img src="https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe" alt="Elena Rostova" class="w-7 h-7 rounded-full object-cover shrink-0" />
+          <div class="flex-1 p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant">
+            <div class="flex items-center justify-between gap-gutter-xs mb-1">
+              <span data-design-text-token="title-sm" class="font-title text-title-sm text-light-on-surface">Elena Rostova</span>
+              <span data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant">Just now</span>
+            </div>
+            <p data-design-text-token="body-sm" class="comment-body font-body text-body-sm text-light-on-surface-variant text-pretty"></p>
+          </div>
+        `;
+        item.querySelector('.comment-body').textContent = text;
+        list.appendChild(item);
+        input.value = '';
+      });
+    })();
+  </script>
+
+
+</body></html>

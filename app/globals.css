@@ -73,17 +73,107 @@ body {
   letter-spacing: -0.01em;
 }
 
+/* Material Symbols Outlined */
+.material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1 !important;
+  box-sizing: content-box;
+  overflow: hidden;
+  white-space: nowrap;
+  direction: ltr;
+  vertical-align: middle;
+}
+
+/* Typography Scale tokens from Stitch */
 .font-headline, .font-display {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
 }
-
 .font-body, .font-title, .font-label {
-  font-family: 'Geist', -apple-system, sans-serif;
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.font-mono {
+  font-family: 'Space Mono', 'JetBrains Mono', ui-monospace, Menlo, monospace;
 }
 
-code, kbd, samp, pre, .font-mono {
-  font-family: 'Space Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-}
+.text-headline-lg { font-size: 28px; line-height: 34px; letter-spacing: -0.25px; font-weight: 600; }
+.text-headline-md { font-size: 22px; line-height: 28px; letter-spacing: -0.15px; font-weight: 600; }
+.text-headline-sm { font-size: 18px; line-height: 24px; font-weight: 600; }
+.text-title-lg { font-size: 16px; line-height: 22px; font-weight: 600; }
+.text-title-md { font-size: 14px; line-height: 20px; font-weight: 600; }
+.text-title-sm { font-size: 13px; line-height: 18px; font-weight: 600; }
+.text-body-lg { font-size: 15px; line-height: 22px; font-weight: 400; }
+.text-body-md { font-size: 14px; line-height: 20px; font-weight: 400; }
+.text-body-sm { font-size: 12px; line-height: 18px; font-weight: 400; }
+.text-label-lg { font-size: 14px; line-height: 20px; font-weight: 500; }
+.text-label-md { font-size: 12px; line-height: 16px; letter-spacing: 0.2px; font-weight: 600; }
+.text-label-sm { font-size: 11px; line-height: 14px; letter-spacing: 0.3px; font-weight: 600; }
+.text-mono-md { font-size: 12px; line-height: 16px; font-weight: 500; }
+.text-mono-sm { font-size: 11px; line-height: 14px; font-weight: 500; }
+
+/* Exact Gutter Spacing from Stitch */
+.p-gutter-xs { padding: 4px; }
+.p-gutter-sm { padding: 8px; }
+.p-gutter-md { padding: 12px; }
+.p-gutter-lg { padding: 16px; }
+.p-gutter-xl { padding: 24px; }
+
+.px-gutter-xs { padding-left: 4px; padding-right: 4px; }
+.px-gutter-sm { padding-left: 8px; padding-right: 8px; }
+.px-gutter-md { padding-left: 12px; padding-right: 12px; }
+.px-gutter-lg { padding-left: 16px; padding-right: 16px; }
+.px-gutter-xl { padding-left: 24px; padding-right: 24px; }
+
+.py-gutter-xs { padding-top: 4px; padding-bottom: 4px; }
+.py-gutter-sm { padding-top: 8px; padding-bottom: 8px; }
+.py-gutter-md { padding-top: 12px; padding-bottom: 12px; }
+.py-gutter-lg { padding-top: 16px; padding-bottom: 16px; }
+.py-gutter-xl { padding-top: 24px; padding-bottom: 24px; }
+
+.gap-gutter-xs { gap: 4px; }
+.gap-gutter-sm { gap: 8px; }
+.gap-gutter-md { gap: 12px; }
+.gap-gutter-lg { gap: 16px; }
+.gap-gutter-xl { gap: 24px; }
+
+/* Colors & Tokens from Stitch */
+.bg-light-surface { background-color: var(--bg-surface); }
+.bg-light-surface-container-lowest { background-color: var(--bg-card); }
+.bg-light-surface-container-low { background-color: var(--bg-surface-low); }
+.bg-light-surface-container { background-color: var(--bg-surface-container); }
+.bg-light-surface-container-high { background-color: var(--bg-surface-high); }
+.bg-light-primary { background-color: var(--primary-interactive); }
+.bg-light-primary-container { background-color: var(--primary-cobalt); }
+
+.text-light-on-surface { color: var(--text-main); }
+.text-light-on-surface-variant { color: var(--text-muted); }
+.text-light-primary { color: var(--primary-interactive); }
+.text-light-on-primary { color: #FFFFFF; }
+
+.border-light-outline-variant { border-color: var(--border-subtle); }
+.border-light-outline { border-color: var(--border-strong); }
+
+.bg-status-done-bg { background-color: var(--status-done-bg); }
+.text-status-done { color: var(--status-done); }
+.bg-status-progress-bg { background-color: var(--status-progress-bg); }
+.text-status-progress { color: var(--status-progress); }
+.bg-status-review-bg { background-color: var(--status-review-bg); }
+.text-status-review { color: var(--status-review); }
+.bg-status-warning-bg { background-color: var(--status-warning-bg); }
+.text-status-warning { color: var(--status-warning); }
+
+.text-issue-story { color: var(--issue-story); }
+.text-issue-bug { color: var(--issue-bug); }
+.text-issue-task { color: var(--issue-task); }
+.text-issue-epic { color: var(--issue-epic); }
+
+.bg-issue-epic\/15 { background-color: rgba(130, 112, 219, 0.15); }
+.bg-light-error-container { background-color: #FFDAD6; }
+.text-light-on-error-container { color: #93000A; }
+
+.dark .bg-light-error-container { background-color: rgba(147, 0, 10, 0.3); }
+.dark .text-light-on-error-container { color: #FFB4AB; }
 
 /* Micro scrollbar */
 ::-webkit-scrollbar {
@@ -101,16 +191,14 @@ code, kbd, samp, pre, .font-mono {
   background: rgba(140, 144, 160, 0.45);
 }
 
-/* Tactile button micro-physics */
+/* Micro transition */
 button, a, input, select, textarea {
   transition: all 120ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-
 button:active {
   transform: scale(0.985);
 }
 
-/* Accessible focus ring */
 *:focus-visible {
   outline: 2px solid #0C66E4;
   outline-offset: 1px;
