@@ -5,6 +5,9 @@ import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import KanbanBoard from '@/components/KanbanBoard';
 import BacklogView from '@/components/BacklogView';
+import SummaryDashboardView from '@/components/SummaryDashboardView';
+import TimelineView from '@/components/TimelineView';
+import IssuesTriageView from '@/components/IssuesTriageView';
 import AnalyticsView from '@/components/AnalyticsView';
 import AutomationView from '@/components/AutomationView';
 import TeamView from '@/components/TeamView';
@@ -32,8 +35,9 @@ export default function ApexAgileApp() {
   const [fixVersions, setFixVersions] = useState([]);
   const [rules, setRules] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState('light');
 
-  // Active view: 'board' | 'backlog' | 'releases' | 'analytics' | 'automation' | 'team' | 'settings' | 'admin'
+  // Active view: 'summary' | 'board' | 'timeline' | 'issues' | 'backlog' | 'releases' | 'analytics' | 'automation' | 'team' | 'settings' | 'admin'
   const [activeView, setActiveView] = useState('board');
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -571,7 +575,7 @@ export default function ApexAgileApp() {
   };
 
   return (
-    <div className="flex h-screen bg-[#09090b] text-[#f4f4f5] overflow-hidden">
+    <div className={`flex h-screen bg-[var(--bg-canvas)] text-[var(--text-main)] overflow-hidden transition-colors duration-150 ${theme === 'dark' ? 'dark' : ''}`}>
       {/* 1. Global Left Sidebar */}
       <Sidebar
         projects={projects}
@@ -605,6 +609,10 @@ export default function ApexAgileApp() {
           onOpenStandup={() => setIsStandupOpen(true)}
           activeSprint={activeSprint}
           sprintStats={sprintStats}
+          theme={theme}
+          onToggleTheme={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
+          currentUser={currentUser}
+          onOpenLogin={() => setIsLoginOpen(true)}
         />
 
         {/* Real-time Interactive JQL Bar (on Board and Backlog views) */}
@@ -628,6 +636,47 @@ export default function ApexAgileApp() {
             </div>
           ) : (
             <>
+              {activeView === 'summary' && (
+                <SummaryDashboardView
+                  currentProject={currentProject}
+                  activeSprint={activeSprint}
+                  issues={issues}
+                  states={states}
+                  users={users}
+                  onSelectIssue={(iss) => setSelectedIssue(iss)}
+                  setActiveView={setActiveView}
+                />
+              )}
+
+              {activeView === 'timeline' && (
+                <TimelineView
+                  currentProject={currentProject}
+                  epics={epics}
+                  issues={issues}
+                  states={states}
+                  onCreateEpic={handleCreateEpic}
+                  onSelectIssue={(iss) => setSelectedIssue(iss)}
+                  setActiveView={setActiveView}
+                />
+              )}
+
+              {activeView === 'issues' && (
+                <IssuesTriageView
+                  currentProject={currentProject}
+                  issues={filteredIssues}
+                  states={states}
+                  epics={epics}
+                  sprints={sprints}
+                  onSelectIssue={(iss) => setSelectedIssue(iss)}
+                  onUpdateIssueStatus={handleUpdateIssueStatus}
+                  onNewIssue={() => {
+                    setNewIssueSprintId(activeSprint?.id || null);
+                    setIsNewIssueOpen(true);
+                  }}
+                  setActiveView={setActiveView}
+                />
+              )}
+
               {activeView === 'board' && (
                 <KanbanBoard
                   states={states}

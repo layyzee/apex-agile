@@ -13,9 +13,13 @@ import {
   Plus, 
   ChevronDown, 
   PanelLeftClose, 
-  PanelLeftOpen
+  PanelLeftOpen,
+  LayoutDashboard,
+  Calendar,
+  Layers,
+  SlidersHorizontal,
+  FolderGit2
 } from 'lucide-react';
-import ApexLogo from '@/components/ApexLogo';
 
 export default function Sidebar({
   projects,
@@ -30,19 +34,37 @@ export default function Sidebar({
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isProjectDropdownOpen, setIsProjectDropdownOpen] = useState(false);
 
-  const navItems = [
+  const planningNav = [
     {
-      id: 'board',
-      label: currentProject?.methodology === 'kanban' ? 'Kanban Board' : 'Sprint Board',
-      icon: Kanban,
+      id: 'summary',
+      label: 'Summary',
+      icon: LayoutDashboard,
+    },
+    {
+      id: 'timeline',
+      label: 'Timeline',
+      icon: Calendar,
     },
     {
       id: 'backlog',
-      label: 'Backlog & Sizing',
+      label: 'Backlog',
       icon: ListTodo,
       disabled: currentProject?.methodology === 'kanban',
-      hint: currentProject?.methodology === 'kanban' ? 'Scrum' : null,
+      hint: currentProject?.methodology === 'kanban' ? 'Scrum only' : null,
     },
+    {
+      id: 'board',
+      label: currentProject?.methodology === 'kanban' ? 'Kanban board' : 'Active sprints',
+      icon: Kanban,
+    },
+    {
+      id: 'issues',
+      label: 'Issues',
+      icon: Layers,
+    },
+  ];
+
+  const devNav = [
     {
       id: 'releases',
       label: 'Releases & CAB',
@@ -50,7 +72,7 @@ export default function Sidebar({
     },
     {
       id: 'analytics',
-      label: 'Scrum Cockpit',
+      label: 'Reports & Velocity',
       icon: BarChart3,
     },
     {
@@ -64,37 +86,27 @@ export default function Sidebar({
       label: 'Squad & Capacity',
       icon: Users,
     },
-    {
-      id: 'settings',
-      label: 'Settings',
-      icon: Settings,
-    },
-    {
-      id: 'admin',
-      label: 'Admin Console',
-      icon: ShieldCheck,
-    },
   ];
 
   return (
     <aside
-      className={`border-r border-white/[0.06] bg-[#0c0c0e] flex flex-col shrink-0 select-none transition-all duration-200 ease-out ${
+      className={`border-r border-[var(--border-subtle)] bg-[var(--bg-surface-low)] flex flex-col shrink-0 select-none transition-all duration-200 ease-out ${
         isCollapsed ? 'w-14' : 'w-60'
       }`}
     >
-      {/* Top Header: Brand Logo & Collapse Toggle */}
-      <div className="p-3 border-b border-white/[0.05] flex items-center justify-between">
+      {/* 1. Project Identity & Collapse Trigger */}
+      <div className="p-3 border-b border-[var(--border-subtle)] flex items-center justify-between">
         <div className="flex items-center gap-2.5 min-w-0">
-          <div className="p-1 rounded-md bg-blue-600/10 border border-blue-500/20 flex items-center justify-center shrink-0">
-            <ApexLogo size={18} />
+          <div className="w-8 h-8 rounded-md bg-[#8270DB]/15 text-[#8270DB] border border-[#8270DB]/30 flex items-center justify-center shrink-0 font-bold font-mono text-xs">
+            {currentProject?.key?.slice(0, 4) || 'PLAT'}
           </div>
           {!isCollapsed && (
             <div className="truncate">
-              <span className="font-semibold text-xs tracking-tight text-zinc-100 block">
-                Apex Agile
+              <span className="font-headline font-bold text-xs tracking-tight text-[var(--text-main)] block truncate">
+                {currentProject?.name || 'Platform Core'}
               </span>
-              <span className="text-[10px] font-mono text-zinc-500 block truncate">
-                Enterprise v1.2
+              <span className="text-[10px] font-mono text-[var(--text-subtle)] block truncate">
+                {currentProject?.methodology === 'kanban' ? 'Kanban project' : 'Software project'} · {currentProject?.key || 'PLAT'}
               </span>
             </div>
           )}
@@ -102,34 +114,34 @@ export default function Sidebar({
 
         <button
           onClick={() => setIsCollapsed((prev) => !prev)}
-          className="p-1 rounded hover:bg-zinc-800 text-zinc-500 hover:text-zinc-200 transition-colors shrink-0"
+          className="p-1 rounded hover:bg-[var(--bg-surface-container)] text-[var(--text-subtle)] hover:text-[var(--text-main)] transition-colors shrink-0"
           title={isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
         >
           {isCollapsed ? <PanelLeftOpen className="w-3.5 h-3.5" /> : <PanelLeftClose className="w-3.5 h-3.5" />}
         </button>
       </div>
 
-      {/* Project Selector (Expanded only) */}
+      {/* Project Switcher Dropdown (when expanded) */}
       {!isCollapsed && (
-        <div className="p-2 border-b border-white/[0.04] relative">
+        <div className="p-2 border-b border-[var(--border-subtle)] relative">
           <button
             onClick={() => setIsProjectDropdownOpen((prev) => !prev)}
-            className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-zinc-900 border border-transparent hover:border-white/[0.06] text-left transition-colors"
+            className="w-full flex items-center justify-between px-2.5 py-1.5 rounded hover:bg-[var(--bg-surface-container)] border border-transparent hover:border-[var(--border-subtle)] text-left transition-colors"
           >
             <div className="truncate">
-              <h4 className="font-medium text-xs text-zinc-200 truncate">
-                {currentProject?.name || 'Project'}
-              </h4>
-              <span className="text-[10px] font-mono text-zinc-500 block truncate">
-                {currentProject?.key} • {currentProject?.methodology}
+              <span className="font-label text-[11px] font-medium text-[var(--text-muted)] block truncate">
+                Active Project
+              </span>
+              <span className="font-mono text-[10px] text-[var(--text-subtle)]">
+                Switch or create...
               </span>
             </div>
-            <ChevronDown className="w-3.5 h-3.5 text-zinc-500 shrink-0 ml-1" />
+            <ChevronDown className="w-3.5 h-3.5 text-[var(--text-subtle)] shrink-0 ml-1" />
           </button>
 
           {isProjectDropdownOpen && (
-            <div className="absolute top-14 left-2 right-2 z-50 bg-[#16161b] border border-white/[0.08] rounded-xl shadow-2xl p-1 space-y-0.5 animate-in fade-in duration-100">
-              <div className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
+            <div className="absolute top-full left-2 right-2 mt-1 rounded-md bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-xl z-50 p-1 space-y-1">
+              <div className="px-2 py-1 text-[10px] font-mono uppercase text-[var(--text-subtle)] font-bold">
                 Projects
               </div>
               {projects.map((p) => (
@@ -139,29 +151,26 @@ export default function Sidebar({
                     onSelectProject(p);
                     setIsProjectDropdownOpen(false);
                   }}
-                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-colors ${
+                  className={`w-full text-left px-2 py-1.5 rounded text-xs transition-colors flex items-center justify-between ${
                     currentProject?.id === p.id
-                      ? 'bg-blue-600/20 text-blue-300 font-medium'
-                      : 'text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200'
+                      ? 'bg-[var(--status-progress-bg)] text-[#0C66E4] font-medium'
+                      : 'hover:bg-[var(--bg-surface-low)] text-[var(--text-main)]'
                   }`}
                 >
                   <span className="truncate">{p.name}</span>
-                  <span className="text-[10px] uppercase font-mono text-zinc-500 ml-1">
-                    {p.key}
-                  </span>
+                  <span className="text-[10px] font-mono text-[var(--text-subtle)]">{p.key}</span>
                 </button>
               ))}
-
-              <div className="pt-1 border-t border-white/[0.05]">
+              <div className="pt-1 border-t border-[var(--border-subtle)]">
                 <button
                   onClick={() => {
-                    setIsProjectDropdownOpen(false);
                     onNewProject();
+                    setIsProjectDropdownOpen(false);
                   }}
-                  className="w-full flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-blue-400 hover:bg-blue-500/10 transition-colors font-medium"
+                  className="w-full text-left px-2 py-1.5 rounded text-xs text-[#0C66E4] hover:bg-[var(--status-progress-bg)] flex items-center gap-1.5 font-medium transition-colors"
                 >
                   <Plus className="w-3.5 h-3.5" />
-                  <span>New Project</span>
+                  <span>Create Project</span>
                 </button>
               </div>
             </div>
@@ -169,87 +178,108 @@ export default function Sidebar({
         </div>
       )}
 
-      {/* Navigation Links */}
-      <nav className="flex-1 p-2 space-y-0.5 overflow-y-auto">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = activeView === item.id;
-
-          if (item.disabled) {
-            return !isCollapsed ? (
-              <div
-                key={item.id}
-                className="flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-zinc-600 cursor-not-allowed"
-              >
-                <div className="flex items-center gap-2">
-                  <Icon className="w-4 h-4 text-zinc-700 shrink-0" />
-                  <span>{item.label}</span>
-                </div>
-                <span className="text-[9px] font-mono px-1 rounded bg-zinc-900 text-zinc-600">
-                  {item.hint}
-                </span>
-              </div>
-            ) : null;
-          }
-
-          return (
-            <button
-              key={item.id}
-              onClick={() => setActiveView(item.id)}
-              title={isCollapsed ? item.label : undefined}
-              className={`w-full flex items-center rounded-lg text-xs font-medium transition-colors ${
-                isCollapsed
-                  ? 'justify-center p-2.5'
-                  : 'justify-between px-2.5 py-1.5'
-              } ${
-                isActive
-                  ? 'bg-zinc-800/90 text-white border border-white/[0.08]'
-                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/60'
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-blue-400' : 'text-zinc-500'}`} />
-                {!isCollapsed && <span>{item.label}</span>}
-              </div>
-              {!isCollapsed && item.badge && (
-                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-zinc-900 text-zinc-400 border border-white/[0.04]">
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          );
-        })}
-      </nav>
-
-      {/* Profile Card */}
-      <div className="p-2 border-t border-white/[0.05] bg-zinc-950/30">
-        <button
-          onClick={onOpenLogin}
-          className={`w-full flex items-center rounded-lg hover:bg-zinc-900 transition-colors text-left ${
-            isCollapsed ? 'justify-center p-2' : 'justify-between p-1.5'
-          }`}
-          title="Switch User Persona"
-        >
-          <div className="flex items-center gap-2 truncate">
-            <div className="w-6 h-6 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center font-bold text-[10px] text-blue-300 shrink-0">
-              {currentUser?.avatar_initials || 'BP'}
-            </div>
-            {!isCollapsed && (
-              <div className="truncate">
-                <div className="font-medium text-xs text-zinc-200 truncate">
-                  {currentUser?.name || 'Balaji Palani'}
-                </div>
-                <div className="text-[10px] text-zinc-500 truncate">
-                  {currentUser?.role ? currentUser.role.split('/')[0] : 'Scrum Master'}
-                </div>
-              </div>
-            )}
-          </div>
+      {/* 2. Navigation Sections */}
+      <div className="flex-1 overflow-y-auto p-2 space-y-4">
+        {/* Planning Section */}
+        <div className="space-y-1">
           {!isCollapsed && (
-            <span className="text-[10px] font-mono text-zinc-500 px-1 py-0.5 rounded bg-zinc-900 border border-white/[0.04]">
-              Switch
-            </span>
+            <p className="px-2.5 py-1 font-label text-[10px] text-[var(--text-subtle)] uppercase tracking-wider font-semibold">
+              Planning
+            </p>
           )}
+          {planningNav.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeView === item.id;
+            return (
+              <button
+                key={item.id}
+                disabled={item.disabled}
+                onClick={() => setActiveView(item.id)}
+                className={`w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded text-xs font-label transition-colors text-left ${
+                  isActive
+                    ? 'bg-[var(--status-progress-bg)] text-[#0C66E4] font-semibold'
+                    : item.disabled
+                    ? 'opacity-40 cursor-not-allowed text-[var(--text-subtle)]'
+                    : 'text-[var(--text-muted)] hover:bg-[var(--bg-surface-container)] hover:text-[var(--text-main)]'
+                }`}
+                title={isCollapsed ? item.label : undefined}
+              >
+                <Icon className="w-4 h-4 shrink-0" />
+                {!isCollapsed && (
+                  <span className="truncate flex-1">{item.label}</span>
+                )}
+                {!isCollapsed && item.hint && (
+                  <span className="text-[9px] font-mono text-[var(--text-subtle)] shrink-0">
+                    {item.hint}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Development Section */}
+        <div className="space-y-1">
+          {!isCollapsed && (
+            <p className="px-2.5 py-1 font-label text-[10px] text-[var(--text-subtle)] uppercase tracking-wider font-semibold">
+              Development
+            </p>
+          )}
+          {devNav.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeView === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => setActiveView(item.id)}
+                className={`w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded text-xs font-label transition-colors text-left ${
+                  isActive
+                    ? 'bg-[var(--status-progress-bg)] text-[#0C66E4] font-semibold'
+                    : 'text-[var(--text-muted)] hover:bg-[var(--bg-surface-container)] hover:text-[var(--text-main)]'
+                }`}
+                title={isCollapsed ? item.label : undefined}
+              >
+                <Icon className="w-4 h-4 shrink-0" />
+                {!isCollapsed && (
+                  <span className="truncate flex-1">{item.label}</span>
+                )}
+                {!isCollapsed && item.badge && (
+                  <span className="text-[9px] font-mono px-1.5 py-0.2 rounded-full bg-[var(--bg-surface-container)] text-[var(--text-muted)] border border-[var(--border-subtle)]">
+                    {item.badge}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 3. Bottom Settings & Role Persona */}
+      <div className="p-2 border-t border-[var(--border-subtle)] space-y-1">
+        <button
+          onClick={() => setActiveView('settings')}
+          className={`w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded text-xs font-label transition-colors text-left ${
+            activeView === 'settings'
+              ? 'bg-[var(--status-progress-bg)] text-[#0C66E4] font-semibold'
+              : 'text-[var(--text-muted)] hover:bg-[var(--bg-surface-container)] hover:text-[var(--text-main)]'
+          }`}
+          title={isCollapsed ? 'Project settings' : undefined}
+        >
+          <SlidersHorizontal className="w-4 h-4 shrink-0" />
+          {!isCollapsed && <span className="truncate">Project settings</span>}
+        </button>
+
+        <button
+          onClick={() => setActiveView('admin')}
+          className={`w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded text-xs font-label transition-colors text-left ${
+            activeView === 'admin'
+              ? 'bg-[var(--status-progress-bg)] text-[#0C66E4] font-semibold'
+              : 'text-[var(--text-muted)] hover:bg-[var(--bg-surface-container)] hover:text-[var(--text-main)]'
+          }`}
+          title={isCollapsed ? 'Admin Console' : undefined}
+        >
+          <ShieldCheck className="w-4 h-4 shrink-0" />
+          {!isCollapsed && <span className="truncate">Admin Console</span>}
         </button>
       </div>
     </aside>

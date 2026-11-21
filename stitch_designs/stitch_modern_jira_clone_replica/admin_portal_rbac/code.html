@@ -1,0 +1,453 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal &amp; RBAC — Atlassian Admin</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'status-done': '#1F845A',
+        'status-done-bg': '#DCFFF1',
+        'status-progress': '#0C66E4',
+        'status-progress-bg': '#E9F2FF',
+        'status-review': '#6E5DC6',
+        'status-review-bg': '#F3F0FF',
+        'status-warning': '#A54800',
+        'status-warning-bg': '#FFF7D6',
+        'issue-story': '#22A06B',
+        'issue-bug': '#E34935',
+        'issue-task': '#1D7AFC',
+        'issue-epic': '#8270DB',
+        'light-primary': '#004FB6',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#0C66E4',
+        'light-on-primary-container': '#ECEFFF',
+        'light-secondary': '#475D90',
+        'light-on-secondary': '#FFFFFF',
+        'light-secondary-container': '#ADC3FD',
+        'light-on-secondary-container': '#394F82',
+        'light-tertiary': '#953500',
+        'light-on-tertiary': '#FFFFFF',
+        'light-tertiary-container': '#BD4600',
+        'light-on-tertiary-container': '#FFECE5',
+        'light-error': '#BA1A1A',
+        'light-on-error': '#FFFFFF',
+        'light-error-container': '#FFDAD6',
+        'light-on-error-container': '#93000A',
+        'light-background': '#FAF8FF',
+        'light-on-background': '#191B23',
+        'light-surface': '#FAF8FF',
+        'light-surface-dim': '#D8D9E4',
+        'light-surface-bright': '#FAF8FF',
+        'light-surface-container-lowest': '#FFFFFF',
+        'light-surface-container-low': '#F2F3FE',
+        'light-surface-container': '#ECEDF8',
+        'light-surface-container-high': '#E7E7F2',
+        'light-surface-container-highest': '#E1E2ED',
+        'light-on-surface': '#191B23',
+        'light-surface-variant': '#DEE2F3',
+        'light-on-surface-variant': '#424654',
+        'light-outline': '#727786',
+        'light-outline-variant': '#C2C6D7',
+        'light-inverse-surface': '#2E3038',
+        'light-inverse-on-surface': '#EFF0FB',
+        'light-inverse-primary': '#B0C6FF',
+        'light-shadow': '#000000',
+        'light-scrim': '#000000',
+        'dark-primary': '#B0C6FF',
+        'dark-on-primary': '#002D6E',
+        'dark-primary-container': '#0C66E4',
+        'dark-on-primary-container': '#ECEFFF',
+        'dark-secondary': '#B0C6FF',
+        'dark-on-secondary': '#162F5F',
+        'dark-secondary-container': '#2F4577',
+        'dark-on-secondary-container': '#9EB4ED',
+        'dark-tertiary': '#FFB598',
+        'dark-on-tertiary': '#591D00',
+        'dark-tertiary-container': '#BD4600',
+        'dark-on-tertiary-container': '#FFECE5',
+        'dark-error': '#FFB4AB',
+        'dark-on-error': '#690005',
+        'dark-error-container': '#93000A',
+        'dark-on-error-container': '#FFDAD6',
+        'dark-background': '#11131B',
+        'dark-on-background': '#E1E2ED',
+        'dark-surface': '#11131B',
+        'dark-surface-dim': '#11131B',
+        'dark-surface-bright': '#363941',
+        'dark-surface-container-lowest': '#0B0E15',
+        'dark-surface-container-low': '#191B23',
+        'dark-surface-container': '#1D1F27',
+        'dark-surface-container-high': '#272A32',
+        'dark-surface-container-highest': '#32353D',
+        'dark-on-surface': '#E1E2ED',
+        'dark-surface-variant': '#424654',
+        'dark-on-surface-variant': '#C2C6D7',
+        'dark-outline': '#8C90A0',
+        'dark-outline-variant': '#424654',
+        'dark-inverse-surface': '#E1E2ED',
+        'dark-inverse-on-surface': '#2E3038',
+        'dark-inverse-primary': '#0058CA',
+        'dark-shadow': '#000000',
+        'dark-scrim': '#000000',
+      },
+      borderRadius: {
+        'sm': '4px',
+        'DEFAULT': '8px',
+        'md': '10px',
+        'lg': '12px',
+        'xl': '16px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '24px',
+        'section': '32px',
+        'page-margin': '24px',
+      },
+      fontFamily: {
+        'display': ['"Space Grotesk"', 'sans-serif'],
+        'headline': ['"Space Grotesk"', 'sans-serif'],
+        'title': ['"Geist"', 'sans-serif'],
+        'body': ['"Geist"', 'sans-serif'],
+        'label': ['"Geist"', 'sans-serif'],
+        'mono': ['"Space Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['36px', { lineHeight: '44px', letterSpacing: '-0.5px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '600' }],
+        'headline-md': ['22px', { lineHeight: '28px', letterSpacing: '-0.15px', fontWeight: '600' }],
+        'headline-sm': ['18px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-lg': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-lg': ['15px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['12px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '500' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '600' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.3px', fontWeight: '600' }],
+        'mono-md': ['12px', { lineHeight: '16px', letterSpacing: '0px', fontWeight: '500' }],
+        'mono-sm': ['11px', { lineHeight: '14px', letterSpacing: '0px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '100ms',
+        'surface-enter': '220ms',
+        'surface-exit': '150ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Space+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>
+    .material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1 !important;
+      box-sizing: content-box;
+      overflow: hidden;
+      white-space: nowrap;
+      direction: ltr;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="bg-light-surface text-light-on-surface font-body antialiased">
+
+  <div class="min-h-[1024px] flex flex-col bg-light-surface" data-stitch-vh="min-h-[1024px]===min-h-screen">
+
+    <!-- Global Admin Top Bar -->
+    <header class="sticky top-0 z-30 h-14 px-gutter-lg bg-light-surface-container-lowest border-b border-light-outline-variant flex items-center justify-between gap-gutter-lg">
+      <div class="flex items-center gap-gutter-lg">
+        <a href="../sprint-board/ActiveSprintBoard.html" class="flex items-center gap-gutter-sm rounded-sm">
+          <div class="w-7 h-7 rounded-sm bg-light-primary-container flex items-center justify-center text-light-on-primary">
+            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">admin_panel_settings</span>
+          </div>
+          <span data-design-text-token="title-lg" class="font-headline text-title-lg text-light-on-surface tracking-tight">Atlassian Admin</span>
+        </a>
+
+        <nav aria-label="Admin top navigation" class="hidden md:flex items-center gap-gutter-xs">
+          <a href="#" aria-current="page" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-primary bg-status-progress-bg">Directory</a>
+          <a href="../sprint-board/ActiveSprintBoard.html" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container-low">Back to Jira</a>
+          <a href="../auth/AtlassianAuth.html" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container-low">Sign out</a>
+        </nav>
+      </div>
+
+      <div class="flex items-center gap-gutter-md">
+        <span class="hidden sm:inline-flex px-gutter-sm py-0.5 rounded-sm bg-status-review-bg text-light-on-surface font-label text-label-sm uppercase">Org Admin</span>
+        <img src="https://lh3.googleusercontent.com/aida/ALJJyrABWFovHqwC7aId4OdqD1DrR8VWveLn-57Tr_RrdJ8a8GBEtm6_-lk-7Rre22bvfpBddwH2ULgOliezB0dqPxqGCfKGbDj3lhM-FALvWtgtF1wYMr6LSnb1HxEIdCIts7vcOtc-wkUtpTkYneiSYQ5KBNplB41TS3L8_1Qk9HKxOd1C5Drvzs6967qWm6S9OK8FWQs6nJTZWVsszQFaWKrNX1LXrKmlvFCECIE8sl2b50WQ1VXj" alt="Elena Rostova" class="w-8 h-8 rounded-full object-cover border border-light-outline-variant">
+      </div>
+    </header>
+
+    <!-- Admin Shell Body -->
+    <div class="flex flex-1 min-h-0">
+
+      <!-- Left Admin Sidebar -->
+      <aside class="hidden lg:flex flex-col w-60 shrink-0 min-h-[1024px] bg-light-surface-container-low border-r border-light-outline-variant p-gutter-md gap-gutter-lg" data-stitch-vh="min-h-[1024px]===min-h-screen">
+        <div class="px-gutter-sm py-gutter-xs">
+          <p data-design-text-token="title-md" class="font-title text-title-md text-light-on-surface">Acme Engineering</p>
+          <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant">Enterprise · 25 seats</p>
+        </div>
+
+        <nav aria-label="Organization access" class="flex flex-col gap-gutter-xs">
+          <p data-design-text-token="label-sm" class="px-gutter-sm py-gutter-xs font-label text-label-sm text-light-on-surface-variant uppercase tracking-wider">Access Control</p>
+          <a href="#" aria-current="page" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg bg-status-progress-bg text-light-primary">
+            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">group</span>
+            <span data-design-text-token="label-lg">Users &amp; roles</span>
+          </a>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">shield_person</span>
+            <span data-design-text-token="label-lg">Permission schemes</span>
+          </a>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">passkey</span>
+            <span data-design-text-token="label-lg">SAML SSO &amp; SCIM</span>
+          </a>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">receipt_long</span>
+            <span data-design-text-token="label-lg">Billing &amp; seats</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Main Admin Content -->
+      <main class="flex-1 min-w-0 p-gutter-xl flex flex-col gap-gutter-xl">
+
+        <div class="flex flex-wrap items-center justify-between gap-gutter-md">
+          <div>
+            <h1 data-design-text-token="headline-lg" class="font-headline text-headline-lg text-light-on-surface">Users &amp; role-based access</h1>
+            <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant">Manage organization roles, project permissions, and seat allocation</p>
+          </div>
+          <button id="open-invite-btn" data-component-id="button-primary" data-component-type="button" data-component-variant="primary" type="button" class="inline-flex items-center justify-center px-gutter-md py-1.5 rounded-sm bg-light-primary text-light-on-primary hover:bg-light-primary-container transition-colors duration-state-change">
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Invite member</span>
+          </button>
+        </div>
+
+        <!-- Seat & Security KPI Strip -->
+        <section class="grid grid-cols-1 sm:grid-cols-3 gap-gutter-lg">
+          <div class="p-gutter-lg rounded bg-light-surface-container-lowest border border-light-outline-variant">
+            <p data-design-text-token="label-sm" class="font-label text-label-sm text-light-on-surface-variant uppercase">Licensed seats</p>
+            <p data-design-text-token="headline-md" class="font-headline text-headline-md text-light-on-surface tabular-nums mt-1">18 / 25</p>
+          </div>
+          <div class="p-gutter-lg rounded bg-light-surface-container-lowest border border-light-outline-variant">
+            <p data-design-text-token="label-sm" class="font-label text-label-sm text-light-on-surface-variant uppercase">Org admins</p>
+            <p data-design-text-token="headline-md" class="font-headline text-headline-md text-light-on-surface tabular-nums mt-1">2</p>
+          </div>
+          <div class="p-gutter-lg rounded bg-light-surface-container-lowest border border-light-outline-variant">
+            <p data-design-text-token="label-sm" class="font-label text-label-sm text-light-on-surface-variant uppercase">Authentication</p>
+            <p data-design-text-token="headline-md" class="font-headline text-headline-md text-light-on-surface mt-1">Okta SAML 2.0</p>
+          </div>
+        </section>
+
+        <!-- Members & Role Assignment Table -->
+        <section aria-label="Organization members" class="rounded bg-light-surface-container-lowest border border-light-outline-variant overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[660px]">
+            <thead>
+              <tr class="border-b border-light-outline-variant bg-light-surface-container-low">
+                <th class="px-gutter-lg py-gutter-sm font-label text-label-sm text-light-on-surface-variant uppercase">Member</th>
+                <th class="px-gutter-lg py-gutter-sm font-label text-label-sm text-light-on-surface-variant uppercase">Email</th>
+                <th class="px-gutter-lg py-gutter-sm font-label text-label-sm text-light-on-surface-variant uppercase">Role</th>
+                <th class="px-gutter-lg py-gutter-sm font-label text-label-sm text-light-on-surface-variant uppercase">Status</th>
+                <th class="px-gutter-lg py-gutter-sm font-label text-label-sm text-light-on-surface-variant uppercase">Last active</th>
+              </tr>
+            </thead>
+            <tbody id="members-tbody" class="divide-y divide-light-outline-variant">
+              <tr>
+                <td class="px-gutter-lg py-gutter-md"><div class="flex items-center gap-gutter-sm"><img src="https://lh3.googleusercontent.com/aida/ALJJyrABWFovHqwC7aId4OdqD1DrR8VWveLn-57Tr_RrdJ8a8GBEtm6_-lk-7Rre22bvfpBddwH2ULgOliezB0dqPxqGCfKGbDj3lhM-FALvWtgtF1wYMr6LSnb1HxEIdCIts7vcOtc-wkUtpTkYneiSYQ5KBNplB41TS3L8_1Qk9HKxOd1C5Drvzs6967qWm6S9OK8FWQs6nJTZWVsszQFaWKrNX1LXrKmlvFCECIE8sl2b50WQ1VXj" alt="Elena Rostova" class="w-7 h-7 rounded-full object-cover"><span class="font-title text-title-sm text-light-on-surface">Elena Rostova</span></div></td>
+                <td class="px-gutter-lg py-gutter-md font-body text-body-sm text-light-on-surface-variant">elena.rostova@acme.dev</td>
+                <td class="px-gutter-lg py-gutter-md">
+                  <select aria-label="Role for Elena Rostova" class="rounded-sm bg-light-surface-container-low border border-light-outline-variant font-label text-label-md text-light-on-surface py-1 pr-8">
+                    <option selected>Org Admin</option>
+                    <option>Project Admin</option>
+                    <option>Member</option>
+                    <option>Viewer</option>
+                  </select>
+                </td>
+                <td class="px-gutter-lg py-gutter-md"><span class="px-gutter-sm py-0.5 rounded-sm bg-status-done-bg text-light-on-surface font-label text-label-sm uppercase">Active</span></td>
+                <td class="px-gutter-lg py-gutter-md font-body text-body-sm text-light-on-surface-variant">Online now</td>
+              </tr>
+
+              <tr>
+                <td class="px-gutter-lg py-gutter-md"><div class="flex items-center gap-gutter-sm"><img src="https://lh3.googleusercontent.com/aida/ALJJyrDgKx4jLzMiXGShOOaAzLOjwe-zDqHHXWBB1EKN99ni4lK8OMMkRiG-_xTTRI7voe3_3HfhmuaPa5-6F_6xJ4jLmz7pBtBqo4WWmFsxDVbWJC_K4-hU1FtU8r_-lAvFTzWcpMVWSnbVsdLHaUUaLN35F1HkIRAKQNdISHkxepLOraNDp84np6OnjPQaRH6GBuDuhRAIfTTnSiJ6_WcsbFEJJAkaKaLCGpruOK8dxOBzLEGjhYYpXw" alt="Marcus Vance" class="w-7 h-7 rounded-full object-cover"><span class="font-title text-title-sm text-light-on-surface">Marcus Vance</span></div></td>
+                <td class="px-gutter-lg py-gutter-md font-body text-body-sm text-light-on-surface-variant">marcus.vance@acme.dev</td>
+                <td class="px-gutter-lg py-gutter-md">
+                  <select aria-label="Role for Marcus Vance" class="rounded-sm bg-light-surface-container-low border border-light-outline-variant font-label text-label-md text-light-on-surface py-1 pr-8">
+                    <option>Org Admin</option>
+                    <option selected>Project Admin</option>
+                    <option>Member</option>
+                    <option>Viewer</option>
+                  </select>
+                </td>
+                <td class="px-gutter-lg py-gutter-md"><span class="px-gutter-sm py-0.5 rounded-sm bg-status-done-bg text-light-on-surface font-label text-label-sm uppercase">Active</span></td>
+                <td class="px-gutter-lg py-gutter-md font-body text-body-sm text-light-on-surface-variant">12m ago</td>
+              </tr>
+
+              <tr>
+                <td class="px-gutter-lg py-gutter-md"><div class="flex items-center gap-gutter-sm"><img src="https://lh3.googleusercontent.com/aida/ALJJyrCklGpvdGYSopZxSSrRrPtkBdl957Q7Ogz3uX4fzie9G6mTQH6uP4Ci9ogj6r8yyxr5FSklMt7HTI9LHmOQx-1AJAW00HC-R94bmNKCEc1e-aUownDKA7Pw9u-0SzqwGKOMXci_2P53ra7QQllboBJxCniFDjxsHLcxZZzShy3IZKKuPnALJYUM8lxbC3lHfz-oLxtUKoE_SWLs1a7Uj3mETCnd6AwoJglU90DUhLV8p3Jl2FT6" alt="Priya Nair" class="w-7 h-7 rounded-full object-cover"><span class="font-title text-title-sm text-light-on-surface">Priya Nair</span></div></td>
+                <td class="px-gutter-lg py-gutter-md font-body text-body-sm text-light-on-surface-variant">priya.nair@acme.dev</td>
+                <td class="px-gutter-lg py-gutter-md">
+                  <select aria-label="Role for Priya Nair" class="rounded-sm bg-light-surface-container-low border border-light-outline-variant font-label text-label-md text-light-on-surface py-1 pr-8">
+                    <option>Org Admin</option>
+                    <option>Project Admin</option>
+                    <option selected>Member</option>
+                    <option>Viewer</option>
+                  </select>
+                </td>
+                <td class="px-gutter-lg py-gutter-md"><span class="px-gutter-sm py-0.5 rounded-sm bg-status-done-bg text-light-on-surface font-label text-label-sm uppercase">Active</span></td>
+                <td class="px-gutter-lg py-gutter-md font-body text-body-sm text-light-on-surface-variant">1h ago</td>
+              </tr>
+
+              <tr>
+                <td class="px-gutter-lg py-gutter-md"><div class="flex items-center gap-gutter-sm"><img src="https://lh3.googleusercontent.com/aida/ALJJyrCd4FUoZEFnNPBCTLL-t35eXD_Ze8l31QBZURkZAMpXP1vqprURZzjr1aRGXVDwEnaU-8is7xwAFXvg7nAi_l3o_KEQz8y_ez6HsX-rRVU_VxfWWOtDEpH3vS7oh9aTDgE6d6rnzWr8bYW0kJIuTbwL6uLvm7tlrJjOkmke-oxA0n6aIhsStI4KuvWQGSFJke-nf3qkEOrv5q383rr5nEmbnohLqq4l_hPZxDP8nLE8NVeBQkI" alt="Kenji Sato" class="w-7 h-7 rounded-full object-cover"><span class="font-title text-title-sm text-light-on-surface">Kenji Sato</span></div></td>
+                <td class="px-gutter-lg py-gutter-md font-body text-body-sm text-light-on-surface-variant">kenji.sato@acme.dev</td>
+                <td class="px-gutter-lg py-gutter-md">
+                  <select aria-label="Role for Kenji Sato" class="rounded-sm bg-light-surface-container-low border border-light-outline-variant font-label text-label-md text-light-on-surface py-1 pr-8">
+                    <option>Org Admin</option>
+                    <option selected>Project Admin</option>
+                    <option>Member</option>
+                    <option>Viewer</option>
+                  </select>
+                </td>
+                <td class="px-gutter-lg py-gutter-md"><span class="px-gutter-sm py-0.5 rounded-sm bg-status-done-bg text-light-on-surface font-label text-label-sm uppercase">Active</span></td>
+                <td class="px-gutter-lg py-gutter-md font-body text-body-sm text-light-on-surface-variant">2h ago</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- RBAC Permission Matrix -->
+        <section aria-label="Role permissions matrix" class="rounded bg-light-surface-container-lowest border border-light-outline-variant overflow-x-auto">
+          <header class="px-gutter-lg py-gutter-md border-b border-light-outline-variant bg-light-surface-container-low">
+            <h2 data-design-text-token="title-md" class="font-title text-title-md text-light-on-surface">Role permissions matrix</h2>
+          </header>
+          <table class="w-full text-left border-collapse min-w-[600px]">
+            <thead>
+              <tr class="border-b border-light-outline-variant">
+                <th class="px-gutter-lg py-gutter-sm font-label text-label-sm text-light-on-surface-variant uppercase">Capability</th>
+                <th class="px-gutter-lg py-gutter-sm font-label text-label-sm text-light-on-surface-variant uppercase text-center">Org Admin</th>
+                <th class="px-gutter-lg py-gutter-sm font-label text-label-sm text-light-on-surface-variant uppercase text-center">Project Admin</th>
+                <th class="px-gutter-lg py-gutter-sm font-label text-label-sm text-light-on-surface-variant uppercase text-center">Member</th>
+                <th class="px-gutter-lg py-gutter-sm font-label text-label-sm text-light-on-surface-variant uppercase text-center">Viewer</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-light-outline-variant font-body text-body-sm text-light-on-surface">
+              <tr>
+                <td class="px-gutter-lg py-gutter-sm">Create, edit, and transition issues</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-status-done">✓</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-status-done">✓</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-status-done">✓</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-light-on-surface-variant">—</td>
+              </tr>
+              <tr>
+                <td class="px-gutter-lg py-gutter-sm">Start / complete sprints &amp; manage releases</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-status-done">✓</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-status-done">✓</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-light-on-surface-variant">—</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-light-on-surface-variant">—</td>
+              </tr>
+              <tr>
+                <td class="px-gutter-lg py-gutter-sm">Configure Jira Automation &amp; webhooks</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-status-done">✓</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-status-done">✓</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-light-on-surface-variant">—</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-light-on-surface-variant">—</td>
+              </tr>
+              <tr>
+                <td class="px-gutter-lg py-gutter-sm">Manage SSO, billing seats &amp; org members</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-status-done">✓</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-light-on-surface-variant">—</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-light-on-surface-variant">—</td>
+                <td class="px-gutter-lg py-gutter-sm text-center text-light-on-surface-variant">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Invite Member Modal -->
+  <div id="invite-modal" class="hidden fixed inset-0 z-50 bg-light-scrim/40 flex items-center justify-center p-gutter-lg">
+    <div role="dialog" aria-modal="true" aria-labelledby="invite-title" class="w-full max-w-md rounded-lg bg-light-surface-container-lowest border border-light-outline-variant shadow-xl p-gutter-xl flex flex-col gap-gutter-lg">
+      <header class="flex items-center justify-between">
+        <h2 id="invite-title" data-design-text-token="headline-sm" class="font-headline text-headline-sm text-light-on-surface">Invite member</h2>
+        <button id="close-invite-btn" type="button" aria-label="Close invite modal" class="w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container flex items-center justify-center">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">close</span>
+        </button>
+      </header>
+      <form id="invite-form" class="flex flex-col gap-gutter-md">
+        <div class="flex flex-col gap-gutter-xs">
+          <label for="invite-email" class="font-label text-label-md text-light-on-surface">Work email</label>
+          <input id="invite-email" type="email" required placeholder="alex.chen@acme.dev" class="rounded-sm bg-light-surface-container-lowest border border-light-outline-variant font-body text-body-md text-light-on-surface">
+        </div>
+        <div class="flex flex-col gap-gutter-xs">
+          <label for="invite-role" class="font-label text-label-md text-light-on-surface">Role</label>
+          <select id="invite-role" class="rounded-sm bg-light-surface-container-lowest border border-light-outline-variant font-body text-body-md text-light-on-surface">
+            <option>Member</option>
+            <option>Project Admin</option>
+            <option>Viewer</option>
+            <option>Org Admin</option>
+          </select>
+        </div>
+        <footer class="flex justify-end gap-gutter-sm pt-gutter-sm">
+          <button id="cancel-invite-btn" type="button" class="px-gutter-md py-gutter-sm rounded-sm text-light-on-surface-variant hover:bg-light-surface-container font-label text-label-lg">Cancel</button>
+          <button type="submit" class="px-gutter-lg py-gutter-sm rounded-sm bg-light-primary text-light-on-primary hover:bg-light-primary-container font-label text-label-lg">Send invite</button>
+        </footer>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const modal = document.getElementById('invite-modal');
+      document.getElementById('open-invite-btn').addEventListener('click', () => modal.classList.remove('hidden'));
+      document.getElementById('close-invite-btn').addEventListener('click', () => modal.classList.add('hidden'));
+      document.getElementById('cancel-invite-btn').addEventListener('click', () => modal.classList.add('hidden'));
+
+      document.getElementById('invite-form').addEventListener('submit', e => {
+        e.preventDefault();
+        const email = document.getElementById('invite-email').value.trim();
+        const role = document.getElementById('invite-role').value;
+        if (!email) return;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="px-gutter-lg py-gutter-md font-title text-title-sm text-light-on-surface">Invited user</td>
+          <td class="px-gutter-lg py-gutter-md font-body text-body-sm text-light-on-surface-variant invite-email-cell"></td>
+          <td class="px-gutter-lg py-gutter-md font-label text-label-md text-light-on-surface invite-role-cell"></td>
+          <td class="px-gutter-lg py-gutter-md"><span class="px-gutter-sm py-0.5 rounded-sm bg-status-warning-bg text-light-on-surface font-label text-label-sm uppercase">Pending</span></td>
+          <td class="px-gutter-lg py-gutter-md font-body text-body-sm text-light-on-surface-variant">Just invited</td>
+        `;
+        tr.querySelector('.invite-email-cell').textContent = email;
+        tr.querySelector('.invite-role-cell').textContent = role;
+        document.getElementById('members-tbody').appendChild(tr);
+        document.getElementById('invite-email').value = '';
+        modal.classList.add('hidden');
+      });
+    })();
+  </script>
+
+
+</body></html>

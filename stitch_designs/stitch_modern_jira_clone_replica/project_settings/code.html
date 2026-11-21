@@ -1,0 +1,400 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Settings — Platform Core · Jira</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'status-done': '#1F845A',
+        'status-done-bg': '#DCFFF1',
+        'status-progress': '#0C66E4',
+        'status-progress-bg': '#E9F2FF',
+        'status-review': '#6E5DC6',
+        'status-review-bg': '#F3F0FF',
+        'status-warning': '#A54800',
+        'status-warning-bg': '#FFF7D6',
+        'issue-story': '#22A06B',
+        'issue-bug': '#E34935',
+        'issue-task': '#1D7AFC',
+        'issue-epic': '#8270DB',
+        'light-primary': '#004FB6',
+        'light-on-primary': '#FFFFFF',
+        'light-primary-container': '#0C66E4',
+        'light-on-primary-container': '#ECEFFF',
+        'light-secondary': '#475D90',
+        'light-on-secondary': '#FFFFFF',
+        'light-secondary-container': '#ADC3FD',
+        'light-on-secondary-container': '#394F82',
+        'light-tertiary': '#953500',
+        'light-on-tertiary': '#FFFFFF',
+        'light-tertiary-container': '#BD4600',
+        'light-on-tertiary-container': '#FFECE5',
+        'light-error': '#BA1A1A',
+        'light-on-error': '#FFFFFF',
+        'light-error-container': '#FFDAD6',
+        'light-on-error-container': '#93000A',
+        'light-background': '#FAF8FF',
+        'light-on-background': '#191B23',
+        'light-surface': '#FAF8FF',
+        'light-surface-dim': '#D8D9E4',
+        'light-surface-bright': '#FAF8FF',
+        'light-surface-container-lowest': '#FFFFFF',
+        'light-surface-container-low': '#F2F3FE',
+        'light-surface-container': '#ECEDF8',
+        'light-surface-container-high': '#E7E7F2',
+        'light-surface-container-highest': '#E1E2ED',
+        'light-on-surface': '#191B23',
+        'light-surface-variant': '#DEE2F3',
+        'light-on-surface-variant': '#424654',
+        'light-outline': '#727786',
+        'light-outline-variant': '#C2C6D7',
+        'light-inverse-surface': '#2E3038',
+        'light-inverse-on-surface': '#EFF0FB',
+        'light-inverse-primary': '#B0C6FF',
+        'light-shadow': '#000000',
+        'light-scrim': '#000000',
+        'dark-primary': '#B0C6FF',
+        'dark-on-primary': '#002D6E',
+        'dark-primary-container': '#0C66E4',
+        'dark-on-primary-container': '#ECEFFF',
+        'dark-secondary': '#B0C6FF',
+        'dark-on-secondary': '#162F5F',
+        'dark-secondary-container': '#2F4577',
+        'dark-on-secondary-container': '#9EB4ED',
+        'dark-tertiary': '#FFB598',
+        'dark-on-tertiary': '#591D00',
+        'dark-tertiary-container': '#BD4600',
+        'dark-on-tertiary-container': '#FFECE5',
+        'dark-error': '#FFB4AB',
+        'dark-on-error': '#690005',
+        'dark-error-container': '#93000A',
+        'dark-on-error-container': '#FFDAD6',
+        'dark-background': '#11131B',
+        'dark-on-background': '#E1E2ED',
+        'dark-surface': '#11131B',
+        'dark-surface-dim': '#11131B',
+        'dark-surface-bright': '#363941',
+        'dark-surface-container-lowest': '#0B0E15',
+        'dark-surface-container-low': '#191B23',
+        'dark-surface-container': '#1D1F27',
+        'dark-surface-container-high': '#272A32',
+        'dark-surface-container-highest': '#32353D',
+        'dark-on-surface': '#E1E2ED',
+        'dark-surface-variant': '#424654',
+        'dark-on-surface-variant': '#C2C6D7',
+        'dark-outline': '#8C90A0',
+        'dark-outline-variant': '#424654',
+        'dark-inverse-surface': '#E1E2ED',
+        'dark-inverse-on-surface': '#2E3038',
+        'dark-inverse-primary': '#0058CA',
+        'dark-shadow': '#000000',
+        'dark-scrim': '#000000',
+      },
+      borderRadius: {
+        'sm': '4px',
+        'DEFAULT': '8px',
+        'md': '10px',
+        'lg': '12px',
+        'xl': '16px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '12px',
+        'gutter-lg': '16px',
+        'gutter-xl': '24px',
+        'section': '32px',
+        'page-margin': '24px',
+      },
+      fontFamily: {
+        'display': ['"Space Grotesk"', 'sans-serif'],
+        'headline': ['"Space Grotesk"', 'sans-serif'],
+        'title': ['"Geist"', 'sans-serif'],
+        'body': ['"Geist"', 'sans-serif'],
+        'label': ['"Geist"', 'sans-serif'],
+        'mono': ['"Space Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['36px', { lineHeight: '44px', letterSpacing: '-0.5px', fontWeight: '700' }],
+        'display-lg-mobile': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '700' }],
+        'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '600' }],
+        'headline-md': ['22px', { lineHeight: '28px', letterSpacing: '-0.15px', fontWeight: '600' }],
+        'headline-sm': ['18px', { lineHeight: '24px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-lg': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '600' }],
+        'title-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-lg': ['15px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['12px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '500' }],
+        'label-md': ['12px', { lineHeight: '16px', letterSpacing: '0.2px', fontWeight: '600' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.3px', fontWeight: '600' }],
+        'mono-md': ['12px', { lineHeight: '16px', letterSpacing: '0px', fontWeight: '500' }],
+        'mono-sm': ['11px', { lineHeight: '14px', letterSpacing: '0px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '100ms',
+        'surface-enter': '220ms',
+        'surface-exit': '150ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'ease-out',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.3, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Space+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>
+    .material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1 !important;
+      box-sizing: content-box;
+      overflow: hidden;
+      white-space: nowrap;
+      direction: ltr;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="bg-light-surface text-light-on-surface font-body antialiased">
+
+  <div class="min-h-[1024px] flex flex-col bg-light-surface" data-stitch-vh="min-h-[1024px]===min-h-screen">
+
+    <!-- Global Top Navigation Bar (56px) -->
+    <header class="sticky top-0 z-30 h-14 px-gutter-lg bg-light-surface-container-lowest border-b border-light-outline-variant flex items-center justify-between gap-gutter-lg">
+      <div class="flex items-center gap-gutter-lg">
+        <button data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Open project navigation" class="lg:hidden inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change ease-state-change">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">menu</span>
+        </button>
+
+        <a href="#" class="flex items-center gap-gutter-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary rounded-sm">
+          <div class="w-7 h-7 rounded-sm bg-light-primary-container flex items-center justify-center text-light-on-primary">
+            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">deployed_code</span>
+          </div>
+          <span data-design-text-token="title-lg" class="font-headline text-title-lg text-light-on-surface tracking-tight">Jira</span>
+        </a>
+
+        <nav aria-label="Global navigation" class="hidden md:flex items-center gap-gutter-xs">
+          <a href="../sprint-board/ActiveSprintBoard.html" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface transition-colors duration-state-change">Your work</a>
+          <a href="../sprint-board/ActiveSprintBoard.html" aria-current="page" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-primary bg-status-progress-bg">Projects</a>
+          <a href="../issues/IssuesTriage.html" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface transition-colors duration-state-change">Filters</a>
+          <a href="../summary/ProjectSummary.html" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface transition-colors duration-state-change">Dashboards</a>
+          <a href="#" class="px-gutter-md py-gutter-xs rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container-low hover:text-light-on-surface transition-colors duration-state-change">Teams</a>
+        </nav>
+
+        <button data-component-id="button-primary" data-component-type="button" data-component-variant="primary" type="button" class="inline-flex items-center justify-center px-gutter-md py-1.5 rounded-sm bg-light-primary text-light-on-primary hover:bg-light-primary-container active:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-light-primary focus-visible:ring-offset-2 transition-colors duration-state-change ease-state-change">
+          <span data-design-text-token="label-lg" class="font-label text-label-lg">Create</span>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-gutter-md">
+        <form data-component-id="searchbar-with-suggestions" data-component-type="searchbar" data-component-variant="with-suggestions" role="search" class="hidden sm:flex relative items-center w-64 rounded-sm bg-light-surface-container-low border border-light-outline-variant focus-within:bg-light-surface-container-lowest focus-within:border-light-primary transition-colors duration-state-change ease-state-change">
+          <button type="submit" aria-label="Submit search" class="pl-gutter-sm pr-gutter-xs text-light-on-surface-variant flex items-center">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">search</span>
+          </button>
+          <input type="search" aria-label="Search Jira" placeholder="Search issues, projects" class="w-full py-1.5 pr-gutter-md bg-transparent border-0 font-body text-body-sm text-light-on-surface placeholder:text-light-on-surface-variant focus:ring-0">
+        </form>
+
+        <button data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Notifications, unread activity" class="relative inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change ease-state-change">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">notifications</span>
+          <span data-component-id="badge-dot" data-component-type="badge" data-component-variant="dot" aria-hidden="true" class="absolute top-1.5 right-1.5 inline-block w-2 h-2 rounded-full bg-issue-bug ring-2 ring-light-surface-container-lowest"></span>
+        </button>
+
+        <button data-component-id="button-icon" data-component-type="button" data-component-variant="icon" type="button" aria-label="Workspace settings" class="hidden sm:inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change ease-state-change">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">settings</span>
+        </button>
+
+        <button type="button" aria-label="Account menu for Elena Rostova" class="w-8 h-8 rounded-full overflow-hidden border border-light-outline-variant">
+          <img src="https://lh3.googleusercontent.com/aida/ALJJyrDT0ygT73l1oUoLN-ldq4D7iK67gQRn2Jk7sBkqg00OyGKoqWQZmoRgvpSJ9yBujVKEsKamItF_rzwvRR9GvaIUS4xjNTiLupFexLBJ7GFYZdSJkyY5uCqQXPuCpnXXcN3cZl0SjBUXkf08AfWbQLcqKuuD5bWUTUaMgsKPLsXBFH58TvdsBeHggVY-ycBQeeRkHLak_R1Bx4dYrDhktkSi7Y1mbVHmwnKtJZuZJfFUTrMrLQNe" alt="Elena Rostova" class="w-full h-full object-cover">
+        </button>
+      </div>
+    </header>
+
+    <!-- Workspace Shell Body -->
+    <div class="flex flex-1 min-h-0">
+
+      <!-- Left Project Sidebar -->
+      <aside class="hidden lg:flex flex-col w-60 shrink-0 min-h-[1024px] bg-light-surface-container-low border-r border-light-outline-variant p-gutter-md gap-gutter-lg" data-stitch-vh="min-h-[1024px]===min-h-screen">
+        <div class="flex items-center gap-gutter-md px-gutter-sm py-gutter-xs">
+          <div class="w-8 h-8 rounded-sm bg-issue-epic/15 text-issue-epic flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">hub</span>
+          </div>
+          <div class="min-w-0">
+            <p data-design-text-token="title-md" class="font-title text-title-md text-light-on-surface truncate">Platform Core</p>
+            <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant truncate">Software project · PLAT</p>
+          </div>
+        </div>
+
+        <nav aria-label="Project planning" class="flex flex-col gap-gutter-xs">
+          <p data-design-text-token="label-sm" class="px-gutter-sm py-gutter-xs font-label text-label-sm text-light-on-surface-variant uppercase tracking-wider">Planning</p>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">dashboard</span>
+            <span data-design-text-token="label-lg">Summary</span>
+          </a>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">view_timeline</span>
+            <span data-design-text-token="label-lg">Timeline</span>
+          </a>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">format_list_bulleted</span>
+            <span data-design-text-token="label-lg">Backlog</span>
+          </a>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">view_kanban</span>
+            <span data-design-text-token="label-lg">Active sprints</span>
+          </a>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">layers</span>
+            <span data-design-text-token="label-lg">Issues</span>
+          </a>
+        </nav>
+
+        <nav aria-label="Development" class="flex flex-col gap-gutter-xs">
+          <p data-design-text-token="label-sm" class="px-gutter-sm py-gutter-xs font-label text-label-sm text-light-on-surface-variant uppercase tracking-wider">Development</p>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">code</span>
+            <span data-design-text-token="label-lg">Code</span>
+          </a>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">rocket_launch</span>
+            <span data-design-text-token="label-lg">Releases</span>
+          </a>
+          <a href="#" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">monitoring</span>
+            <span data-design-text-token="label-lg">Reports</span>
+          </a>
+        </nav>
+
+        <div class="mt-auto pt-gutter-md border-t border-light-outline-variant">
+          <a href="#" aria-current="page" class="flex items-center gap-gutter-md px-gutter-sm py-gutter-sm rounded-sm font-label text-label-lg bg-status-progress-bg text-light-primary">
+            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: &#39;FILL&#39; 1;" aria-hidden="true">tune</span>
+            <span data-design-text-token="label-lg">Project settings</span>
+          </a>
+        </div>
+      </aside>
+
+      <!-- Main Project Settings Content -->
+      <main class="flex-1 min-w-0 p-gutter-xl flex flex-col gap-gutter-xl max-w-4xl">
+
+        <div class="flex flex-col gap-gutter-xs">
+          <nav aria-label="Breadcrumb" class="flex items-center gap-gutter-xs font-body text-body-sm text-light-on-surface-variant">
+            <a href="../sprint-board/ActiveSprintBoard.html" class="hover:text-light-on-surface">Projects</a>
+            <span aria-hidden="true">/</span>
+            <a href="#" class="hover:text-light-on-surface">Platform Core</a>
+            <span aria-hidden="true">/</span>
+            <span>Project settings</span>
+          </nav>
+
+          <h1 data-design-text-token="headline-lg" class="font-headline text-headline-lg text-light-on-surface">Project settings</h1>
+        </div>
+
+        <!-- Section 1: Project Details -->
+        <section aria-label="Project details" class="rounded bg-light-surface-container-lowest border border-light-outline-variant p-gutter-xl flex flex-col gap-gutter-lg">
+          <header>
+            <h2 data-design-text-token="title-lg" class="font-title text-title-lg text-light-on-surface">Project details</h2>
+            <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant">Core identity and lead ownership for Platform Core</p>
+          </header>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter-lg">
+            <div class="flex flex-col gap-gutter-xs">
+              <label for="proj-name" data-design-text-token="label-md" class="font-label text-label-md text-light-on-surface">Project name</label>
+              <input id="proj-name" type="text" value="Platform Core" class="rounded-sm bg-light-surface-container-lowest border border-light-outline-variant font-body text-body-md text-light-on-surface focus:border-light-primary focus:ring-1 focus:ring-light-primary">
+            </div>
+            <div class="flex flex-col gap-gutter-xs">
+              <label for="proj-key" data-design-text-token="label-md" class="font-label text-label-md text-light-on-surface">Project key</label>
+              <input id="proj-key" type="text" value="PLAT" class="rounded-sm bg-light-surface-container-low border border-light-outline-variant font-mono text-mono-md text-light-on-surface">
+            </div>
+            <div class="flex flex-col gap-gutter-xs">
+              <label for="proj-lead" data-design-text-token="label-md" class="font-label text-label-md text-light-on-surface">Project lead</label>
+              <select id="proj-lead" class="rounded-sm bg-light-surface-container-lowest border border-light-outline-variant font-body text-body-md text-light-on-surface">
+                <option selected>Elena Rostova</option>
+                <option>Marcus Vance</option>
+                <option>Priya Nair</option>
+                <option>Kenji Sato</option>
+              </select>
+            </div>
+            <div class="flex flex-col gap-gutter-xs">
+              <label for="proj-assignee" data-design-text-token="label-md" class="font-label text-label-md text-light-on-surface">Default assignee</label>
+              <select id="proj-assignee" class="rounded-sm bg-light-surface-container-lowest border border-light-outline-variant font-body text-body-md text-light-on-surface">
+                <option selected>Unassigned</option>
+                <option>Project lead</option>
+              </select>
+            </div>
+          </div>
+
+          <footer class="flex justify-end pt-gutter-sm border-t border-light-outline-variant">
+            <button data-component-id="button-primary" data-component-type="button" data-component-variant="primary" type="button" class="inline-flex items-center justify-center px-gutter-md py-1.5 rounded-sm bg-light-primary text-light-on-primary hover:bg-light-primary-container transition-colors duration-state-change">
+              <span data-design-text-token="label-lg" class="font-label text-label-lg">Save details</span>
+            </button>
+          </footer>
+        </section>
+
+        <!-- Section 2: Workflow & Automation -->
+        <section aria-label="Workflow and automation" class="rounded bg-light-surface-container-lowest border border-light-outline-variant p-gutter-xl flex flex-col gap-gutter-lg">
+          <header>
+            <h2 data-design-text-token="title-lg" class="font-title text-title-lg text-light-on-surface">Workflow &amp; automation</h2>
+            <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant">Configure sprint transitions, GitHub PR sync, and notifications</p>
+          </header>
+
+          <div class="divide-y divide-light-outline-variant">
+            <div class="py-gutter-md flex items-center justify-between gap-gutter-md">
+              <div>
+                <p data-design-text-token="title-sm" class="font-title text-title-sm text-light-on-surface">Auto-transition on PR merge</p>
+                <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant">Move linked issues from In Review to Done when main branch merges</p>
+              </div>
+              <input type="checkbox" checked aria-label="Auto-transition on PR merge" class="w-5 h-5 rounded-sm text-light-primary border-light-outline-variant focus:ring-light-primary">
+            </div>
+
+            <div class="py-gutter-md flex items-center justify-between gap-gutter-md">
+              <div>
+                <p data-design-text-token="title-sm" class="font-title text-title-sm text-light-on-surface">Require story point estimates</p>
+                <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant">Warn before starting a sprint when issues lack story point estimates</p>
+              </div>
+              <input type="checkbox" checked aria-label="Require story point estimates" class="w-5 h-5 rounded-sm text-light-primary border-light-outline-variant focus:ring-light-primary">
+            </div>
+
+            <div class="py-gutter-md flex items-center justify-between gap-gutter-md">
+              <div>
+                <p data-design-text-token="title-sm" class="font-title text-title-sm text-light-on-surface">Slack sprint digest</p>
+                <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant">Post daily blocker summaries to #plat-eng-standup at 9:00 AM</p>
+              </div>
+              <input type="checkbox" aria-label="Slack sprint digest" class="w-5 h-5 rounded-sm text-light-primary border-light-outline-variant focus:ring-light-primary">
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 3: Danger Zone -->
+        <section aria-label="Danger zone" class="rounded bg-light-error-container/30 border border-light-error/40 p-gutter-xl flex flex-wrap items-center justify-between gap-gutter-md">
+          <div>
+            <h2 data-design-text-token="title-md" class="font-title text-title-md text-light-on-error-container">Archive or delete project</h2>
+            <p data-design-text-token="body-sm" class="font-body text-body-sm text-light-on-surface-variant">Archiving preserves all issues and history in read-only mode.</p>
+          </div>
+          <button type="button" class="px-gutter-lg py-gutter-sm rounded-sm bg-light-error text-light-on-error hover:opacity-90 font-label text-label-lg transition-opacity duration-state-change">
+            Archive project
+          </button>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+
+</body></html>
