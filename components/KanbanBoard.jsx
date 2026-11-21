@@ -146,9 +146,9 @@ export default function KanbanBoard({
   };
 
   return (
-    <main className="flex-1 min-w-0 p-gutter-xl pb-24 md:pb-gutter-xl flex flex-col gap-gutter-lg overflow-y-auto">
-      {/* 1. Breadcrumb & Sprint Header */}
-      <div className="flex flex-col gap-gutter-xs">
+    <main className="flex-1 min-w-0 p-gutter-md sm:p-gutter-xl pb-24 md:pb-gutter-xl flex flex-col gap-gutter-md sm:gap-gutter-lg overflow-y-auto overflow-x-hidden">
+      {/* 1. Breadcrumb & Sprint Header (Desktop only) */}
+      <div className="hidden md:flex flex-col gap-gutter-xs">
         <nav aria-label="Breadcrumb" className="flex items-center gap-gutter-xs font-body text-body-sm text-light-on-surface-variant">
           <span className="hover:text-light-on-surface cursor-pointer">Projects</span>
           <span aria-hidden="true">/</span>
@@ -190,8 +190,8 @@ export default function KanbanBoard({
         </div>
       </div>
 
-      {/* 2. Filter & Quick Actions Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-gutter-md">
+      {/* 2. Filter & Quick Actions Bar (Desktop only) */}
+      <div className="hidden md:flex flex-wrap items-center justify-between gap-gutter-md">
         <div className="flex flex-wrap items-center gap-gutter-md">
           {/* Board Search */}
           <div className="relative flex items-center w-56 rounded-sm bg-light-surface-container-lowest border border-light-outline-variant focus-within:border-light-primary focus-within:ring-1 focus-within:ring-light-primary transition-colors">
@@ -271,7 +271,7 @@ export default function KanbanBoard({
       </div>
 
       {/* Mobile Status Switcher Tabs (Stitch mobile_sprint_board) */}
-      <div className="md:hidden flex items-center gap-gutter-xs overflow-x-auto pb-gutter-xs" role="tablist">
+      <div className="md:hidden flex items-center gap-gutter-xs overflow-x-auto py-1" role="tablist">
         {boardColumns.map((col, idx) => {
           const count = getColIssues(col).length;
           const isSelected = (mobileColId === col.id) || (!mobileColId && idx === 1);
@@ -281,7 +281,7 @@ export default function KanbanBoard({
               type="button"
               role="tab"
               onClick={() => setMobileColId(col.id)}
-              className={`px-gutter-md py-1.5 rounded-sm font-label text-label-md whitespace-nowrap transition-colors cursor-pointer ${
+              className={`px-gutter-md py-1.5 rounded-sm font-label text-label-md whitespace-nowrap transition-colors cursor-pointer shrink-0 ${
                 isSelected
                   ? 'bg-status-progress-bg text-light-primary font-semibold'
                   : 'bg-light-surface-container text-light-on-surface-variant hover:text-light-on-surface'
@@ -306,12 +306,12 @@ export default function KanbanBoard({
               onDragOver={(e) => handleDragOver(e, col.id)}
               onDragLeave={() => handleDragLeave(col.id)}
               onDrop={(e) => handleDrop(e, col.id)}
-              className={`rounded bg-light-surface-container-low p-gutter-md flex-col gap-gutter-md min-h-[440px] transition-colors ${
+              className={`rounded md:bg-light-surface-container-low p-0 md:p-gutter-md flex-col gap-gutter-sm md:gap-gutter-md min-h-0 md:min-h-[440px] transition-colors ${
                 isTarget ? 'ring-2 ring-light-primary bg-status-progress-bg' : ''
               } ${isSelectedMobile ? 'flex' : 'hidden md:flex'}`}
             >
-              {/* Column Header */}
-              <header className="flex items-center justify-between px-gutter-xs">
+              {/* Column Header (Desktop only) */}
+              <header className="hidden md:flex items-center justify-between px-gutter-xs">
                 <div className="flex items-center gap-gutter-sm">
                   <h2 className="font-label text-label-md text-light-on-surface-variant uppercase tracking-wider font-bold">
                     {col.name.toUpperCase()}

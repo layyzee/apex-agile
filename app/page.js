@@ -622,14 +622,16 @@ export default function ApexAgileApp() {
           onToggleSidebar={() => setIsMobileSidebarOpen((prev) => !prev)}
         />
 
-        {/* Real-time Interactive JQL Bar (on Board and Backlog views) */}
+        {/* Real-time Interactive JQL Bar (Desktop only on Board and Backlog views) */}
         {(activeView === 'board' || activeView === 'backlog') && (
-          <JqlBar
-            jqlQuery={jqlQuery}
-            setJqlQuery={setJqlQuery}
-            matchingCount={activeView === 'board' ? activeSprintIssues.length : filteredIssues.length}
-            totalCount={activeView === 'board' ? issues.filter(i => currentProject?.methodology === 'kanban' || i.sprint_id === (activeSprint?.id || 'sprint-24-1')).length : issues.length}
-          />
+          <div className="hidden md:block">
+            <JqlBar
+              jqlQuery={jqlQuery}
+              setJqlQuery={setJqlQuery}
+              matchingCount={activeView === 'board' ? activeSprintIssues.length : filteredIssues.length}
+              totalCount={activeView === 'board' ? issues.filter(i => currentProject?.methodology === 'kanban' || i.sprint_id === (activeSprint?.id || 'sprint-24-1')).length : issues.length}
+            />
+          </div>
         )}
 
         {/* View Router */}
