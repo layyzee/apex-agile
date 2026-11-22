@@ -680,6 +680,8 @@ export default function ApexAgileApp() {
                   issues={issues}
                   states={states}
                   users={users}
+                  epics={epics}
+                  sprints={sprints}
                   onSelectIssue={(iss) => setSelectedIssue(iss)}
                   setActiveView={setActiveView}
                 />
@@ -691,7 +693,10 @@ export default function ApexAgileApp() {
                   epics={epics}
                   issues={issues}
                   states={states}
+                  users={users}
+                  sprints={sprints}
                   onCreateEpic={handleCreateEpic}
+                  onCreateIssue={handleCreateIssue}
                   onSelectIssue={(iss) => setSelectedIssue(iss)}
                   setActiveView={setActiveView}
                 />
@@ -733,9 +738,12 @@ export default function ApexAgileApp() {
                   sprints={sprints}
                   issues={filteredIssues}
                   epics={epics}
+                  users={users}
+                  currentUser={currentUser}
                   onSelectIssue={(iss) => setSelectedIssue(iss)}
                   onUpdateSprintAssignment={handleUpdateSprintAssignment}
                   onUpdateStoryPoints={handleUpdateStoryPoints}
+                  onCreateIssue={handleCreateIssue}
                   onNewIssueWithSprint={(sId) => {
                     setNewIssueSprintId(sId);
                     setIsNewIssueOpen(true);
