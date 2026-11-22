@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { CheckCircle2, Save } from 'lucide-react';
 
 export default function SettingsView({
   currentProject,
@@ -126,8 +127,8 @@ export default function SettingsView({
 
           <footer className="flex items-center justify-between pt-gutter-sm border-t border-light-outline-variant">
             {savedSuccess ? (
-              <span className="text-body-sm text-status-done font-medium flex items-center gap-1">
-                <span className="material-symbols-outlined text-[16px]">check_circle</span>
+              <span className="text-body-sm text-status-done font-medium flex items-center gap-1.5 text-emerald-600">
+                <CheckCircle2 className="w-4 h-4" />
                 <span>Settings saved successfully</span>
               </span>
             ) : <span />}

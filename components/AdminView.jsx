@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Download, X, UserPlus, ShieldCheck } from 'lucide-react';
 import Avatar from './Avatar';
 
 const AVATARS = {
@@ -130,7 +131,7 @@ export default function AdminView({
               type="button"
               className="inline-flex items-center gap-1.5 px-gutter-md py-1.5 rounded-sm bg-light-surface-container border border-light-outline-variant text-light-on-surface hover:bg-light-surface-container-high transition-colors font-label text-label-md cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[16px]">download</span>
+              <Download className="w-4 h-4" />
               <span>Export JSON Snapshot</span>
             </button>
             <button
@@ -227,9 +228,9 @@ export default function AdminView({
               <h2 className="font-headline text-title-lg text-light-on-surface font-semibold">Invite squad member</h2>
               <button
                 onClick={() => setIsInviteOpen(false)}
-                className="w-7 h-7 flex items-center justify-center text-light-on-surface-variant hover:text-light-on-surface"
+                className="w-7 h-7 flex items-center justify-center text-light-on-surface-variant hover:text-light-on-surface cursor-pointer"
               >
-                <span className="material-symbols-outlined text-[18px]">close</span>
+                <X className="w-4 h-4" />
               </button>
             </div>
             <form onSubmit={handleInviteSubmit} className="flex flex-col gap-3">

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Inbox, AlertTriangle, Flame, UserX, CheckCircle2, Clock } from 'lucide-react';
 
 const INITIAL_REQUESTS = [
   {
@@ -127,7 +128,7 @@ export default function ServiceDeskView({
               : 'bg-light-surface-container-lowest border border-light-outline-variant text-light-on-surface-variant hover:bg-light-surface-container'
           }`}
         >
-          <span className="material-symbols-outlined text-[16px]">inbox</span>
+          <Inbox className="w-4 h-4" />
           <span>All open ({requests.length})</span>
         </button>
 
@@ -140,7 +141,7 @@ export default function ServiceDeskView({
               : 'bg-light-surface-container-lowest border border-light-outline-variant text-light-on-surface-variant hover:bg-light-surface-container'
           }`}
         >
-          <span className="material-symbols-outlined text-[16px]">warning</span>
+          <AlertTriangle className="w-4 h-4 text-amber-500" />
           <span>SLA at risk (2)</span>
         </button>
 
@@ -153,7 +154,7 @@ export default function ServiceDeskView({
               : 'bg-light-surface-container-lowest border border-light-outline-variant text-light-on-surface-variant hover:bg-light-surface-container'
           }`}
         >
-          <span className="material-symbols-outlined text-[16px]">local_fire_department</span>
+          <Flame className="w-4 h-4 text-red-500" />
           <span>Incidents (1)</span>
         </button>
 
@@ -166,7 +167,7 @@ export default function ServiceDeskView({
               : 'bg-light-surface-container-lowest border border-light-outline-variant text-light-on-surface-variant hover:bg-light-surface-container'
           }`}
         >
-          <span className="material-symbols-outlined text-[16px]">person_off</span>
+          <UserX className="w-4 h-4" />
           <span>Unassigned (1)</span>
         </button>
       </div>
@@ -275,8 +276,8 @@ export default function ServiceDeskView({
               />
               <div className="flex items-center justify-between">
                 {replySent ? (
-                  <span className="text-xs text-status-done font-medium flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[16px]">check_circle</span>
+                  <span className="text-xs text-status-done font-medium flex items-center gap-1.5 text-emerald-600">
+                    <CheckCircle2 className="w-4 h-4" />
                     Reply dispatched to reporter
                   </span>
                 ) : <span />}

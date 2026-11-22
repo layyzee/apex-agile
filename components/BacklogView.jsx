@@ -1,6 +1,18 @@
 'use client';
 
 import { useState } from 'react';
+import { 
+  Search, 
+  MoreHorizontal, 
+  ChevronDown, 
+  ChevronRight, 
+  Plus, 
+  CheckSquare, 
+  Bug, 
+  Bookmark,
+  Calendar,
+  Layers
+} from 'lucide-react';
 import Avatar from './Avatar';
 
 const AVATAR_PHOTOS = {
@@ -122,7 +134,7 @@ export default function BacklogView({
               aria-label="Backlog settings"
               className="inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[20px]" aria-hidden="true">more_horiz</span>
+              <MoreHorizontal className="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -188,7 +200,7 @@ export default function BacklogView({
           {/* Search */}
           <div className="relative flex items-center w-56 rounded-sm bg-light-surface-container-lowest border border-light-outline-variant focus-within:border-light-primary">
             <div className="pl-gutter-sm pr-gutter-xs text-light-on-surface-variant flex items-center">
-              <span className="material-symbols-outlined text-[18px]" aria-hidden="true">search</span>
+              <Search className="w-4 h-4" />
             </div>
             <input
               type="search"
@@ -254,9 +266,11 @@ export default function BacklogView({
               onClick={() => toggleSection('sprint-42')}
               className="flex items-center gap-gutter-xs text-light-on-surface cursor-pointer font-bold"
             >
-              <span className="material-symbols-outlined text-[18px]" aria-hidden="true">
-                {collapsedSections['sprint-42'] ? 'chevron_right' : 'expand_more'}
-              </span>
+              {collapsedSections['sprint-42'] ? (
+                <ChevronRight className="w-4 h-4 text-slate-500" />
+              ) : (
+                <ChevronDown className="w-4 h-4 text-slate-500" />
+              )}
               <span className="font-title text-title-md">
                 {activeSprint?.name || 'PLAT Sprint 42: Auth & Telemetry'}
               </span>
@@ -298,17 +312,11 @@ export default function BacklogView({
                 >
                   <div className="flex items-center gap-gutter-md min-w-0 flex-1">
                     {issueType === 'task' ? (
-                      <span className="material-symbols-outlined text-[16px] text-issue-task shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
-                        check_box
-                      </span>
+                      <CheckSquare className="w-4 h-4 text-blue-600 shrink-0" />
                     ) : issueType === 'bug' ? (
-                      <span className="material-symbols-outlined text-[16px] text-issue-bug shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
-                        bug_report
-                      </span>
+                      <Bug className="w-4 h-4 text-red-500 shrink-0" />
                     ) : (
-                      <span className="material-symbols-outlined text-[16px] text-issue-story shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
-                        bookmark
-                      </span>
+                      <Bookmark className="w-4 h-4 text-emerald-600 fill-emerald-600 shrink-0" />
                     )}
                     <span className="font-mono text-mono-sm text-light-on-surface-variant tabular-nums shrink-0 font-medium">
                       {issue.key}
@@ -346,9 +354,11 @@ export default function BacklogView({
               onClick={() => toggleSection('backlog-pool')}
               className="flex items-center gap-gutter-xs text-light-on-surface cursor-pointer font-bold"
             >
-              <span className="material-symbols-outlined text-[18px]" aria-hidden="true">
-                {collapsedSections['backlog-pool'] ? 'chevron_right' : 'expand_more'}
-              </span>
+              {collapsedSections['backlog-pool'] ? (
+                <ChevronRight className="w-4 h-4 text-slate-500" />
+              ) : (
+                <ChevronDown className="w-4 h-4 text-slate-500" />
+              )}
               <span className="font-title text-title-md">Backlog Pool</span>
             </button>
             <span className="font-body text-body-sm text-light-on-surface-variant tabular-nums">
@@ -359,9 +369,9 @@ export default function BacklogView({
           <button
             onClick={() => onNewIssueWithSprint && onNewIssueWithSprint(null)}
             type="button"
-            className="inline-flex items-center gap-gutter-xs text-label-sm text-light-primary hover:underline font-semibold cursor-pointer"
+            className="inline-flex items-center gap-1 text-label-sm text-light-primary hover:underline font-semibold cursor-pointer"
           >
-            <span className="material-symbols-outlined text-[16px]">add</span>
+            <Plus className="w-4 h-4" />
             <span>Create issue</span>
           </button>
         </header>
@@ -385,17 +395,11 @@ export default function BacklogView({
                   >
                     <div className="flex items-center gap-gutter-md min-w-0 flex-1">
                       {issueType === 'task' ? (
-                        <span className="material-symbols-outlined text-[16px] text-issue-task shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
-                          check_box
-                        </span>
+                        <CheckSquare className="w-4 h-4 text-blue-600 shrink-0" />
                       ) : issueType === 'bug' ? (
-                        <span className="material-symbols-outlined text-[16px] text-issue-bug shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
-                          bug_report
-                        </span>
+                        <Bug className="w-4 h-4 text-red-500 shrink-0" />
                       ) : (
-                        <span className="material-symbols-outlined text-[16px] text-issue-story shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>
-                          bookmark
-                        </span>
+                        <Bookmark className="w-4 h-4 text-emerald-600 fill-emerald-600 shrink-0" />
                       )}
                       <span className="font-mono text-mono-sm text-light-on-surface-variant tabular-nums shrink-0 font-medium">
                         {issue.key}

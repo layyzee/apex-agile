@@ -1,6 +1,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { 
+  ArrowLeft, 
+  Trash2, 
+  X, 
+  ChevronsUp, 
+  GitMerge, 
+  CheckSquare, 
+  Square,
+  Bookmark,
+  Bug,
+  CheckCircle2,
+  Plus
+} from 'lucide-react';
 import Avatar from './Avatar';
 
 const AVATARS = {
@@ -147,12 +160,10 @@ export default function IssueDrawer({
               aria-label="Back"
               className="inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container transition-colors cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[20px]">arrow_back</span>
+              <ArrowLeft className="w-5 h-5 text-slate-500" />
             </button>
             <div className="flex items-center gap-gutter-xs">
-              <span className="material-symbols-outlined text-[18px] text-issue-story" style={{ fontVariationSettings: "'FILL' 1" }}>
-                bookmark
-              </span>
+              <Bookmark className="w-4 h-4 text-emerald-600 fill-emerald-600" />
               <span className="font-mono text-mono-md text-light-on-surface-variant tabular-nums font-semibold">
                 {formData.key}
               </span>
@@ -166,14 +177,14 @@ export default function IssueDrawer({
               aria-label="Delete issue"
               className="inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-error-container hover:text-light-on-error-container transition-colors"
             >
-              <span className="material-symbols-outlined text-[18px]">delete</span>
+              <Trash2 className="w-4 h-4 text-slate-400 hover:text-red-500" />
             </button>
             <button
               onClick={onClose}
               aria-label="Close"
               className="inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container transition-colors"
             >
-              <span className="material-symbols-outlined text-[20px]">close</span>
+              <X className="w-5 h-5 text-slate-500 hover:text-slate-800" />
             </button>
           </div>
         </header>
@@ -241,9 +252,7 @@ export default function IssueDrawer({
             <div>
               <p className="font-label text-label-sm text-light-on-surface-variant uppercase font-semibold">Priority</p>
               <div className="flex items-center gap-gutter-xs mt-1.5">
-                <span className="material-symbols-outlined text-[16px] text-issue-bug">
-                  keyboard_double_arrow_up
-                </span>
+                <ChevronsUp className="w-4 h-4 text-red-500" />
                 <span className="font-body text-body-sm text-light-on-surface font-medium capitalize">
                   {formData.priority || 'High'}
                 </span>
@@ -275,9 +284,7 @@ export default function IssueDrawer({
             <h2 className="font-title text-title-sm text-light-on-surface font-semibold">Development</h2>
             <div className="p-gutter-md rounded bg-light-surface-container-lowest border border-light-outline-variant flex items-center justify-between gap-gutter-sm">
               <div className="flex items-center gap-gutter-sm min-w-0">
-                <span className="material-symbols-outlined text-[18px] text-light-primary shrink-0">
-                  call_merge
-                </span>
+                <GitMerge className="w-4 h-4 text-blue-600 shrink-0" />
                 <span className="font-body text-body-sm text-light-on-surface truncate font-medium">
                   PR #1842 · feat/pkce-refresh-worker
                 </span>
@@ -312,9 +319,11 @@ export default function IssueDrawer({
                   onClick={() => handleToggleSubtask(st.id, st.status)}
                   className="flex items-center gap-2 p-2 rounded-sm bg-light-surface-container-low border border-light-outline-variant hover:bg-light-surface-container transition-colors cursor-pointer"
                 >
-                  <span className={`material-symbols-outlined text-[16px] ${st.status === 'done' ? 'text-status-done' : 'text-light-on-surface-variant'}`}>
-                    {st.status === 'done' ? 'check_box' : 'check_box_outline_blank'}
-                  </span>
+                  {st.status === 'done' ? (
+                    <CheckSquare className="w-4 h-4 text-emerald-600 shrink-0" />
+                  ) : (
+                    <Square className="w-4 h-4 text-slate-400 shrink-0" />
+                  )}
                   <span className={`text-xs ${st.status === 'done' ? 'line-through text-light-on-surface-variant' : 'text-light-on-surface'}`}>
                     {st.title}
                   </span>

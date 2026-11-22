@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { X, Plus, Users, Check } from 'lucide-react';
 import Avatar from './Avatar';
 
 const AVATAR_MAP = {
@@ -109,7 +110,7 @@ export default function TeamView({
                 onClick={() => setIsAddOpen(false)}
                 className="w-7 h-7 flex items-center justify-center text-light-on-surface-variant hover:text-light-on-surface"
               >
-                <span className="material-symbols-outlined text-[18px]">close</span>
+                <X className="w-4 h-4" />
               </button>
             </div>
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">

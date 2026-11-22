@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Search, FolderGit2, Layers, LifeBuoy, Boxes, Plus } from 'lucide-react';
 import Avatar from './Avatar';
 
 const AVATARS = {
@@ -169,9 +170,7 @@ export default function ProjectsDirectoryView({
         </div>
 
         <div className="relative w-64">
-          <span className="material-symbols-outlined absolute left-2.5 top-2 text-[18px] text-light-on-surface-variant">
-            search
-          </span>
+          <Search className="w-4 h-4 absolute left-2.5 top-2.5 text-light-on-surface-variant" />
           <input
             type="search"
             placeholder="Search projects"
@@ -203,9 +202,7 @@ export default function ProjectsDirectoryView({
               >
                 <td className="px-gutter-lg py-gutter-md">
                   <div className="flex items-center gap-gutter-sm font-title text-title-sm text-light-primary font-semibold hover:underline">
-                    <span className={`material-symbols-outlined text-[18px] ${p.iconColor}`} style={{ fontVariationSettings: "'FILL' 1" }}>
-                      {p.icon}
-                    </span>
+                    <FolderGit2 className="w-4 h-4 text-purple-600 shrink-0" />
                     <span>{p.name}</span>
                   </div>
                 </td>

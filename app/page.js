@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { Toaster, toast } from 'sonner';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import KanbanBoard from '@/components/KanbanBoard';
@@ -84,7 +85,8 @@ export default function ApexAgileApp() {
         }
         if (dataUsers.success && dataUsers.users?.length > 0) {
           setUsers(dataUsers.users);
-          setCurrentUser(dataUsers.users[0]);
+          const balaji = dataUsers.users.find(u => u.name && u.name.includes('Balaji'));
+          setCurrentUser(balaji || dataUsers.users[0]);
         }
       } catch (err) {
         console.error('Initialization error:', err);
@@ -254,11 +256,20 @@ export default function ApexAgileApp() {
 
   // Issue Handlers
   const handleUpdateIssueStatus = async (issueId, targetStatusId) => {
+    const targetState = states.find((s) => s.id === targetStatusId);
+    const issueObj = issues.find((i) => i.id === issueId);
+
     setIssues((prev) =>
       prev.map((i) => (i.id === issueId ? { ...i, status_id: targetStatusId } : i))
     );
     if (selectedIssue && selectedIssue.id === issueId) {
       setSelectedIssue((prev) => ({ ...prev, status_id: targetStatusId }));
+    }
+
+    if (issueObj && targetState) {
+      toast.success(`${issueObj.key} moved to ${targetState.name}`, {
+        description: `Updated status for ${issueObj.title}`
+      });
     }
 
     try {
@@ -269,6 +280,7 @@ export default function ApexAgileApp() {
       });
     } catch (err) {
       console.error(err);
+      toast.error('Failed to sync status transition to database');
       loadProjectData(currentProject.id);
     }
   };
@@ -610,6 +622,9 @@ export default function ApexAgileApp() {
 
       {/* 2. Main Content Canvas */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        {/* Toaster Notifications */}
+        <Toaster position="top-right" richColors closeButton />
+
         {/* Persistent Header */}
         <Header
           activeTab={activeView}
@@ -629,6 +644,8 @@ export default function ApexAgileApp() {
           theme={theme}
           onToggleTheme={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
           currentUser={currentUser}
+          users={users}
+          onSelectUser={(u) => setCurrentUser(u)}
           onOpenLogin={() => setIsLoginOpen(true)}
           onToggleSidebar={() => setIsMobileSidebarOpen((prev) => !prev)}
         />
@@ -863,6 +880,7 @@ export default function ApexAgileApp() {
           users={users}
           currentUser={currentUser}
           onSelectUser={(u) => setCurrentUser(u)}
+          onUserCreated={(newUser) => setUsers((prev) => [...prev, newUser])}
           onClose={() => setIsLoginOpen(false)}
         />
       )}

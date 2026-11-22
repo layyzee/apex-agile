@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { CheckCircle2, X, Copy, Check, Plus, Rocket } from 'lucide-react';
 import Avatar from './Avatar';
 
 const AVATARS = {
@@ -269,9 +270,9 @@ export default function ReleasesView({
                 <td className="px-gutter-lg py-gutter-md text-right whitespace-nowrap">
                   <button
                     onClick={() => setSelectedCabVersion(v)}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 text-xs rounded-sm border border-light-outline-variant hover:bg-light-surface-container text-light-on-surface-variant transition-colors"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-sm border border-light-outline-variant hover:bg-light-surface-container text-light-on-surface-variant transition-colors cursor-pointer"
                   >
-                    <span className="material-symbols-outlined text-[14px]">verified</span>
+                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
                     <span>CAB Notes</span>
                   </button>
                 </td>
@@ -289,9 +290,9 @@ export default function ReleasesView({
               <h2 className="font-headline text-title-lg text-light-on-surface font-semibold">Create version</h2>
               <button
                 onClick={() => setIsCreateOpen(false)}
-                className="w-7 h-7 flex items-center justify-center text-light-on-surface-variant hover:text-light-on-surface"
+                className="w-7 h-7 flex items-center justify-center text-light-on-surface-variant hover:text-light-on-surface cursor-pointer"
               >
-                <span className="material-symbols-outlined text-[18px]">close</span>
+                <X className="w-4 h-4" />
               </button>
             </div>
             <form onSubmit={handleCreateSubmit} className="flex flex-col gap-3">
@@ -329,13 +330,13 @@ export default function ReleasesView({
                 <button
                   type="button"
                   onClick={() => setIsCreateOpen(false)}
-                  className="px-3 py-1.5 rounded-sm text-sm text-light-on-surface-variant hover:bg-light-surface-container"
+                  className="px-3 py-1.5 rounded-sm text-sm text-light-on-surface-variant hover:bg-light-surface-container cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-sm bg-light-primary text-white text-sm font-medium hover:bg-light-primary-container"
+                  className="px-4 py-1.5 rounded-sm bg-light-primary text-white text-sm font-medium hover:bg-light-primary-container cursor-pointer"
                 >
                   Create
                 </button>
@@ -351,16 +352,16 @@ export default function ReleasesView({
           <div className="w-full max-w-xl max-h-[85vh] rounded-lg bg-light-surface-container-lowest border border-light-outline-variant shadow-xl p-6 flex flex-col gap-4 overflow-hidden">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-light-primary text-[22px]">verified</span>
+                <CheckCircle2 className="w-5 h-5 text-blue-600" />
                 <h2 className="font-headline text-title-lg text-light-on-surface font-semibold">
                   CAB Release Summary: {selectedCabVersion.name}
                 </h2>
               </div>
               <button
                 onClick={() => setSelectedCabVersion(null)}
-                className="w-7 h-7 flex items-center justify-center text-light-on-surface-variant hover:text-light-on-surface"
+                className="w-7 h-7 flex items-center justify-center text-light-on-surface-variant hover:text-light-on-surface cursor-pointer"
               >
-                <span className="material-symbols-outlined text-[18px]">close</span>
+                <X className="w-4 h-4" />
               </button>
             </div>
             <div className="flex-1 overflow-y-auto rounded bg-light-surface-container-low p-4 font-mono text-xs text-light-on-surface whitespace-pre-wrap leading-relaxed border border-light-outline-variant">
@@ -372,9 +373,9 @@ export default function ReleasesView({
                 <button
                   type="button"
                   onClick={() => handleCopyNotes(selectedCabVersion)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-light-primary text-white text-xs font-medium hover:bg-light-primary-container transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-light-primary text-white text-xs font-medium hover:bg-light-primary-container transition-colors cursor-pointer"
                 >
-                  <span className="material-symbols-outlined text-[16px]">{copied ? 'done' : 'content_copy'}</span>
+                  {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                   <span>{copied ? 'Copied' : 'Copy markdown'}</span>
                 </button>
                 <button

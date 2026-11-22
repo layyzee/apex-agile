@@ -1,6 +1,19 @@
 'use client';
 
 import { useState } from 'react';
+import { 
+  Plus, 
+  MoreHorizontal, 
+  ArrowDown, 
+  Zap, 
+  Filter, 
+  GitMerge, 
+  CheckCircle, 
+  Bell, 
+  Play, 
+  Check, 
+  SlidersHorizontal 
+} from 'lucide-react';
 
 const CANONICAL_RULES = [
   {
@@ -212,7 +225,7 @@ export default function AutomationView({
 
         <div className="flex flex-wrap items-center justify-between gap-gutter-md pt-1">
           <h1 className="font-headline text-headline-lg text-light-on-surface font-bold">
-            Jira Automation Rules
+            Apex Automation Rules
           </h1>
 
           <div className="flex items-center gap-gutter-sm">
@@ -220,7 +233,7 @@ export default function AutomationView({
               type="button"
               className="inline-flex items-center justify-center h-8 px-gutter-lg rounded-sm bg-light-primary text-light-on-primary font-label text-label-lg hover:bg-light-primary-container transition-colors cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[18px] mr-1" aria-hidden="true">add</span>
+              <Plus className="w-4 h-4 mr-1" />
               <span>Create rule</span>
             </button>
 
@@ -229,7 +242,7 @@ export default function AutomationView({
               aria-label="Automation options"
               className="inline-flex items-center justify-center w-8 h-8 rounded-sm text-light-on-surface-variant hover:bg-light-surface-container hover:text-light-on-surface transition-colors cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[20px]" aria-hidden="true">more_horiz</span>
+              <MoreHorizontal className="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -315,7 +328,7 @@ export default function AutomationView({
             {/* WHEN Trigger */}
             <div className="w-full p-gutter-lg rounded bg-light-surface-container-lowest border border-light-outline-variant flex items-center gap-gutter-md shadow-xs">
               <div className={`w-10 h-10 rounded-sm flex items-center justify-center shrink-0 ${activeRule.trigger.iconBg}`}>
-                <span className="material-symbols-outlined text-[20px]" aria-hidden="true">{activeRule.trigger.icon}</span>
+                <GitMerge className="w-5 h-5" />
               </div>
               <div className="min-w-0 flex-1">
                 <span className="font-label text-label-sm text-light-primary uppercase tracking-wider font-semibold">
@@ -330,12 +343,12 @@ export default function AutomationView({
               </div>
             </div>
 
-            <span className="material-symbols-outlined text-[20px] text-light-on-surface-variant" aria-hidden="true">arrow_downward</span>
+            <ArrowDown className="w-5 h-5 text-slate-400" />
 
             {/* IF Condition */}
             <div className="w-full p-gutter-lg rounded bg-light-surface-container-lowest border border-light-outline-variant flex items-center gap-gutter-md shadow-xs">
               <div className={`w-10 h-10 rounded-sm flex items-center justify-center shrink-0 ${activeRule.condition.iconBg}`}>
-                <span className="material-symbols-outlined text-[20px]" aria-hidden="true">{activeRule.condition.icon}</span>
+                <Filter className="w-5 h-5" />
               </div>
               <div className="min-w-0 flex-1">
                 <span className="font-label text-label-sm text-status-warning uppercase tracking-wider font-semibold">
@@ -350,12 +363,12 @@ export default function AutomationView({
               </div>
             </div>
 
-            <span className="material-symbols-outlined text-[20px] text-light-on-surface-variant" aria-hidden="true">arrow_downward</span>
+            <ArrowDown className="w-5 h-5 text-slate-400" />
 
             {/* THEN Action 1 */}
             <div className="w-full p-gutter-lg rounded bg-light-surface-container-lowest border border-light-outline-variant flex items-center gap-gutter-md shadow-xs">
               <div className={`w-10 h-10 rounded-sm flex items-center justify-center shrink-0 ${activeRule.action1.iconBg}`}>
-                <span className="material-symbols-outlined text-[20px]" aria-hidden="true">{activeRule.action1.icon}</span>
+                <CheckCircle className="w-5 h-5" />
               </div>
               <div className="min-w-0 flex-1">
                 <span className="font-label text-label-sm text-status-done uppercase tracking-wider font-semibold">
@@ -370,12 +383,12 @@ export default function AutomationView({
               </div>
             </div>
 
-            <span className="material-symbols-outlined text-[20px] text-light-on-surface-variant" aria-hidden="true">arrow_downward</span>
+            <ArrowDown className="w-5 h-5 text-slate-400" />
 
             {/* THEN Action 2 */}
             <div className="w-full p-gutter-lg rounded bg-light-surface-container-lowest border border-light-outline-variant flex items-center gap-gutter-md shadow-xs">
               <div className={`w-10 h-10 rounded-sm flex items-center justify-center shrink-0 ${activeRule.action2.iconBg}`}>
-                <span className="material-symbols-outlined text-[20px]" aria-hidden="true">{activeRule.action2.icon}</span>
+                <Bell className="w-5 h-5" />
               </div>
               <div className="min-w-0 flex-1">
                 <span className="font-label text-label-sm text-status-review uppercase tracking-wider font-semibold">
