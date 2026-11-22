@@ -774,6 +774,9 @@ export default function ApexAgileApp() {
                   sprintStats={sprintStats}
                   issues={issues}
                   states={states}
+                  sprints={sprints}
+                  currentProject={currentProject}
+                  setActiveView={setActiveView}
                 />
               )}
 
